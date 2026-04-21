@@ -4,9 +4,9 @@ defineProps(['cartCounter']);
 
 <template>
 <div class="nav--container">
-  <div class="nav--container__icon">
+  <img class="nav--container__icon" src="./assets/hellfish.jpg">
 
-  </div>
+  </img>
   <ul class="nav--container__routes">
     <li class="route--link">Home</li>
     <li class="route--link">Products</li>
@@ -28,7 +28,6 @@ defineProps(['cartCounter']);
 }
 
 .nav--container__icon{
-  background-color: aliceblue;
   height: 50px;
   width: 50px;
 }

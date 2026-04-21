@@ -1,5 +1,8 @@
 <script setup>
+
 defineProps(['product'])
+
+
 </script>
 
 <template>
@@ -14,7 +17,7 @@ defineProps(['product'])
       <span class="product--name">{{ product.name }}</span>
       <div class="card--body__metrics">
         <span class="product--score">{{ product.score }} ⭐</span>
-        <span class="product--category">{{ product.category }}</span>
+        <span class="product--category" v-for="category in product.categories">{{ category.name }}</span>
       </div>
       <span class="product--description">{{ product.description }}</span>
     </div>
