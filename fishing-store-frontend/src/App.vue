@@ -1,36 +1,18 @@
 <script setup>
-import { ref } from 'vue';
-import { onMounted } from 'vue';
-import api from './services/api';
-import ProductCard from './ProductCard.vue';
-import Nav from './Nav.vue';
-import Hero from './Hero.vue';
 
-const products = ref([]);
+import { VueElement } from 'vue';
+import { RouterView } from 'vue-router';
 
-onMounted(async()=>{
-  const response = await api.get('/products')
-  console.log(response.data)
-  products.value = response.data.data
-})
 
 </script>
 
 <template>
 
-<section class="hero">
 
-</section>
-
-<Nav></Nav>
-
-<Hero></Hero>
-
-<ProductCard v-for="product in products" :product="product">
-
-</ProductCard>
+<RouterView></RouterView>
 
 </template>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 

@@ -2,7 +2,6 @@
 
 defineProps(['product'])
 
-
 </script>
 
 <template>
