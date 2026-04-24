@@ -1,52 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { cartStore } from '@/stores/cart';
 
-defineProps(['cartCounter']);
-
-const cartCounter = ref(0)
+const cart = cartStore();
 
 </script>
 
 <template>
-<div class="nav--container">
-  <img class="nav--container__icon" src="../assets/hellfish.jpg">
+<div class="top-0 fixed w-full z-2 bg-emerald-50 flex justify-between items-center px-20">
+  <img class="h-20 w-20" src="../assets/hellfish.jpg">
 
   </img>
-  <ul class="nav--container__routes">
-    <li class="route--link">Home</li>
-    <li class="route--link">Products</li>
+  <ul class="w-2/4 flex justify-between">
+    <li class="">Home</li>
+    <li class="">Products</li>
+    <li>//////</li>
+    <li>//////</li>
   </ul>
-  <div class="cart--counter" >
-    <span>{{ cartCounter }}</span>
+  <div class="" >
+    <span>{{ cart.count }}</span>
   </div>
 </div>
 </template>
 
-<style scoped>
-.nav--container{
-  background-color: antiquewhite;
-  height: 100px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.nav--container__icon{
-  height: 50px;
-  width: 50px;
-}
-
-.nav--container__routes{
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.cart--counter{
-  background-color: aliceblue;
-  height: 20px;
-  width: 20px;
-}
-
-</style>

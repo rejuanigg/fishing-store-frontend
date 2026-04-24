@@ -2,19 +2,21 @@
 import { cartStore } from '@/stores/cart';
 
 const cart = cartStore();
-
+console.log(cart.product[0])
 
 </script>
 
 <template>
   <div v-for="product in cart.product"
-  class="flex rounded-xl px-10 items-center justify-between bg-red-200 h-50 w-200">
-    <div style="background-image: url('../assets/dorado1.jpg')" class="bg-cover bg-center rounded-xl h-4/5 w-50 bg-red-500">
-
+  class="flex justify-between rounded-xl px-5 items-center  border border-solid border-emerald-500 bg-emerald-200 h-30 w-120">
+    <div class=" bg-cover bg-center h-20 w-30">
+      <img :src="product.images[0]?.image" class="w-full h-full object-fill rounded-xl">
     </div>
-    <div class="flex flex-col px-20 py-7 h-40 w-4/5 justify-between bg-slate-500">
+    <div class="flex flex-col m-5 h-2/3 w-4/5 justify-between">
       <div class="itemdetail">
-        <div class="text-xl">Nombre: {{ product.name }}</div>
+        <div class="w-full">
+          <span>Nombre: {{ product.name }}</span>
+        </div>
         <div class="category">
           <ul v-for="category in product.categories">
             <li>Categoria: {{ category.name }}</li>
@@ -23,11 +25,11 @@ const cart = cartStore();
       </div>
       <div class="flex justify-between">
         <div class="flex items-center w-30 justify-between">
-            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-gray-700 hover:bg-slate-400" @click="cart.decrement(product.id)">-</button>
-            <span>{{ product.quantity }}</span>
-            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-gray-700 hover:bg-slate-400" @click="cart.increment(product.id)">+</button>
+            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950" @click="cart.decrement(product.id)">-</button>
+            <span class="text-emerald-950 font-bold">{{ product.quantity }}</span>
+            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950" @click="cart.increment(product.id)">+</button>
         </div>
-        <div class="price">$ {{ product.price }}</div>
+        <div class="font-bold">$ {{ product.price }}</div>
       </div>
     </div>
   </div>
