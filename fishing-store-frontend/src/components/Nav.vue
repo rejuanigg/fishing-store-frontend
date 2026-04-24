@@ -1,18 +1,23 @@
 <script setup>
+import { ref } from 'vue';
+
 defineProps(['cartCounter']);
+
+const cartCounter = ref(0)
+
 </script>
 
 <template>
 <div class="nav--container">
-  <img class="nav--container__icon" src="./assets/hellfish.jpg">
+  <img class="nav--container__icon" src="../assets/hellfish.jpg">
 
   </img>
   <ul class="nav--container__routes">
     <li class="route--link">Home</li>
     <li class="route--link">Products</li>
   </ul>
-  <div class="cart--counter">
-    <p>1</p>
+  <div class="cart--counter" >
+    <span>{{ cartCounter }}</span>
   </div>
 </div>
 </template>

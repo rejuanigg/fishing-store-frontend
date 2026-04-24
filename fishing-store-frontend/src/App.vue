@@ -1,6 +1,5 @@
 <script setup>
 
-import { VueElement } from 'vue';
 import { RouterView } from 'vue-router';
 
 

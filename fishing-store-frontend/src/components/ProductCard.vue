@@ -1,6 +1,7 @@
 <script setup>
 
-defineProps(['product'])
+defineProps(['product']);
+defineEmits(['addCart', 'incremento', 'decremento']);
 
 </script>
 
@@ -22,7 +23,7 @@ defineProps(['product'])
     </div>
     <div class="product--card__foot">
       <span class="product--price">$ {{ product.price }}</span>
-      <button class="card--foot__add-button">Add</button>
+      <button class="card--foot__add-button" @click="$emit('addCart', product)">Add</button>
     </div>
   </div>
 

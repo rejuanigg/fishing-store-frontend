@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-image: url(./assets/dorado1.jpg);
+  background-image: url(../assets/dorado1.jpg);
   background-size: cover;
   background-repeat: no-repeat;
 }
