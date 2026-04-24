@@ -14,16 +14,12 @@ import { RouterView } from 'vue-router';
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-decoration: none;
+ol,
+ul,
+menu {
   list-style: none;
-  outline: none;
-  font-family: "Plus Jakarta Sans", sans-serif;
-
 }
 
 </style>

@@ -1,4 +1,5 @@
 <script setup>
+import CartItem from '@/components/CartItem.vue';
 import api from '@/services/api';
 import { cartStore } from '@/stores/cart';
 
@@ -11,21 +12,8 @@ function confirmOrder(){
 </script>
 
 <template>
-  <ul v-for="product in cart.product">
-    <li>Nombre: {{ product.name }}</li>
-    <br>
-    <li>Descripcion: {{ product.description }}</li>
-    <br>
-    <li>Price: {{ product.price }}</li>
-    <br>
-    <button @click="cart.decrement(product.id)">-</button>
-    <li>Cantidad: {{ product.quantity }}</li>
-    <button @click="cart.increment(product.id)">+</button>
-    <br>
-    <ul v-for="category in product.categories">
-      <li>Categoria: {{ category.name }}</li>
-    </ul>
-  </ul>
+  <CartItem></CartItem>
+
   <br>
   <br>
   <span>Total: {{ cart.total }}</span>

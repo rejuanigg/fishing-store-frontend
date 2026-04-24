@@ -1,10 +1,9 @@
 <script setup>
-import Nav from '@/components/Nav.vue';
-import Hero from '@/components/Hero.vue';
-import ProductCard from '@/components/ProductCard.vue';
-import { ref , onMounted} from 'vue';
-import api from '@/services/api';
+import { ref, onMounted } from 'vue';
 import { cartStore } from '@/stores/cart';
+import ProductCard from '@/components/ProductCard.vue';
+import Nav from '@/components/Nav.vue';
+import api from '@/services/api';
 
 const cart = cartStore()
 const products = ref([]);
@@ -21,13 +20,18 @@ function addCartItem(product) {
 
 </script>
 
+
+
 <template>
   <Nav></Nav>
 
-  <Hero></Hero>
-  
-  <ProductCard v-for="product in products" :product="product" @add-cart="addCartItem"></ProductCard>
+  <div class="grid grid-cols-2 sm:grid-cols-3">
+    <ProductCard v-for="product in products" :product="product" @add-cart="addCartItem"></ProductCard>
+  </div>
+
 </template>
+
+
 
 <style scoped>
 

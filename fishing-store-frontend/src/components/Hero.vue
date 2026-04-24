@@ -4,11 +4,11 @@
 <template>
 <div class="hero">
   <div class="hero--container">
-    <h1 class="hero--title">Los mejores precios</h1>
+    <h1 class="text-3xl font-bold underline">Los mejores precios</h1>
     <p class="hero--pharagraph">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt iure laudantium cupiditate
       recusandae maiores explicabo vero, tempore ullam eaque excepturi
       enim maxime repellat incidunt ab voluptatum provident quibusdam eum neque?</p>
-    <button class="hero--button">Info...</button>
+    <button class="bg-sky-500 hover:bg-sky-700 ">Info...</button>
   </div>
 </div>
 </template>
