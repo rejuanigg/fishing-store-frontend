@@ -34,7 +34,7 @@ export const cartStore = defineStore('cart',{
           this.product = this.product.filter(item => item.id !== productId)
         }
       }
-    }
+    },
   }
 }
 );
