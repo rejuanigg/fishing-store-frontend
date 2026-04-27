@@ -34,6 +34,12 @@ export const cartStore = defineStore('cart',{
         }
       }
     },
+    removeProduct(product){
+      this.product = this.product.filter(item => item.id !== product)
+    },
+    delete(){
+      this.product = [];
+    }
   }
 }
 );

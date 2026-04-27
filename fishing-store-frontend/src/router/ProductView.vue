@@ -33,6 +33,8 @@ function addCartItem(product) {
   cart.addProduct(product);
 }
 
+const viewAll = () =>{ return selectedCategory.value = null}
+
 console.log(products)
 
 </script>
@@ -43,18 +45,20 @@ console.log(products)
   <Nav></Nav>
   <div class="mt-20 pt-20 flex flex-col items-center">
     <h1 class="text-2xl text-emerald-800 font-bold">Productos</h1>
-    <div class="my-20 w-full flex justify-center gap-20">
+    <div class="flex justify-center items-start w-full my-20 gap-20">
+
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-10">
-        <ProductCard v-for="product in filterProdByCat" :product="product" @add-cart="addCartItem"></ProductCard>
+        <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" @add-cart="addCartItem"/>
       </div>
-      <FilterProduct @send-cat="getSelect"></FilterProduct>
+
+      <FilterProduct class="sticky top-24" @send-cat="getSelect" @view-all="viewAll" />
+
     </div>
   </div>
-
-
-
-
 </template>
+
+
+
 
 
 

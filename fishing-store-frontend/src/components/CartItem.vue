@@ -29,12 +29,25 @@ const cart = cartStore();
 
       <div class="flex justify-between">
         <div class="flex items-center w-30 justify-between">
-            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950" @click="cart.decrement(product.id)">-</button>
+            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950"
+            @click="cart.decrement(product.id)">
+              -
+          </button>
             <span class="text-emerald-950 font-bold">{{ product.quantity }}</span>
-            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950" @click="cart.increment(product.id)">+</button>
+            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950"
+            @click="cart.increment(product.id)">
+              +
+          </button>
         </div>
         <div class="font-bold">$ {{ product.price }}</div>
       </div>
+    </div>
+
+    <div>
+      <span class="text-red-300 font-bold cursor-pointer"
+      @click="cart.removeProduct(product.id)">
+        X
+    </span>
     </div>
 
   </div>

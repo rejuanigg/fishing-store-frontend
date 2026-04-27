@@ -8,6 +8,7 @@ import { RouterView } from 'vue-router';
 <template>
 
 <RouterView></RouterView>
+<RouterLink></RouterLink>
 
 </template>
 

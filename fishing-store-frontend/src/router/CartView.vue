@@ -1,15 +1,11 @@
 <script setup>
 import CartItem from '@/components/CartItem.vue';
-import api from '@/services/api';
 import { cartStore } from '@/stores/cart';
 import CartInfo from '@/components/CartInfo.vue';
 import Nav from '@/components/Nav.vue';
 
 const cart = cartStore();
 
-function confirmOrder(){
-  api.post('/orders', { products: cart.product.map(p => ({ product_id: p.id, quantity: p.quantity})) })
-}
 </script>
 
 <template>
