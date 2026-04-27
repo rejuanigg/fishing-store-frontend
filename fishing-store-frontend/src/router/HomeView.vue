@@ -25,8 +25,9 @@ function addCartItem(product) {
   <Nav></Nav>
 
   <Hero></Hero>
-  
-  <ProductCard v-for="product in products" :product="product" @add-cart="addCartItem"></ProductCard>
+  <div class="w-3/4 grid grid-cols-3 gap-4">
+    <ProductCard v-for="product in products" :product="product" @add-cart="addCartItem"></ProductCard>
+  </div>
 </template>
 
 <style scoped>

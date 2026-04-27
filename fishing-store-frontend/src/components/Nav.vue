@@ -6,7 +6,7 @@ const cart = cartStore();
 </script>
 
 <template>
-<div class="top-0 fixed w-full z-2 bg-emerald-50 flex justify-between items-center px-20">
+<div class="h-20 top-0 fixed w-full z-2 bg-emerald-50 flex justify-between items-center px-20">
   <img class="h-20 w-20" src="../assets/hellfish.jpg">
 
   </img>
