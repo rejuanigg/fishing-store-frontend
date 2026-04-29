@@ -47,7 +47,7 @@ console.log(products)
     <h1 class="text-2xl text-emerald-800 font-bold">Productos</h1>
     <div class="flex justify-center items-start w-full my-20 gap-20">
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-10">
         <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" @add-cart="addCartItem"/>
       </div>
 
