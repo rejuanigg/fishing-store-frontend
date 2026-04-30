@@ -49,12 +49,6 @@ const items = ref([
 
 <template>
 
-  <!-- <div v-for="item in items" class="bg-emerald-400 w-2/4 h-20 flex items-center px-20">
-    <div class="w-full flex justify-between">
-      <span>{{ item.name }}</span>
-      <span>DOWN</span>
-    </div>
-  </div> -->
 
 
   <div class="bg-slate-400 h-full w-1/4 px-10 ">
