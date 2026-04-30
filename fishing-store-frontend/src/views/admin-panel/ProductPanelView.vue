@@ -47,54 +47,58 @@ const preview = computed(()=>{
 
 <template>
 
-  <div class="bg-red-50 w-3/5 h-full flex justify-center items-center">
-      <form class="bg-red-300 w-4/5 h-120 p-10" @submit.prevent="onSubmit">
-        <div class="flex">
+  <div class="bg-red-50 w-3/5 h-svh flex justify-center items-center">
+      <form class="bg-red-300 w-4/5 h-9/10 px-20 flex flex-col" @submit.prevent="onSubmit">
 
-          <div>
-            <div>
-
-              <div>
-                <span>Seccion</span>
-                <select v-model="selectedSection">
-                  <option  v-for="section in sections" :key="section.id" :value="section.id" >{{ section.name }}</option>
-                </select>
-              </div>
-
-              <div>
-                <span>Categoria</span>
-                <select v-model="category">
-                  <option v-for="category in filterCatBySec" :key="category.id" :value="category">{{ category.name }}</option>
-                </select>
-              </div>
-
-            </div>
+        <div class="flex flex-col h-1/5 justify-center">
+          <div class="w-full flex justify-center ">
+            <h2 class="text-xl font-bold">Añade un Producto</h2>
           </div>
         </div>
 
+        <div class="flex flex-col h-2/5">
 
-        <div class="h-1/6 flex flex-col">
-          <label for="" class="font-semibold">Nombre</label>
-          <input v-model="name" type="text" name="sa" id="s" class="bg-white h-full">
+          <div class="w-full h-1/4">
+            <span class="font-semibold">Seccion</span>
+            <select class="w-full bg-red-50 h-3/5" v-model="selectedSection">
+              <option  v-for="section in sections" :key="section.id" :value="section.id" >{{ section.name }}</option>
+            </select>
+          </div>
+
+          <div class="w-full h-1/4">
+            <span class="font-semibold">Categoria</span>
+            <select class="w-full bg-red-50 h-3/5" v-model="category">
+              <option v-for="category in filterCatBySec" :key="category.id" :value="category">{{ category.name }}</option>
+            </select>
+          </div>
+
+          <div class="h-1/4 flex flex-col w-full">
+            <label for="" class="font-semibold">Nombre</label>
+            <input v-model="name" type="text" name="sa" id="s" class="bg-white h-full">
+          </div>
+
+          <div class="h-1/4 flex flex-col">
+            <label for="" class="font-semibold" >Precio</label>
+            <input v-model="price" type="text" class="bg-white h-full">
+          </div>
+
         </div>
 
-        <div class="h-2/5 max-h-max flex flex-col">
-          <label for="" class="font-semibold" >Descripcion</label>
-          <textarea v-model="description" type="" class="bg-white min-h-max p-2"></textarea>
+        <div class="h-1/5 flex flex-col">
+            <label for="" class="font-semibold" >Descripcion</label>
+            <textarea v-model="description" type="" class="bg-white h-full p-2"></textarea>
         </div>
 
-        <div class="h-1/6 flex flex-col">
-          <label for="" class="font-semibold" >Precio</label>
-          <input v-model="price" type="text" class="bg-white h-full">
+        <div class="h-1/5 w-full flex items-center justify-center gap-4">
+          <button class="h-2/4 font-semibold bg-red-50 p-2 rounded-lg flex items-center">
+            Agregar Producto
+          </button>
         </div>
-
-        <button class="h-1/6 font-semibold">
-          Add
-        </button>
-
+<!-- v-if="previewProduct" :product="previewProduct" -->
       </form>
   </div>
-  <div class="bg-red-100 w-2/5 h-full">
+  <div class="bg-red-100 w-2/5 h-svh flex justify-center items-center flex-col gap-10">
+    <h2 class="text-xl font-bold">Vista Previa</h2>
     <ProductCard
     :product="preview"
     />

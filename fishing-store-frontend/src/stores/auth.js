@@ -6,8 +6,8 @@ export const useAuthStore = defineStore('login',{
   state: () => (
     {
       token: localStorage.getItem('token') || '',
-      role: localStorage.getItem('role') || '' ///esto lo hago para trabajar con la reactividad de pinia, si trabajaba con lo que venia del request no fucnionaba
-    }//va primero al navegador y de ahi llega a nosotros, está bien esto?
+      role: localStorage.getItem('role') || '' 
+    }
   ),
   getters:{
     isAdmin: (state) => state.role === 'owner',
