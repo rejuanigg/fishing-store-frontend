@@ -13,9 +13,10 @@ const {average} = useAverage(product.califications)
 
   <div class="ring ring-emerald-900/50 shadow-xl flex flex-col justify-between bg-emerald-950 h-100 w-60">
 
-    <div class="border-b-2 border-b-emerald-500  h-3/5 bg-emerald-200">
-      <img :src="product.images[0]?.image" class="w-full h-full object-cover">
-    </div>
+      <div class="border-b-2 border-b-emerald-500  h-3/5 bg-emerald-200">
+        <img v-if="product.images?.length" :src="product.images[0].image" class="w-full h-full object-cover">
+        <span v-else>NADA</span>
+      </div>
 
     <div class="h-1/5  w-full p-5 flex flex-col justify-between gap-2">
       <span class="text-lg text-emerald-50 font-bold">{{ product.name }}</span>

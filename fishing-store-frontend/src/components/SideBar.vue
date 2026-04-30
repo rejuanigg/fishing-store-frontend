@@ -16,7 +16,7 @@ const items = ref([
       },
       {
         name:'Productos',
-        url:'/product-panel'
+        url:'/admin-panel/products'
       }
     ],
   },

@@ -1,9 +1,6 @@
 <script>
-
 </script>
 
 <template>
-  <div>
-    
-  </div>
+  <H1>HOME</H1>
 </template>

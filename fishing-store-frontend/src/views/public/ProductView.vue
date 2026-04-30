@@ -24,18 +24,17 @@ const filterProdByCat =  computed(()=>{
       return products.value;
     }
     else{
-      return products.value.filter(products=>products.categories.some((category => category.id === selectedCategory.value)))
+      return products.value
+      .filter(products=>products.categories.some((category => category.id === selectedCategory.value)))
     }
   });
 
 function addCartItem(product) {
-  console.log(product)
   cart.addProduct(product);
 }
 
 const viewAll = () =>{ return selectedCategory.value = null}
 
-console.log(products)
 
 </script>
 

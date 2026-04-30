@@ -22,6 +22,11 @@ const router = createRouter({
       component:AdminPanel,
       children: [
         {
+          path:'',
+          name:'admin-home',
+          component: () => import ('@/views/admin-panel/PrincipalAdminPanel.vue')
+        },
+        {
           path:'sections',
           name:'admin-sections',
           component: () => import('@/views/admin-panel/SectionPanelView.vue')
@@ -30,6 +35,16 @@ const router = createRouter({
           path:'categories',
           name:'admin-categories',
           component: () => import('@/views/admin-panel/CategoryPanelView.vue')
+        },
+        {
+          path:'products',
+          name:'admin-products',
+          component: () => import('@/views/admin-panel/ProductPanelView.vue')
+        },
+        {
+          path:'products/:id/image',
+          name:'producT-image',
+          component: () => import('@/views/admin-panel/ImagePanelView.vue')
         }
       ]
     },
