@@ -28,7 +28,7 @@ async function onSubmit() {
         <div class="w-full h-1/3">
 
           <div class="h-1/2 flex flex-col w-full">
-            <label for="" class="font-semibold">Nombre</label>
+            <label class="font-semibold">Nombre</label>
             <input v-model="name" type="text" name="sa" id="s" class="bg-white h-full w-full">
           </div>
 

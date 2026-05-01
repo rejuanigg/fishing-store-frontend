@@ -43,8 +43,13 @@ const router = createRouter({
         },
         {
           path:'products/:id/image',
-          name:'producT-image',
+          name:'product-image',
           component: () => import('@/views/admin-panel/ImagePanelView.vue')
+        },
+        {
+          path:'products/create',
+          name:'product-create',
+          component: () => import('@/views/admin-panel/admin-panel-edit/CreateProduct.vue')
         }
       ]
     },

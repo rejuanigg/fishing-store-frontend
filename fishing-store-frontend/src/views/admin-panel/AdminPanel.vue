@@ -9,12 +9,12 @@ import { RouterView } from 'vue-router';
 
   <Nav></Nav>
 
-  <div class="w-full h-lvh pt-20 flex">
+  <div class="w-full min-h-screen flex pt-20">
 
-    <SideBar></SideBar>
+    <SideBar class="sticky top-20 h-[calc(100vh-5rem)]"></SideBar>
 
-    <div class="bg-emerald-50 w-3/4 h-full">
-      <main class="h-full w-full flex">
+    <div class="bg-emerald-50 flex-1">
+      <main class="w-full">
         <RouterView/>
       </main>
     </div>

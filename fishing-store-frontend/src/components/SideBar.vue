@@ -51,7 +51,7 @@ const items = ref([
 
 
 
-  <div class="bg-slate-400 h-full w-1/4 px-10 ">
+  <div class="bg-slate-400 w-1/4 px-10 h-[calc(100vh-5rem)] sticky top-20">
     <span>Opciones</span>
     <div class="bg-slate-300 h-4/5 px-10 flex flex-col justify-center gap-2">
       <div v-for="item in items"  class="w-full bg-red-50 border-b">
