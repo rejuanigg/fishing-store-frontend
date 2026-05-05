@@ -4,7 +4,6 @@ import { computed, onMounted, ref } from 'vue';
 import ProductCard from '@/components/ProductCard.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import { useAuthStore } from '@/stores/auth';
-import Modal from '@/components/Modal.vue';
 
 const auth = useAuthStore();
 const isAdmin = ref(false);
@@ -28,8 +27,6 @@ const filterByName = computed(()=>{
   return products.value.filter((product)=>product.name.toLowerCase().includes(searchValue.value.toLowerCase()))
 })
 
-
-
 </script>
 
 
@@ -44,18 +41,11 @@ const filterByName = computed(()=>{
       </RouterLink>
     </div>
   </div>
-  <main class="p-4 grid grid-cols-2  gap-4 min-h-screen">
+<main class="p-4 grid grid-cols-2  gap-4 min-h-screen">
     <ProductCard  v-for="product in filterByName" :key="product.id" :product="product" :is-admin="isAdmin" />
   </main>
 </div>
 
-<!-- <Modal
-  v-if="isModalVisible"
-  text="Estas por borrar un producto, ¿Desea continuar?"
-  type="actionCaution"
-  action="Eliminar"
-  @close-modal="isModalVisible=false"
-  @action="handleDelete"
-/> -->
+
 
 </template>

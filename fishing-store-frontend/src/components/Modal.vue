@@ -2,7 +2,6 @@
 
 defineEmits(['closeModal']);
 
-
 const props = defineProps({
   text: {
     type: String,

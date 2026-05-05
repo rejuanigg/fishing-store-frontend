@@ -5,6 +5,7 @@ import ProductCard from '@/components/ProductCard.vue';
 import api from '@/services/api';
 import FilterProduct from '@/components/FilterProduct.vue';
 import SearchBar from '@/components/SearchBar.vue';
+import NavF from '@/components/NavF.vue';
 
 const cart = cartStore()
 const products = ref([]);
@@ -45,6 +46,8 @@ const viewAll = () =>{ return selectedCategory.value = null}
 
 
 <template>
+
+  <NavF :active="false"></NavF>
 
   <header class="p-4 space-y-3">
     <SearchBar v-model="searchValue"></SearchBar>

@@ -41,9 +41,7 @@ const {average} = useAverage(props.product.califications)
       Editar
     </button>
 
-    <!-- <button v-if="isAdmin===true" class="mt-2 w-full border-2 border-amber-600 text-amber-600 font-semibold py-2 rounded-lg text-sm active:scale-95">
-      Eliminar
-    </button> -->
+
 
     <button v-else @click="$emit('addCart', props.product)" class="mt-2 w-full bg-emerald-500 text-white py-2 rounded-lg text-sm active:scale-95">
     Agregar al Carrito

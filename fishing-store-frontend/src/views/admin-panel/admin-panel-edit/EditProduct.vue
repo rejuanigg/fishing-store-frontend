@@ -4,9 +4,11 @@ import api from '@/services/api';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProductCard from '@/components/ProductCard.vue';
+import Modal from '@/components/Modal.vue';
 
-const route = useRoute()
+const route = useRoute();
 const router = useRouter();
+
 const product = ref(null);
 const productId = Number(route.params.id)
 
@@ -18,6 +20,11 @@ const category = ref(null);
 const name = ref('');
 const description = ref('');
 const price = ref(0);
+
+const isModalVisible = ref(false);
+
+const openModal = () => isModalVisible.value = true
+const closeModal = () => isModalVisible.value = false
 
 const filterCatBySec = computed(()=>{
   return categories.value
@@ -60,7 +67,13 @@ async function onSubmit(){
   })
 
   return router.push('/')
+}
 
+//Delete
+
+async function handeDelete(){
+  const response = await api.delete(`/products/${productId}`)
+  return router.push('/')
 }
 
 </script>
@@ -88,8 +101,11 @@ async function onSubmit(){
           <option v-for="category in filterCatBySec" :key="category.id" :value="category">{{ category.name }}</option>
         </select>
 
-      <button class="bg-emerald-600 rounded-lg py-2 text-emerald-100 font-semibold">Agregar Producto</button>
-      <span class="text-center border-2 border-emerald-600 rounded-lg py-2 text-emerald-900 font-semibold">Ir a mis productos</span>
+      <button class="bg-emerald-600 rounded-lg py-2 text-white font-semibold">Listo</button>
+      <button type="button" @click="openModal" class=" w-full border-2 bg-amber-600 text-white font-semibold py-2 rounded-lg text-sm active:scale-95">
+      Eliminar
+      </button>
+      <RouterLink to="/admin-panel/products" class="text-center border-2 border-emerald-600 rounded-lg py-2 text-emerald-900 font-semibold">Ir a mis productos</RouterLink>
     </form>
 
     <main class="mt-20 px-20 pb-30 flex-1 flex items-start justify-center">
@@ -99,5 +115,13 @@ async function onSubmit(){
     </main>
   </div>
 
+  <Modal
+  v-if="isModalVisible"
+  text="Estas por borrar un producto, ¿Desea continuar?"
+  type="actionCaution"
+  action="Eliminar"
+  @close-modal="closeModal"
+  @action="handeDelete"
+  />
 
 </template>

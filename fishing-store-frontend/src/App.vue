@@ -18,7 +18,7 @@ import Nav from './components/Nav.vue';
       <RouterView />
     </main>
 
-    <nav class="fixed bottom-0 w-full h-20 px-5 bg-white border-t flex justify-between items-center gap-5">
+    <nav class="fixed bottom-0 w-full h-20 px-5 bg-white border-t">
       <NavF></NavF>
     </nav>
 
