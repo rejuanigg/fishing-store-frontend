@@ -42,14 +42,19 @@ const router = createRouter({
           component: () => import('@/views/admin-panel/ProductPanelView.vue')
         },
         {
+          path:'products/create',
+          name:'product-create',
+          component: () => import('@/views/admin-panel/admin-panel-edit/CreateProduct.vue')
+        },
+        {
           path:'products/:id/image',
           name:'product-image',
           component: () => import('@/views/admin-panel/ImagePanelView.vue')
         },
         {
-          path:'products/create',
-          name:'product-create',
-          component: () => import('@/views/admin-panel/admin-panel-edit/CreateProduct.vue')
+          path:'products/:id/edit',
+          name:'products-edit',
+          component:()=> import('@/views/admin-panel/admin-panel-edit/EditProduct.vue')
         }
       ]
     },

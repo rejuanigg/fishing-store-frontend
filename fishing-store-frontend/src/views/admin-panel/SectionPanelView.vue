@@ -16,33 +16,14 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="bg-red-50 w-full h-full flex justify-center items-center">
-      <form class="bg-red-300 w-4/5 h-120 px-20 py-10 flex flex-col " @submit.prevent="onSubmit">
 
-        <div class="flex flex-col h-1/3 justify-center">
-          <div class="w-full flex justify-center ">
-            <h2 class="text-xl font-bold">Añade una Seccion</h2>
-          </div>
-        </div>
-
-        <div class="w-full h-1/3">
-
-          <div class="h-1/2 flex flex-col w-full">
-            <label class="font-semibold">Nombre</label>
-            <input v-model="name" type="text" name="sa" id="s" class="bg-white h-full w-full">
-          </div>
-
-        </div>
-
-        <div class="h-1/3 w-full flex items-center justify-center gap-4">
-          <button class="h-1/4 font-semibold bg-red-50 p-2 rounded-lg flex items-center">
-            Agregar Seccion
-          </button>
-          <button class="h-1/4 font-semibold bg-red-50 p-2 rounded-lg flex items-center">
-            Ir a mis Secciones
-          </button>
-        </div>
-
-      </form>
+  <div class="min-h-screen">
+    <form @submit.prevent="onSubmit" class="border-2 border-emerald-600 p-5 flex flex-col gap-5 rounded-lg">
+      <label class="text-emerald-900 font-semibold">Nombre</label>
+      <input v-model="name" placeholder="Introduce el nombre de seccion" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" type="text">
+      <button class="bg-emerald-600 rounded-lg py-2 text-emerald-100 font-semibold">Add</button>
+      <span class="text-center border-2 border-emerald-600 rounded-lg py-2 text-emerald-900 font-semibold">Ir a mis secciones</span>
+    </form>
   </div>
+
 </template>

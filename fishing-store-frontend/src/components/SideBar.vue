@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+const emits = defineEmits(['toggleClose']);
 
 const items = ref([
   {
@@ -51,18 +52,27 @@ const items = ref([
 
 
 
-  <div class="bg-slate-400 w-1/4 px-10 h-[calc(100vh-5rem)] sticky top-20">
-    <span>Opciones</span>
-    <div class="bg-slate-300 h-4/5 px-10 flex flex-col justify-center gap-2">
-      <div v-for="item in items"  class="w-full bg-red-50 border-b">
-        <span class="">{{ item.title }}</span>
-        <ul v-for="subitem in item.item" class="bg-white w-full pl-10">
-          <li >
-            <RouterLink :to="subitem.url">{{ subitem.name }}</RouterLink>
-          </li>
+<div class="fixed inset-0 z-50 flex flex-col justify-end">
+  <div class="absolute inset-0 bg-black/20 -z-10"></div>
+
+<div class="relative bg-white rounded-t-2xl max-h-[50vh] w-full flex flex-col overflow-hidden">
+
+    <div class="shrink-0 bg-white border-b border-gray-100 p-4">
+      <span @click="$emit('toggleClose')" class="text-amber-600 font-extrabold">x</span>
+      <p class="w-full text-emerald-800 font-semibold flex justify-center">Opciones</p>
+    </div>
+    <div class="overflow-y-auto p-4 bg-white">
+
+      <div v-for="preitem in items" class="flex flex-col">
+        <span class="w-full text-emerald-800 font-semibold">{{ preitem.title }}</span>
+        <ul class="flex flex-col">
+          <RouterLink class="py-2 pl-5 text-emerald-800" :to="subitem.url" v-for="subitem in preitem.item">{{ subitem.name }}</RouterLink>
         </ul>
       </div>
+
     </div>
+
   </div>
+</div>
 
 </template>

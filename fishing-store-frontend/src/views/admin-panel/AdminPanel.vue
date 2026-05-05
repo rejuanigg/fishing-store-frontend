@@ -1,24 +1,26 @@
 <script setup>
 import Nav from '@/components/Nav.vue';
 import SideBar from '@/components/SideBar.vue';
+import { ref } from 'vue';
 import { RouterView } from 'vue-router';
+
+const toggle = ref(false)
+
+const toggleOpen = () => { toggle.value = true }
+const toggleClose = () => { toggle.value = false }
 
 </script>
 
 <template>
 
-  <Nav></Nav>
+  <main class="w-full">
+    <span @click="toggleOpen">Opciones</span>
+    <RouterView/>
+  </main>
 
-  <div class="w-full min-h-screen flex pt-20">
-
-    <SideBar class="sticky top-20 h-[calc(100vh-5rem)]"></SideBar>
-
-    <div class="bg-emerald-50 flex-1">
-      <main class="w-full">
-        <RouterView/>
-      </main>
-    </div>
-
+  <div v-if="toggle === true">
+    <div class="absolute inset-0 bg-black/30 z-40"></div>
+      <SideBar @toggle-close="toggleClose" />
   </div>
 
 

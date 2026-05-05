@@ -5,34 +5,43 @@ import { computed, ref } from 'vue';
 const {sections, categories} = useCategory();
 
 const selectedSection = ref(null);
-const emit = defineEmits(['sendCat', 'viewAll'])
+const emit = defineEmits(['sendCat', 'viewAll', 'toggleClose'])
 
-const getSelect = (id) =>{return selectedSection.value = id}
+const selected = computed((id)=>{
+  return selectedSection.value = id
+})
 
 const filterCatBySec = computed(()=>{
   return categories.value.filter(({section_id})=>section_id === selectedSection.value)
 })
 
-const toggleSection = () => { return selectedSection.value = null}
-
 </script>
 
 <template>
-  <div class="bg-emerald-50 border-2 p-5 border-emerald-400 rounded-xl h-150 w-2/10">
-    <div class="flex items-center justify-between">
-      <h2 class="text-xl font-semibold text-emerald-900">Filtrar productos</h2>
-      <span @click="$emit('viewAll')" class="w-1/4 bg-emerald-100 border-2 border-emerald-600 text-center rounded-lg text-emerald-900 font-medium cursor-pointer">Todo</span>
-    </div>
-    <div class="h-2/4 w-full mt-5">
-      <div v-for="section in sections" class=" w-full h-10 bg-emerald-200 flex items-center justify-between px-5 border border-emerald-500 rounded-lg">
-        <span class="font-semibold"  >{{ section.name }}</span>
-        <span v-if="selectedSection === null" @click="getSelect(section.id)">Down</span>
-        <span v-else @click="toggleSection">Up</span>
-      </div>
-      <ul>
-        <li @click="$emit('sendCat', categories.id)" v-for="categories in filterCatBySec">{{ categories.name }}</li>
+
+  <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4 max-h-[70vh]">
+
+    <h3 class="font-semibold mb-4">Filtros</h3>
+
+    <div class="flex flex-col gap-2 mt-6">
+      <p class="font-semibold text-emerald-800 text-xl">Tipo de producto</p>
+      <select class="border-2 p-2 bg-emerald-100 text-emerald-900 border-emerald-600 rounded-lg" v-model="selectedSection">
+        <option value="">Cañas de pescar, Reels, Tanzas, etc...</option>
+        <option :value="section.id" v-for="section in sections">{{ section.name }}</option>
+      </select>
+      <ul class="mb-6 flex flex-col px-5 gap-5 bg-emerald-50">
+        <li class="p-2" @click="$emit('sendCat', categories.id)" v-for="categories in filterCatBySec">{{ categories.name }}</li>
       </ul>
     </div>
 
+
+
+
+    <div class="">
+      <button @click="$emit('viewAll')" class="w-1/2 border rounded-lg py-2">Ver todo</button>
+      <button @click="$emit('toggleClose')" class="w-1/2 bg-emerald-500 text-white rounded-lg py-2">Ok</button>
+    </div>
+
   </div>
+
 </template>

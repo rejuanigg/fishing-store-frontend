@@ -2,35 +2,22 @@
 import CartItem from '@/components/CartItem.vue';
 import { cartStore } from '@/stores/cart';
 import CartInfo from '@/components/CartInfo.vue';
-import Nav from '@/components/Nav.vue';
 
 const cart = cartStore();
 
 </script>
 
 <template>
-<Nav></Nav>
 
-  <div class="mt-20 flex justify-between gap-15 flex-col items-center py-10 px-60 bg-emerald-50">
-    <h1 class="font-bold text-2xl">Cart</h1>
-    <div v-if="cart.product.length>0" class="flex justify-around gap-50">
-      <div class="flex flex-col gap-3">
-        <CartItem></CartItem>
-      </div>
-      <div>
-        <CartInfo></CartInfo>
-      </div>
+  <section class=" min-h-screen flex flex-col items-center pt-20 py-20 gap-5">
+    <h2 class="text-xl text-emerald-800 font-semibold">Tu Carrito de compras</h2>
+    <div class="px-5 flex flex-col gap-5">
+      <CartItem></CartItem>
     </div>
-
-    <div v-else>
-      <p>No has añadido ningun producto aún.</p>
+    <div class="w-full px-2">
+      <CartInfo></CartInfo>
     </div>
-  </div>
+  </section>
 
-  <svg xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="size-6 stroke-blue-500 fill-none"> <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-  </svg>
+
 </template>

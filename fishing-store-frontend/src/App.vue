@@ -1,14 +1,28 @@
 <script setup>
 
 import { RouterView } from 'vue-router';
-
+import NavF from './components/NavF.vue';
+import Nav from './components/Nav.vue';
 
 </script>
 
 <template>
 
-<RouterView></RouterView>
-<RouterLink></RouterLink>
+  <div>
+
+    <header class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center">
+      <Nav></Nav>
+    </header>
+
+    <main>
+      <RouterView />
+    </main>
+
+    <nav class="fixed bottom-0 w-full h-20 px-5 bg-white border-t flex justify-between items-center gap-5">
+      <NavF></NavF>
+    </nav>
+
+  </div>
 
 </template>
 
@@ -17,7 +31,7 @@ import { RouterView } from 'vue-router';
 
 @import "tailwindcss";
 body{
-  background-color: #edfcf4;
+  background-color: #F9FAFB;
 }
 
 ol,

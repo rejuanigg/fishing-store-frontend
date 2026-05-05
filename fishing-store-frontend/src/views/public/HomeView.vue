@@ -22,10 +22,7 @@ function addCartItem(product) {
 </script>
 
 <template>
-  <Nav></Nav>
-
   <Hero></Hero>
-
 </template>
 
 <style scoped>

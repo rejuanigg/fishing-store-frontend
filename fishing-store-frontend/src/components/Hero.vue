@@ -1,16 +1,17 @@
 <script setup>
 
 </script>
-<template>
-<div class="w-full h-full flex px-20 py-50 bg-emerald-300">
-  <img class="absolute top-0 left-0 object-cover w-full h-full" src="../assets/hero.jpg" alt="">
 
-  <div class="h-80 w-2/4 bg-emerald-700 rounded-xl p-10 flex flex-col justify-between z-2">
-    <h1 class="text-3xl font-bold text-emerald-200">Los mejores precios</h1>
-    <p class="text-justify text-emerald-50 w-5/6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt iure          laudantium cupiditate
-      recusandae maiores explicabo vero, tempore ullam eaque excepturi
-      enim maxime repellat incidunt ab loremssvoluptatum provident quibusdam eum neque?</p>
-    <button class="bg-emerald-200 w-1/3 h-10 rounded-xl border-2 border-emerald-500 font-bold text-emerald-900">Info...</button>
+<template>
+<section class="px-4 mb-4">
+  <div class="relative bg-emerald-100 border border-emerald-200 rounded-lg overflow-hidden p-10">
+    <h2 class="mb-5 text-xl">Vistiendose con Mike</h2>
+    <p class="mb-5">Bienvenido a la tienda de ropa Vistiendose con Mike.
+    <br>
+    Aqui tienes promociones.
+    </p>
+    <button class="bg-amber-600 py-2 px-5 rounded-lg text-white">Ver Ofertas</button>
   </div>
-</div>
+
+</section>
 </template>

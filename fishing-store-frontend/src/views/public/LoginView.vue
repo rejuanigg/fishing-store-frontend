@@ -26,34 +26,36 @@ async function onSubmit(){
 
 <template>
 
-<button @click="authStore.logout">LOGOUT</button>
+  <div class="bg-emerald-100 min-h-screen w-full flex flex-col pt-20 items-center">
 
-  <div class="w-full h-svh flex justify-center items-center">
-    <div class="bg-emerald-300 h-100 w-100 flex flex-col justify-center gap-5 items-center">
-      <div class="w-full flex pl-10">
-        <RouterLink to="/"> < Volver</RouterLink>
+    <div class="w-full flex pl-10 text-emerald-900">
+      <RouterLink to="/"> < Volver</RouterLink>
+    </div>
+
+    <span class="text-emerald-900">Inicia Sesion</span>
+
+    <form class=" px-10 w-full flex flex-col gap-10" @submit.prevent="onSubmit" id="login">
+
+      <div class="flex flex-col w-full ">
+        <label class="font-bold text-emerald-900" for="login-email">Email</label>
+        <input class="border-2 border-emerald-500 bg-emerald-50 min-h-[44px] p-2 rounded-lg" type="text" placeholder="example@user.com" v-model="email" id="login-email">
       </div>
-      <span>Inicia Sesion</span>
-      <form class="h-2/4 w-3/5 flex flex-col gap-10" @submit.prevent="onSubmit" id="login">
-        <div class="flex flex-col w-full h-15">
-          <label class="font-bold text-emerald-900" for="login-email">Email</label>
-          <input class="bg-emerald-50 h-full p-2 rounded-lg" type="text" placeholder="example@user.com" v-model="email" id="login-email">
-        </div>
 
-        <div class="flex flex-col w-full h-15">
-          <label class="font-bold text-emerald-900" for="login-password">Contraseña</label>
-          <input class="bg-emerald-50 h-full p-2 rounded-lg" type="password" placeholder="password" v-model="password" id="login-password">
-        </div>
-
-        <button class="bg-emerald-500 rounded-lg font-bold text-emerald-50">Ok</button>
-      </form>
-
-      <div>
-        <span>
-          No tienes una cuenta?
-          <RouterLink to="/register">Registrate</RouterLink>
-        </span>
+      <div class="flex flex-col w-full ">
+        <label class="font-bold text-emerald-900" for="login-password">Contraseña</label>
+        <input class="border-2 border-emerald-500 bg-emerald-50 min-h-[44px] p-2 rounded-lg" type="password" placeholder="password" v-model="password" id="login-password">
       </div>
+
+      <button class="bg-emerald-500 rounded-lg font-bold text-emerald-50 p-2">Ok</button>
+
+    </form>
+
+    <div class="pt-5">
+
+      <span class="text-emerald-900">
+        No tienes una cuenta?
+        <RouterLink class="font-semibold" to="/register">Registrate Aquí</RouterLink>
+      </span>
 
     </div>
 

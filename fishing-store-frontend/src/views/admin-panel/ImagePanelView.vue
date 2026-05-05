@@ -35,7 +35,6 @@ const previewProduct = computed(()=>{
 })
 
 const previewImage = computed(()=>{
-
   if (file.value === null) return null
   return URL.createObjectURL(file.value);
 })
@@ -44,32 +43,27 @@ const previewImage = computed(()=>{
 
 
 <template>
-  <div class="bg-red-50 w-3/5 h-full flex justify-center items-center flex-col">
 
-    <form class="flex flex-col h-full w-full" @submit.prevent="createFormData">
-      <div class=" bg-red-100 h-3/5 flex justify-center items-center">
-        <input class="bg-red-300 h-50 w-50 border-3 border-dashed rounded-xl"
+  <div class="min-h-screen">
+    <form @submit.prevent="createFormData" class="border-b border-t border-emerald-600 p-5 flex flex-col gap-5">
+
+      <input class=" bg-emerald-100 h-50 w-50 border-3 border-dashed border-emerald-500 rounded-xl"
         @change="file = $event.target.files[0]"
         type="file"
         multiple>
-      </div>
-
-      <div class="flex justify-center items-center h-1/5">
-        <button class="h-1/3 w-2/4 bg-red-600">OK</button>
-      </div>
-
-      <div class="1/5 flex flex-col justify-center px-20">
-        <span class="text-xl">Agrega una o mas imagenes.</span>
-        <p>Ten en cuenta que la primera imagen es la que se verá en el producto.</p>
-      </div>
-
+      <button class="bg-emerald-600 rounded-lg py-2 text-emerald-100 font-semibold">Agregar Producto</button>
     </form>
-  </div>
 
-  <div class="bg-red-100 w-2/5 h-svh flex justify-center items-center flex-col gap-10">
-    <h2 class="text-xl font-bold">Vista Previa</h2>
-    <ProductCard
+  <main class="mt-20 px-20 pb-30 flex-1 flex items-start justify-center">
+    <div class="w-full max-w-[360px]">
+      <ProductCard
     v-if="previewProduct" :product="previewProduct"
     />
+    </div>
+  </main>
+
   </div>
+
+
+
 </template>
