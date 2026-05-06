@@ -7,19 +7,34 @@ import AllProductsView from '@/views/public/AllProductsView.vue'
 import RegisterView from '@/views/public/RegisterView.vue'
 import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
+import ProductView from '@/views/public/ProductView.vue'
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {path:'/login', component:LoginView},
-    {path:'/register', component:RegisterView},
+    {path:'/login', component:LoginView, meta:{layout:'focus'}},
+    {path:'/register', component:RegisterView, meta:{layout:'focus'}},
     {path:'/', component:HomeView},
-    {path:'/cart', component:CartView},
-    {path:'/products', component:AllProductsView},
+    {path:'/cart', component:CartView, meta:{layout:'focus'}},
+    {
+      path:'/products',
+      component:AllProductsView,
+      meta: {layout:'shop'}
+    },
+    {
+      path:'/products/:id',
+      name:'product-view',
+      component: () => import('@/views/public/ProductView.vue'),
+      meta: {layout:'shop'}
+    }
+    ,
     {
       path:'/admin-panel',
       component:AdminPanel,
+      meta: {
+        layout:'admin'
+      },
       children: [
         {
           path:'',

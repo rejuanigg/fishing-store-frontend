@@ -1,8 +1,12 @@
 <script setup>
-
+import { useRoute } from 'vue-router';
 import { RouterView } from 'vue-router';
 import NavF from './components/NavF.vue';
 import Nav from './components/Nav.vue';
+import AdminNav from './components/AdminNav.vue';
+
+const route = useRoute();
+
 
 </script>
 
@@ -10,8 +14,14 @@ import Nav from './components/Nav.vue';
 
   <div>
 
-    <header class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center">
-      <Nav></Nav>
+    <header >
+      <AdminNav class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center" v-if="route.meta.layout === 'shop' " :nav-type="'shop'"></AdminNav>
+      <AdminNav class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center" v-else-if="route.meta.layout === 'focus' " :nav-type="'focus'"></AdminNav>
+      <AdminNav  v-else-if="route.meta.layout === 'admin' " :nav-type="'admin'"></AdminNav>
+
+      <div v-else class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center">
+        <Nav></Nav>
+      </div>
     </header>
 
     <main>

@@ -28,10 +28,6 @@ async function onSubmit(){
 
   <div class="bg-emerald-100 min-h-screen w-full flex flex-col pt-20 items-center">
 
-    <div class="w-full flex pl-10 text-emerald-900">
-      <RouterLink to="/"> < Volver</RouterLink>
-    </div>
-
     <span class="text-emerald-900">Inicia Sesion</span>
 
     <form class=" px-10 w-full flex flex-col gap-10" @submit.prevent="onSubmit" id="login">
