@@ -11,14 +11,16 @@ const products = ref([])
 const file = ref(null)
 
 const createFormData = async() => {
-  if(file.value === null) return null;
+  if(!file.value || file.value.length === 0) return null;
 
-  const formData = new FormData()
+  for (const image of file.value) {
 
-  formData.append('image', file.value);
-  formData.append('product_id', productId)
-
-  await api.post('/images', formData)
+    const formData = new FormData()
+    formData.append('product_id', productId)
+    formData.append('image', image);
+    console.log(image)
+    await api.post('/images', formData)
+  }
 
   return router.push('/admin-panel')
 }
@@ -35,8 +37,8 @@ const previewProduct = computed(()=>{
 })
 
 const previewImage = computed(()=>{
-  if (file.value === null) return null
-  return URL.createObjectURL(file.value);
+  if(!file.value || file.value.length === 0) return null
+  return URL.createObjectURL(file.value[0]);
 })
 
 </script>
@@ -48,7 +50,7 @@ const previewImage = computed(()=>{
     <form @submit.prevent="createFormData" class="border-b border-t border-emerald-600 p-5 flex flex-col gap-5">
 
       <input class=" bg-emerald-100 h-50 w-50 border-3 border-dashed border-emerald-500 rounded-xl"
-        @change="file = $event.target.files[0]"
+        @change="file = $event.target.files"
         type="file"
         multiple>
       <button class="bg-emerald-600 rounded-lg py-2 text-emerald-100 font-semibold">Agregar Producto</button>

@@ -12,7 +12,7 @@ export function useAverage(califications){
     }
   }
     else{
-      const average = 5;
+      const average = 0;
       return {average};
     }
 
