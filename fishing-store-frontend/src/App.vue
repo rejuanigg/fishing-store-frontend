@@ -28,8 +28,8 @@ const route = useRoute();
       <RouterView />
     </main>
 
-    <nav class="fixed bottom-0 w-full h-20 px-5 bg-white border-t">
-      <NavF></NavF>
+    <nav >
+      <NavF class="fixed bottom-0 w-full h-20 px-5 bg-white border-t" v-if="route.meta.layout !== 'focus' && route.meta.layout !== 'shop'"></NavF>
     </nav>
 
   </div>
