@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAverage } from '@/composables/useAverage';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import { cartStore } from '@/stores/cart';
+import Score from '@/components/Score.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -82,7 +83,7 @@ function addCartItem() {
   <div class=" flex flex-col gap-2 p-5">
     <h2 class="text-lg font-medium text-emerald-900">{{ product.name }}</h2>
     <div class="flex gap-3">
-      <div class="text-amber-600">★★★★★</div>
+      <Score :product-id="product.id"></Score>
       <span>
         ({{ averageValue }})
       </span>
