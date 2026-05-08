@@ -23,23 +23,23 @@ const price = ref(0);
 
 const isModalVisible = ref(false);
 
-const openModal = () => isModalVisible.value = true
-const closeModal = () => isModalVisible.value = false
+const openModal = () => isModalVisible.value = true;
+const closeModal = () => isModalVisible.value = false;
 
 const filterCatBySec = computed(()=>{
   return categories.value
   .filter(({section_id})=>section_id === selectedSection.value)
-})
+});
 
 onMounted(async()=>{
   const response = await api.get(`/products/${productId}`)
   product.value = response.data.data
-})
+});
 
-watch(product, (newValue) =>{
-  name.value = newValue.name
-  description.value = newValue.description
-  price.value = newValue.price
+watch(product, (actualValue) =>{
+  name.value = actualValue.name
+  description.value = actualValue.description
+  price.value = actualValue.price
 
   const productCat = product.value.categories[0];
 
@@ -71,7 +71,7 @@ async function onSubmit(){
 
 //Delete
 
-async function handeDelete(){
+async function handleDelete(){
   const response = await api.delete(`/products/${productId}`)
   return router.push('/')
 }
@@ -79,49 +79,107 @@ async function handeDelete(){
 </script>
 
 <template>
-  <div v-if="product">
-    <form @submit.prevent="onSubmit" class="border-b border-t border-emerald-600 p-5 flex flex-col gap-5">
 
-      <label class="text-emerald-900 font-semibold">Nombre</label>
-      <input v-model="name" placeholder="Introduce el nombre de seccion" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" type="text">
+<div v-if="product" class="min-h-screen flex flex-col">
+  <div class="px-5 pt-6 pb-32 flex flex-col gap-8">
+    <section class="flex flex-col gap-2">
+      <h1 class="text-2xl font-bold text-emerald-950">
+        Editar producto
+      </h1>
 
-      <label class="text-emerald-900 font-semibold">Precio</label>
-      <input v-model="price" placeholder="Introduce un" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" type="text">
+      <p class="text-sm leading-6 text-gray-500">
+        Modificá la información visible
+        del producto dentro de la tienda.
+      </p>
+    </section>
 
-      <label class="text-emerald-900 font-semibold">Descripción</label>
-      <textarea v-model="description" placeholder="Introduce el nombre de seccion" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" type="text"></textarea>
+    <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">Nombre</label>
 
-      <label class="text-emerald-900 font-semibold">Seccion</label>
-        <select v-model="selectedSection" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" >
-          <option  v-for="section in sections" :key="section.id" :value="section.id" >{{ section.name }}</option>
+        <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
+      </div>
+
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">
+          Precio
+        </label>
+
+        <input v-model="price" type="text" placeholder="$ 120000"
+        class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">
+          Descripción
+        </label>
+
+        <textarea v-model="description" placeholder="Describe el producto..."
+        class="min-h-[140px] p-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none resize-none focus:border-emerald-500">
+        </textarea>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">
+          Sección
+        </label>
+
+        <select v-model="selectedSection" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
+          <option v-for="section in sections" :key="section.id" :value="section.id">{{ section.name }}</option>
         </select>
+      </div>
 
-      <label class="text-emerald-900 font-semibold">Categoria</label>
-        <select v-model="category" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" >
-          <option v-for="category in filterCatBySec" :key="category.id" :value="category">{{ category.name }}</option>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">
+          Categoría
+        </label>
+
+        <select v-model="category" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500" >
+          <option v-for="category in filterCatBySec" :value="category" >
+            {{ category.name }}
+          </option>
         </select>
+      </div>
 
-      <button class="bg-emerald-600 rounded-lg py-2 text-white font-semibold">Listo</button>
-      <button type="button" @click="openModal" class=" w-full border-2 bg-amber-600 text-white font-semibold py-2 rounded-lg text-sm active:scale-95">
-      Eliminar
+      <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
+        Guardar cambios
       </button>
-      <RouterLink to="/admin-panel/products" class="text-center border-2 border-emerald-600 rounded-lg py-2 text-emerald-900 font-semibold">Ir a mis productos</RouterLink>
+
     </form>
 
-    <main class="mt-20 px-20 pb-30 flex-1 flex items-start justify-center">
-      <div class="w-full max-w-[360px]">
-        <ProductCard :product="preview" />
+    <section class="flex flex-col gap-4">
+      <div>
+        <h2 class="text-lg font-bold text-emerald-950">Vista previa</h2>
+        <p class="text-sm text-gray-500 mt-1"> Así visualizarán el producto los clientes.</p>
       </div>
-    </main>
+
+      <div class="flex justify-center">
+        <div class="w-full max-w-[320px]">
+          <ProductCard :product="preview" />
+        </div>
+      </div>
+    </section>
+
+    <RouterLink to="/admin-panel/products" class="h-13 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700 text-sm font-semibold flex items-center justify-center">
+      Ver todos los productos
+    </RouterLink>
+
+    <button type="button" @click="openModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
+      Eliminar producto
+    </button>
+
   </div>
 
   <Modal
-  v-if="isModalVisible"
-  text="Estas por borrar un producto, ¿Desea continuar?"
-  type="actionCaution"
-  action="Eliminar"
-  @close-modal="closeModal"
-  @action="handeDelete"
+    v-if="isModalVisible"
+    text="Estas por borrar un producto, ¿Desea continuar?"
+    type="actionCaution"
+    action="Eliminar"
+    @close-modal="closeModal"
+    @action="handleDelete"
   />
+
+</div>
 
 </template>

@@ -12,24 +12,25 @@ const route = useRoute();
 
 <template>
 
-  <div>
+  <div class="min-h-screen flex flex-col bg-[#F9FAFB]">
 
-    <header >
-      <AdminNav class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center" v-if="route.meta.layout === 'shop' " :nav-type="'shop'"></AdminNav>
-      <AdminNav class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center" v-else-if="route.meta.layout === 'focus' " :nav-type="'focus'"></AdminNav>
+    <header class="sticky top-0 z-50 h-16 px-5 border-b bg-white/90 backdrop-blur-md w-full flex items-center justify-between">      <AdminNav  v-if="route.meta.layout === 'shop' " :nav-type="'shop'"></AdminNav>
+      <AdminNav  v-else-if="route.meta.layout === 'focus' " :nav-type="'focus'"></AdminNav>
       <AdminNav  v-else-if="route.meta.layout === 'admin' " :nav-type="'admin'"></AdminNav>
 
-      <div v-else class="h-20 top-0 left-0 border-b object-cover px-5 flex justify-between items-center">
+      <div v-else class="w-full">
         <Nav></Nav>
       </div>
     </header>
 
-    <main>
-      <RouterView />
+    <main class="flex-1 pb-24 max-w-screen-md mx-auto w-full">
+      <transition name="fade" mode="out-in">
+        <RouterView />
+      </transition>
     </main>
 
-    <nav >
-      <NavF class="fixed bottom-0 w-full h-20 px-5 bg-white border-t" v-if="route.meta.layout !== 'focus' && route.meta.layout !== 'shop'"></NavF>
+    <nav class="fixed bottom-0 w-full z-50 flex justify-center" >
+      <NavF class="w-full max-w-screen-md h-20 px-5 bg-white/90 backdrop-blur-md border-t pb-[env(safe-area-inset-bottom)]" v-if="route.meta.layout !== 'focus' && route.meta.layout !== 'shop'"></NavF>
     </nav>
 
   </div>
@@ -42,12 +43,28 @@ const route = useRoute();
 @import "tailwindcss";
 body{
   background-color: #F9FAFB;
+  font-family: 'Plus Jakarta Sans';
+  overflow-x: hidden;
 }
 
 ol,
 ul,
 menu {
   list-style: none;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 </style>

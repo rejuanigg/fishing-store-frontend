@@ -63,17 +63,15 @@ function addCartItem() {
   <div class="w-full flex flex-col gap-3 px-2">
     <img
       class="h-72 w-full object-contain bg-gray-100 rounded-xl"
-      :src="product.images[item].image"
+      :src="product.images?.[item]?.image"
       alt=""
     >
-    <div class="flex gap-2 overflow-x-auto pb-1 pt-5 px-2">
-      <img
+    <div class="flex gap-2 overflow-x-auto pb-1 pt-5 px-2 snap-x snap-mandatory">      <img
         v-for="(img, index) in product.images"
         :key="index"
         :src="img.image"
         @click="item = index"
-        class="h-20 w-20 object-cover rounded-lg border-2 cursor-pointer"
-        :class="item === index
+        class="h-20 w-20 object-cover rounded-lg border-2 cursor-pointer shrink-0 snap-start"        :class="item === index
           ? 'border-emerald-500 scale-105'
           : 'border-gray-200 opacity-70'">
     </div>
@@ -81,24 +79,30 @@ function addCartItem() {
 
 
   <div class=" flex flex-col gap-2 p-5">
-    <h2 class="text-lg font-medium text-emerald-900">{{ product.name }}</h2>
+    <h2 class="text-2xl font-semibold text-emerald-900">{{ product.name }}</h2>
     <div class="flex gap-3">
       <Score :product-id="product.id"></Score>
       <span>
         ({{ averageValue }})
       </span>
     </div>
-    <span class="text-emerald-900 font-medium text-xl">{{ formatedPriceValue }}</span>
-    <div class=" text-justify mb-30">
+    <span class="text-emerald-700 text-3xl font-bold tracking-tight">{{ formatedPriceValue }}</span>
 
+    <div class="flex items-center gap-2">
+      <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+      <span class="text-sm text-emerald-700 font-medium">
+        Disponible
+      </span>
+    </div>
+
+    <div class="text-gray-600 leading-7 text-[15px] border-t pt-5 mt-3 mb-32">
         {{ product.description }}
 
     </div>
   </div>
 
 
-  <div class="bg-white w-full py-3 px-5 border-t fixed bottom-0">
-    <button @click="addCartItem" class="rounded-lg text-white font-medium w-full bg-emerald-500 px-5 py-4">
+  <div class="bg-white/90 backdrop-blur-md w-full py-3 px-5 border-t fixed bottom-0 left-0">    <button @click="addCartItem" class="rounded-lg text-white font-medium w-full bg-emerald-500 px-5 py-4">
       Añadir al carrito
     </button>
   </div>

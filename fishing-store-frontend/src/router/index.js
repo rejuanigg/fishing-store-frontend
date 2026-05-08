@@ -52,6 +52,16 @@ const router = createRouter({
           component: () => import('@/views/admin-panel/CategoryPanelView.vue')
         },
         {
+          path:'categories/create',
+          name:'category-create',
+          component: () => import('@/views/admin-panel/admin-panel-edit/CreateCategory.vue')
+        },
+        {
+          path:'categories/:id/edit',
+          name:'category-edit',
+          component:() => import('@/views/admin-panel/admin-panel-edit/EditCategory.vue')
+        },
+        {
           path:'products',
           name:'admin-products',
           component: () => import('@/views/admin-panel/ProductPanelView.vue')

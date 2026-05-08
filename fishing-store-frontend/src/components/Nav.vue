@@ -1,6 +1,7 @@
 <script setup>
 
 import { useAuthStore } from '@/stores/auth';
+import { Settings } from '@lucide/vue';
 import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
@@ -15,60 +16,28 @@ const logout = () => {
 
 <template>
 
-<img class="h-20 w-20" src="../assets/icon-b.png"></img>
+  <div class="w-full flex items-center">
 
+    <img class="h-14 w-14 object-contain shrink-0" src="../assets/icon-b.png"></img>
 
-  <div v-if="authStore.advancedAccess" class="py-3 px-5 border-2 border-dashed border-emerald-300 rounded-lg text-emerald-900">
-    <RouterLink to="/admin-panel">
-      CONFIG
-    </RouterLink>
-  </div>
+    <div class="ml-auto flex items-center gap-2">
+      <div v-if="authStore.advancedAccess" class="flex items-center gap-2 py-3 px-5 bg-transparent   border border-emerald-100 rounded-2xl">
+        <RouterLink to="/admin-panel">
+          <Settings />
+        </RouterLink>
+      </div>
 
-  <div v-else>
+      <div class="px-4 py-2 rounded-lg bg-emerald-500 text-white text-sm font-medium active:scale-95 transition">
 
-  </div>
+          <RouterLink v-if="!authStore.isLoggedIn" to="/login">Login</RouterLink>
+          <button v-else @click="logout">Cerrar Sesíon</button>
 
-
-  <div v-if="!authStore.isLoggedIn" class="py-3 px-5 bg-emerald-300 rounded-lg text-emerald-900">
-    <RouterLink to="/login">Login</RouterLink>
-  </div>
-
-  <div v-else class="py-3 px-5 bg-emerald-300 rounded-lg text-emerald-900">
-    <button @click="logout">Logout</button>
-  </div>
-
-
-<!-- <div @scroll="" class="h-20 top-0 fixed w-full z-5 flex justify-between items-center px-20 overflow-hidden">
-<div class="absolute inset-x-0 bottom-0 top-0 bg-gradient-to-t from-transparent via-black/30 to-black/60 pointer-events-none"></div>
-<img class="h-20 w-20" src="../assets/icon-b.png"></img>
-  <ul class="w-2/4 flex justify-between font-bold">
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/products">Products</RouterLink>
-  </ul>
-
-  <div v-if="!authStore.isLoggedIn">
-    <RouterLink to="/login">Login</RouterLink>
-  </div>
-
-  <div v-else>
-    <button @click="logout">Logout</button>
-  </div>
-
-
-  <div v-if="authStore.advancedAccess">
-    <RouterLink to="/admin-panel">
-      CONFIG
-    </RouterLink>
-  </div>
-
-  <div v-else>
-
+      </div>
+    </div>
   </div>
 
 
 
-</div>
-<component is="currentView" /> -->
 
 </template>
 

@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['modelValue'])
+defineProps(['modelValue','placeHolder'])
 defineEmits(['update:modelValue'])
 
 </script>
@@ -8,5 +8,5 @@ defineEmits(['update:modelValue'])
   <input
   :value="modelValue"
   @input="$emit('update:modelValue', $event.target.value)"
-  class="w-full min-h-[44px] px-4 rounded-xl border border-emerald-300" type="text" placeholder="Buscar Producto">
+  class="w-full min-h-[44px] px-4 rounded-xl border border-emerald-300" type="text" placeholder="Buscar">
 </template>
