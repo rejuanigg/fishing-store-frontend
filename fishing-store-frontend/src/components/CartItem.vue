@@ -7,31 +7,54 @@ const cart = cartStore();
 
 <template>
 
-  <div class="relative border-2 gap-4 border-emerald-500 p-5 rounded-lg flex items-center" v-for="product in cart.product">
-    <div class=" shrink-0 rounded-lg border-2 border-emerald-400 h-20 w-20">
-      <img class="rounded-lg":src="product.images[0]?.image">
+<div v-for="product in cart.product" class="relative bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
+  <div class="flex gap-4">
+
+    <div class="h-24 w-24 shrink-0 rounded-2xl overflow-hidden bg-gray-100">
+      <img class="h-full w-full object-cover" :src="product.images[0]?.image">
     </div>
-    <div class="flex flex-1 flex-col items-end py-6 px-10">
-      <span class="font-semibold text-emerald-900">{{ product.name }}</span>
-      <span>$ {{ product.price }}</span>
-      <div class="flex gap-5 items-center">
-            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950"
-            @click="cart.decrement(product.id)">
-              -
-            </button>
-            <span class="text-emerald-950 font-bold">{{ product.quantity }}</span>
-            <button class="flex items-center justify-center h-5 w-5 rounded-sm bg-emerald-950 text-emerald-50 border border-solid border-emerald-500 hover:bg-emerald-200 hover:text-emerald-950"
-            @click="cart.increment(product.id)">
-              +
-            </button>
+
+    <div class="flex-1 flex flex-col justify-between">
+      <div class="flex flex-col gap-1 pr-6">
+        <span class="text-base font-semibold text-emerald-950 leading-5">
+          {{ product.name }}
+        </span>
+
+        <span class="text-lg font-bold text-emerald-700">
+          $ {{ product.price }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between mt-4">
+        <div class="flex items-center gap-3 bg-gray-100 rounded-2xl px-3 py-2">
+          <button
+            class="h-8 w-8 rounded-xl bg-white text-emerald-900 font-bold active:scale-95 transition"
+            @click="cart.decrement(product.id)"
+          >
+            -
+          </button>
+
+          <span class="min-w-[20px] text-center text-sm font-bold text-emerald-950">
+            {{ product.quantity }}
+          </span>
+
+          <button
+            class="h-8 w-8 rounded-xl bg-emerald-500 text-white font-bold active:scale-95 transition"
+            @click="cart.increment(product.id)"
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
-<button
-    class="absolute top-2 right-2 text-amber-600 hover:text-red-700 font-bold leading-none p-1"
+  </div>
+
+  <button
+    class="absolute top-4 right-4 h-8 w-8 rounded-xl bg-red-50 text-red-500 text-sm font-bold active:scale-95 transition"
     @click="cart.removeProduct(product.id)"
   >
     ✕
   </button>
-  </div>
+</div>
 
 </template>

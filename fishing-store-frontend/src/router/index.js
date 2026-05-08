@@ -90,6 +90,11 @@ const router = createRouter({
           path:'products/:id/edit',
           name:'products-edit',
           component:()=> import('@/views/admin-panel/admin-panel-edit/EditProduct.vue')
+        },
+        {
+          path:'products/stocks',
+          name:'product-stock',
+          component:()=>import('@/views/admin-panel/StockPanel.vue')
         }
       ]
     },

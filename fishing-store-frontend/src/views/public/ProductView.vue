@@ -95,6 +95,10 @@ function addCartItem() {
       </span>
     </div>
 
+    <div>
+      {{ product.categories.name }}
+    </div>
+
     <div class="text-gray-600 leading-7 text-[15px] border-t pt-5 mt-3 mb-32">
         {{ product.description }}
 

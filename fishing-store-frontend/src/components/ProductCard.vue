@@ -1,6 +1,8 @@
 <script setup>
 import { useAverage } from '@/composables/useAverage';
 import { useRouter } from 'vue-router';
+import { useFormatPrice } from '@/composables/useFormatPrice';
+import { computed } from 'vue';
 
 const props = defineProps({
   product: {
@@ -25,6 +27,11 @@ const toEdit = (id) => {
 
 const {average} = useAverage(props.product.califications)
 
+const formatedPriceValue = (value) => {
+  const { formatedPrice } = useFormatPrice(value);
+  return formatedPrice;
+};
+
 </script>
 
 <template>
@@ -37,7 +44,7 @@ const {average} = useAverage(props.product.califications)
       </div>
       <h3 class="text-sm font-semibold text-emerald-700">{{ props.product.name }}</h3>
       <p class="text-sm text-emerald-600">⭐ {{ average }}</p>
-      <p class="text-sm text-emerald-600">${{ props.product.price }}</p>
+      <p class="text-sm text-emerald-600">{{ formatedPriceValue(props.product.price) }}</p>
     </div>
 
     <button @click="toEdit(props.product.id)"  v-if="isAdmin===true" class="mt-2 w-full border-2 border-emerald-500 text-emerald-500 font-semibold py-2 rounded-lg text-sm active:scale-95">

@@ -31,15 +31,28 @@ const filterCatBySec = computed(()=>{
   .filter(({section_id})=>section_id === selectedSection.value)
 });
 
+const idStock = ref(null)
+
 onMounted(async()=>{
   const response = await api.get(`/products/${productId}`)
   product.value = response.data.data
+  if(response.data.data.stocks[0] === undefined){
+    const resStocks = await api.post('/stocks',{
+      product_id:response.data.data.id,
+      quantity:actualStock.value
+    })
+    idStock.value = resStocks.data.data.id
+  }
+  else{
+    idStock.value = response.data.data.stocks[0].id
+  }
 });
 
 watch(product, (actualValue) =>{
   name.value = actualValue.name
   description.value = actualValue.description
   price.value = actualValue.price
+  actualStock.value = actualValue.stocks[0]?.quantity ?? 1
 
   const productCat = product.value.categories[0];
 
@@ -63,7 +76,13 @@ async function onSubmit(){
     name:name.value,
     description:description.value,
     price:price.value,
-    categories:[category.value.id]
+    categories:[category.value.id],
+  })
+
+  const resStocks = await api.put(`/stocks/${idStock.value}`,{
+
+    product_id:response.data.data.id,
+    quantity:actualStock.value
   })
 
   return router.push('/')
@@ -75,6 +94,12 @@ async function handleDelete(){
   const response = await api.delete(`/products/${productId}`)
   return router.push('/')
 }
+
+//Stock
+const actualStock = ref(1);
+
+const upStock = () => {actualStock.value++}
+const downStock = () => {actualStock.value--}
 
 </script>
 
@@ -141,6 +166,26 @@ async function handleDelete(){
           </option>
         </select>
       </div>
+
+      <section class="flex flex-col gap-3">
+
+        <div class="flex flex-col gap-3">
+          <h2 class="text-lg font-bold text-emerald-950">
+            Inventario
+          </h2>
+
+          <p class="text-sm text-gray-500">
+            Gestioná el stock disponible.
+          </p>
+
+          <div class="w-full flex text-xl items-center justify-center gap-5">
+            <span @click="downStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">-</span>
+            <span>{{actualStock}}</span>
+            <span @click="upStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">+</span>
+          </div>
+        </div>
+
+      </section>
 
       <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
         Guardar cambios

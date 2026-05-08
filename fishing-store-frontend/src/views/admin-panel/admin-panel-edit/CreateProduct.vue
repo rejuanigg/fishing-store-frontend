@@ -29,8 +29,12 @@ async function onSubmit(){
     categories:[category.value.id]
   })
 
-  return router.push(`/admin-panel/products/${response.data.data.id}/image`)
+  const resStocks = await api.post('/stocks',{
+    product_id:response.data.data.id,
+    quantity:actualStock.value
+  })
 
+  return router.push(`/admin-panel/products/${response.data.data.id}/image`)
 }
 
 const preview = computed(()=>{
@@ -42,6 +46,12 @@ const preview = computed(()=>{
   }
 })
 
+//Stock
+const actualStock = ref(1);
+
+const upStock = () => {actualStock.value++}
+const downStock = () => {actualStock.value--}
+
 </script>
 
 
@@ -50,12 +60,11 @@ const preview = computed(()=>{
     <div class="px-5 pt-6 pb-32 flex flex-col gap-8">
       <section class="flex flex-col gap-2">
         <h1 class="text-2xl font-bold text-emerald-950">
-          Editar producto
+          Crear producto
         </h1>
 
         <p class="text-sm leading-6 text-gray-500">
-          Modificá la información visible
-          del producto dentro de la tienda.
+          Creá un producto para mostrarlo en tu tienda.
         </p>
       </section>
 
@@ -106,6 +115,27 @@ const preview = computed(()=>{
             </option>
           </select>
         </div>
+
+        <section class="flex flex-col gap-3">
+
+          <div class="flex flex-col gap-1">
+            <h2 class="text-lg font-bold text-emerald-950">
+              Inventario
+            </h2>
+
+            <p class="text-sm text-gray-500">
+              Seleccioná el stock disponible.
+            </p>
+
+            <div class="w-full flex text-xl items-center justify-center gap-5">
+              <span @click="downStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">-</span>
+              <span>{{actualStock}}</span>
+              <span @click="upStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">+</span>
+            </div>
+
+          </div>
+
+        </section>
 
         <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white  text-sm font-semibold active:scale-[0.98] transition">
           Guardar cambios

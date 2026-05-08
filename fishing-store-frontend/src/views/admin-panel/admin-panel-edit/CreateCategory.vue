@@ -35,21 +35,21 @@ async function onSubmit(){
       <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
         <div class="flex flex-col gap-2">
           <label class="text-emerald-900 font-semibold">Nombre</label>
-          <input v-model="name" placeholder="Introduce el nombre de   seccion" class="p-2 min-h-[44px] bg-emerald-50 border   border-emerald-600 rounded-lg" type="text">
+          <input v-model="name" placeholder="Introduce el nombre de categoria" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500" type="text" >
         </div>
 
         <div class="flex flex-col gap-2">
 
           <label class="text-emerald-900 font-semibold">Seccion</label>
           <select
-                class="p-2 min-h-[44px] bg-emerald-50 border  border-emerald-600 rounded-lg"
+                class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500"
                 v-model="sectionId" >
                   <option v-for="section in sections" :value="section.  id">{{ section.name }}</option>
           </select>
         </div>
 
-        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white  text-sm font-semibold active:scale-[0.98] transition">Guardar</button>
-      </form> 
+        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">Guardar</button>
+      </form>
     </div>
   </div>
 </template>
