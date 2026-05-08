@@ -37,7 +37,6 @@ onMounted(async()=>{
 const name = ref('');
 const selectedSection = ref(null)
 ////Acá vamos a buscar a la seccion que teniamos seleccionada
-console.log(cat)
 watch(cat, (actualValue)=>{
   name.value = actualValue.name
   selectedSection.value = actualValue.section_id

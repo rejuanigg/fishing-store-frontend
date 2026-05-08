@@ -20,40 +20,68 @@ const toEdit = (id) => {
 
 const search = ref('')
 </script>
+
 <template>
 
+  <section class="px-5 pt-6 flex flex-col gap-5 w-full">
 
-    <section class="px-5 py-8 flex flex-col w-full">
-      <h1 class="text-emerald-900 text-2xl font-semibold mt-2">Gestión de Categorías</h1>
-      <p class="text-emerald-500 text-base">Editá, organizá y administrá las categorías visibles en la tienda.</p>
-      <div class="flex gap-2">
+    <div class="flex flex-col gap-2">
+      <h1 class="text-2xl font-bold text-emerald-950">
+        Gestión de Categorías
+      </h1>
+
+      <p class="text-sm leading-6 text-gray-500">
+        Editá, organizá y administrá las categorías visibles dentro de la tienda.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+
+      <div class="flex-1">
         <SearchBar v-model="search"></SearchBar>
-        <RouterLink to="/admin-panel/categories/create" class="border-2 border-emerald-300 px-3 py-1 rounded-lg text-emerald-900 flex flex-col items-center">
-        +
-        </RouterLink>
       </div>
-    </section>
 
-    <section class="p-5 flex flex-col gap-4">
+      <RouterLink
+        to="/admin-panel/categories/create"
+        class="h-12 w-12 shrink-0 rounded-2xl bg-emerald-500 text-white text-xl font-semibold flex items-center justify-center active:scale-95 transition"
+      >
+        +
+      </RouterLink>
 
-        <div v-for="category in categories" class="bg-white border border-gray-500 rounded-3xl p-4">
-          <div class="flex justify-around mt-3 w-full">
-            <div class="flex flex-col items-center gap-3 pb-3">
-              <span class="text-lg font-bold mt-1">{{ category.name }}</span>
-              <p class="text-xs text-emerald-500">
-                Seccion: {{sectionName(category.section_id)}}
-              </p>
-            </div>
-          </div>
+    </div>
 
+  </section>
 
-          <div class="flex gap-3">
-            <button @click="toEdit(category.id)" class="flex-1 h-10 rounded-xl text-sm font-semibold flex items-center justify-center bg-emerald-100 text-emerald-800">Editar</button>
+  <section class="px-5 pt-6 pb-28 flex flex-col gap-3">
 
-          </div>
+    <div
+      v-for="category in categories"
+      :key="category.id"
+      class="bg-white border border-gray-100 rounded-3xl p-4 shadow-sm active:scale-[0.99] transition"
+    >
+
+      <div class="flex items-start justify-between gap-4">
+
+        <div class="flex flex-col gap-1">
+
+          <span class="text-base font-semibold text-emerald-950">
+            {{ category.name }}
+          </span>
+          <p class="text-sm text-gray-500"> {{ sectionName(category.section_id) }}</p>
 
         </div>
 
-    </section>
+        <button
+          @click="toEdit(category.id)"
+          class="h-10 px-4 rounded-xl bg-emerald-50 text-emerald-700 text-sm font-semibold whitespace-nowrap active:scale-95 transition"
+        >
+          Editar
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
 
 </template>

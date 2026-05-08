@@ -31,21 +31,47 @@ const filterByName = computed(()=>{
 
 
 <template>
-<div class="min-h-screen p-3">
-  <div class="flex flex-col gap-5 p-5">
-    <h2 class="font-semibold text-center text-emerald-900">Bienvenido al Panel de Productos</h2>
-    <div class="flex gap-5">
-      <SearchBar v-model="searchValue"></SearchBar>
-      <RouterLink to="/admin-panel/products/create" class="border-2 border-emerald-400 px-3 py-1 rounded-lg text-emerald-900 flex flex-col items-center">
-        +
-      </RouterLink>
+
+  <div class="min-h-screen">
+
+  <section class="px-5 pt-6 flex flex-col gap-5">
+
+    <div class="flex flex-col gap-2">
+      <h1 class="text-2xl font-bold text-emerald-950">Gestion de productos</h1>
+
+      <p class="text-sm leading-6 text-gray-500">
+      Administrá, editá y organizá los productos visibles dentro de la tienda.
+      </p>
     </div>
+
+    <div class="flex items-center gap-3">
+
+    <div class="flex-1">
+      <SearchBar v-model="searchValue"></SearchBar>
+    </div>
+
+    <RouterLink
+    to="/admin-panel/products/create"
+    class="h-12 w-12 shrink-0 rounded-2xl bg-emerald-500 text-white text-xl font-semibold flex items-center justify-center active:scale-95 transition"
+    >
+    +
+    </RouterLink>
+
   </div>
-<main class="p-4 grid grid-cols-2  gap-4 min-h-screen">
-    <ProductCard  v-for="product in filterByName" :key="product.id" :product="product" :is-admin="isAdmin" />
-  </main>
-</div>
 
+  </section>
 
+    <main class="px-5 pt-6 pb-28 grid grid-cols-2 gap-4">
+
+      <ProductCard
+      v-for="product in filterByName"
+      :key="product.id"
+      :product="product"
+      :is-admin="isAdmin"
+      />
+
+    </main>
+
+  </div>
 
 </template>

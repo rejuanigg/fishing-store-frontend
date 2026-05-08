@@ -47,6 +47,16 @@ const router = createRouter({
           component: () => import('@/views/admin-panel/SectionPanelView.vue')
         },
         {
+          path:'sections/create',
+          name:'section-create',
+          component: () => import('@/views/admin-panel/admin-panel-edit/CreateSection.vue')
+        },
+        {
+          path:'sections/:id/edit',
+          name:'section-edit',
+          component: () => import('@/views/admin-panel/admin-panel-edit/EditSection.vue')
+        },
+        {
           path:'categories',
           name:'admin-categories',
           component: () => import('@/views/admin-panel/CategoryPanelView.vue')
