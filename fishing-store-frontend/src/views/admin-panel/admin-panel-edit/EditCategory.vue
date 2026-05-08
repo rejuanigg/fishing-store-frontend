@@ -9,37 +9,27 @@ const route = useRoute();
 const router = useRouter();
 
 //Traemos las secciones
-const {sections} = useCategory()
+const {categories, sections} = useCategory()
 
 //Traer la categoria de la ruta anterior, catId guarda el id a editar.
 const catId = Number(route.params.id)
 
 //Traer las categorias de la base de datos
 const cat = ref(null)
-const allCat = ref(null)
-const foundCat = ref(null)
-
-onMounted(async()=>{
-  //Montamos los datos
-  const response = await api.get(`/categories`)
-  allCat.value = response.data.data
-
-  //traemos solo la categoria con el id de la ruta.
-  foundCat.value = allCat.value.find(c=>c.id === catId);
-
-  //Si existe, guarda los datos en la ref "cat"
-  if (foundCat){
-    cat.value = foundCat.value
-  }
-})
 
 //Mostrar datos anteriores
 const name = ref('');
 const selectedSection = ref(null)
 ////Acá vamos a buscar a la seccion que teniamos seleccionada
-watch(cat, (actualValue)=>{
-  name.value = actualValue.name
-  selectedSection.value = actualValue.section_id
+watch([categories, sections], ([actualCat, ActualSec])=>{
+  if (actualCat.length > 0 || ActualSec.length > 0){
+    const found = actualCat.find(c=>c.id === catId)
+    if(found){
+      cat.value = found;
+      name.value = found.name;
+      selectedSection.value = found.section_id;
+    }
+  }
 })
 
 //Manejo del modal
