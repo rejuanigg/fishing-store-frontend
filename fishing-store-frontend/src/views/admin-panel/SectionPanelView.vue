@@ -1,7 +1,7 @@
 <script setup>
 import SearchBar from '@/components/SearchBar.vue';
 import { useCategory } from '@/composables/useCategory';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -11,6 +11,12 @@ const {sections} = useCategory();
 const toEdit = (id) => {
   return router.push({name:'section-edit', params:{ id:id }})
 }
+
+const searchValue = ref('')
+
+const filterByName = computed(()=>{
+  return sections.value.filter((sec)=>sec.name.toLowerCase().includes(searchValue.value.toLowerCase()))
+})
 
 </script>
 
@@ -31,7 +37,7 @@ const toEdit = (id) => {
     <div class="flex items-center gap-3">
 
       <div class="flex-1">
-        <SearchBar v-model="search"></SearchBar>
+        <SearchBar v-model="searchValue"></SearchBar>
       </div>
 
       <RouterLink
@@ -48,7 +54,7 @@ const toEdit = (id) => {
   <section class="px-5 pt-6 pb-28 flex flex-col gap-3">
 
     <div
-      v-for="section in sections"
+      v-for="section in filterByName"
       :key="section.id"
       class="bg-white border border-gray-100 rounded-3xl p-4 shadow-sm active:scale-[0.99] transition"
     >

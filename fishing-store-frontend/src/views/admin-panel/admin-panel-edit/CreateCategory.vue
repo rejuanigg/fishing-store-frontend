@@ -23,17 +23,33 @@ async function onSubmit(){
 
 <template>
 
-  <div class="min-h-screen">
-    <form @submit.prevent="onSubmit" class="border-2 border-emerald-600 p-5 flex flex-col gap-5 rounded-lg">
-      <label class="text-emerald-900 font-semibold">Nombre</label>
-      <input v-model="name" placeholder="Introduce el nombre de seccion" class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg" type="text">
-      <select
-            class="p-2 min-h-[44px] bg-emerald-50 border border-emerald-600 rounded-lg"
-            v-model="sectionId" >
-              <option v-for="section in sections" :value="section.id">{{ section.name }}</option>
-      </select>
-      <button class="bg-emerald-600 rounded-lg py-2 text-emerald-100 font-semibold">Add</button>
-      <span class="text-center border-2 border-emerald-600 rounded-lg py-2 text-emerald-900 font-semibold">Ir a mis secciones</span>
-    </form>
+  <div class="min-h-screen flex flex-col">
+
+    <div class="px-5 pt-6 pb-20 flex flex-col gap-8">
+      <section class="flex flex-col gap-2">
+        <h1 class="text-2xl font-bold text-emerald-950">Creá una categoria</h1>
+        <p class="text-sm leading-6 text-gray-500">Elige una seccion y crea un nombre para tu nueva seccion</p>
+      </section>
+
+
+      <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
+        <div class="flex flex-col gap-2">
+          <label class="text-emerald-900 font-semibold">Nombre</label>
+          <input v-model="name" placeholder="Introduce el nombre de   seccion" class="p-2 min-h-[44px] bg-emerald-50 border   border-emerald-600 rounded-lg" type="text">
+        </div>
+
+        <div class="flex flex-col gap-2">
+
+          <label class="text-emerald-900 font-semibold">Seccion</label>
+          <select
+                class="p-2 min-h-[44px] bg-emerald-50 border  border-emerald-600 rounded-lg"
+                v-model="sectionId" >
+                  <option v-for="section in sections" :value="section.  id">{{ section.name }}</option>
+          </select>
+        </div>
+
+        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white  text-sm font-semibold active:scale-[0.98] transition">Guardar</button>
+      </form> 
+    </div>
   </div>
 </template>
