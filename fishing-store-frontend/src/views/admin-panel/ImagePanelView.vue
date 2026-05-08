@@ -46,26 +46,41 @@ const previewImage = computed(()=>{
 
 <template>
 
-  <div class="min-h-screen">
-    <form @submit.prevent="createFormData" class="border-b border-t border-emerald-600 p-5 flex flex-col gap-5">
+  <div class="min-h-screen pb-28">
 
-      <input class=" bg-emerald-100 h-50 w-50 border-3 border-dashed border-emerald-500 rounded-xl"
-        @change="file = $event.target.files"
-        type="file"
-        multiple>
-      <button class="bg-emerald-600 rounded-lg py-2 text-emerald-100 font-semibold">Agregar Producto</button>
-    </form>
+    <section class="px-5 pt-6 flex flex-col gap-5">
 
-  <main class="mt-20 px-20 pb-30 flex-1 flex items-start justify-center">
-    <div class="w-full max-w-[360px]">
-      <ProductCard
-    v-if="previewProduct" :product="previewProduct"
-    />
-    </div>
-  </main>
+      <div class="flex flex-col gap-2">
+        <h1 class="text-2xl font-bold text-emerald-950">Imágenes del Producto</h1>
+        <p class="text-sm leading-6 text-gray-500">Subí y organizá las imágenes visibles dentro de la tienda.</p>
+      </div>
+
+      <form @submit.prevent="createFormData" class="flex flex-col gap-5">
+
+        <label class="h-52 rounded-3xl border-2 border-dashed border-emerald-300 bg-emerald-50 flex flex-col items-center justify-center text-center px-6 cursor-pointer active:scale-[0.99] transition">
+          <span class="text-4xl text-emerald-500">+</span>
+          <span class="mt-3 text-sm font-semibold text-emerald-900">Subir imágenes</span>
+          <p class="mt-1 text-xs leading-5 text-gray-500">PNG, JPG o WEBP</p>
+
+          <input class="hidden" @change="file = $event.target.files" type="file" multiple>
+        </label>
+
+        <button class="h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
+          Guardar imágenes
+        </button>
+
+      </form>
+
+    </section>
+
+    <main class="px-5 pt-8 flex justify-center">
+
+      <div class="w-full max-w-[360px]">
+        <ProductCard v-if="previewProduct" :product="previewProduct" />
+      </div>
+
+    </main>
 
   </div>
-
-
 
 </template>

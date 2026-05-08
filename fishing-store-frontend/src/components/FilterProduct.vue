@@ -19,27 +19,69 @@ const filterCatBySec = computed(()=>{
 
 <template>
 
-  <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4 max-h-[70vh]">
+  <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-5 pb-8 max-h-[75vh] overflow-y-auto shadow-2xl flex flex-col gap-6">
 
-    <h3 class="font-semibold mb-4">Filtros</h3>
+    <div class="w-14 h-1.5 rounded-full bg-gray-200 mx-auto"></div>
 
-    <div class="flex flex-col gap-2 mt-6">
-      <p class="font-semibold text-emerald-800 text-xl">Tipo de producto</p>
-      <select class="border-2 p-2 bg-emerald-100 text-emerald-900 border-emerald-600 rounded-lg" v-model="selectedSection">
-        <option value="">Cañas de pescar, Reels, Tanzas, etc...</option>
-        <option :value="section.id" v-for="section in sections">{{ section.name }}</option>
-      </select>
-      <ul class="mb-6 flex flex-col px-5 gap-5 bg-emerald-50">
-        <li class="p-2" @click="$emit('sendCat', categories.id)" v-for="categories in filterCatBySec">{{ categories.name }}</li>
-      </ul>
+    <div class="flex items-center justify-between">
+
+      <div class="flex flex-col">
+        <h3 class="text-lg font-bold text-emerald-950">Filtros</h3>
+        <p class="text-sm text-gray-500">Encontrá productos más rápido.</p>
+      </div>
+
+      <button @click="$emit('toggleClose')" class="h-10 w-10 rounded-2xl bg-gray-100 text-gray-500 text-lg font-semibold active:scale-95 transition">
+        ×
+      </button>
+
     </div>
 
+    <div class="flex flex-col gap-3">
 
+      <label class="text-sm font-semibold text-emerald-900">
+        Tipo de producto
+      </label>
 
+      <select v-model="selectedSection" class="h-12 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm text-emerald-950 outline-none">
 
-    <div class="">
-      <button @click="$emit('viewAll')" class="w-1/2 border rounded-lg py-2">Ver todo</button>
-      <button @click="$emit('toggleClose')" class="w-1/2 bg-emerald-500 text-white rounded-lg py-2">Ok</button>
+        <option value="">
+          Seleccionar sección
+        </option>
+
+        <option v-for="section in sections" :key="section.id" :value="section.id">
+          {{ section.name }}
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="flex flex-col gap-3">
+
+      <span class="text-sm font-semibold text-emerald-900">
+        Categorías
+      </span>
+
+      <div class="flex flex-wrap gap-2">
+
+        <button v-for="category in filterCatBySec" :key="category.id" @click="$emit('sendCat', category.id)" class="px-4 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-medium active:scale-95 transition">
+          {{ category.name }}
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="flex items-center gap-3 pt-2">
+
+      <button @click="$emit('viewAll')" class="flex-1 h-12 rounded-2xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold active:scale-95 transition">
+        Ver todo
+      </button>
+
+      <button @click="$emit('toggleClose')" class="flex-1 h-12 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-95 transition">
+        Aplicar
+      </button>
+
     </div>
 
   </div>

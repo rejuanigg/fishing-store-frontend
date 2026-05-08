@@ -47,27 +47,51 @@ console.log(products.value)
 
 <template>
 
-  <NavF :active="false"></NavF>
+  <div class="min-h-screen pb-28">
 
-  <header class="p-4 space-y-3">
-    <SearchBar v-model="searchValue"></SearchBar>
-    <div class="flex gap-2">
-      <button @click="toggleOpen" class="flex-1 min-h-[44px] bg-emerald-500 text-white rounded-lg">Filtrar</button>
-      <button class="flex-1 min-h-[44px] border border-emerald-300 rounded-lg">Ordenar</button>
+    <header class="sticky top-16 z-30 bg-white/90 backdrop-blur-md border-b border-gray-100">
+
+      <section class="px-5 py-4 flex flex-col gap-4">
+
+        <SearchBar v-model="searchValue"></SearchBar>
+
+        <div class="flex items-center gap-3">
+
+          <button @click="toggleOpen" class="flex-1 h-11 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
+            Filtrar
+          </button>
+
+          <button class="flex-1 h-11 rounded-2xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold active:scale-[0.98] transition">
+            Ordenar
+          </button>
+
+        </div>
+
+      </section>
+
+    </header>
+
+    <main class="px-5 pt-6 pb-10 grid grid-cols-2 gap-4">
+
+      <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" @add-cart="addCartItem" />
+
+    </main>
+
+    <div v-if="toggle" class="fixed inset-0 z-50">
+
+      <button @click="toggleClose" class="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></button>
+
+      <div class="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl p-5 z-10 animate-slide-up">
+
+        <FilterProduct @send-cat="getSelect" @view-all="viewAll" @toggle-close="toggleClose" />
+
+      </div>
+
     </div>
-  </header>
 
-  <main class="p-4 grid grid-cols-2  gap-4 min-h-screen">
-    <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" @add-cart="addCartItem"/>
-  </main>
-
-  <div class="fixed inset-0 z-50" v-if="toggle === true">
-    <div class="absolute inset-0 bg-black/30"></div>
-    <FilterProduct @send-cat="getSelect" @view-all="viewAll" @toggle-close="toggleClose"/>
   </div>
 
 </template>
-
 
 <style scoped>
 

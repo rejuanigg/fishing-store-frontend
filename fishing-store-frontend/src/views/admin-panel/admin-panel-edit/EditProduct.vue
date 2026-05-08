@@ -101,129 +101,165 @@ const actualStock = ref(1);
 const upStock = () => {actualStock.value++}
 const downStock = () => {actualStock.value--}
 
+//Cambiar de pestañas
+
+const tab = ref('product')
+
 </script>
 
 <template>
+<div class="w-full bg-gray-100 rounded-2xl p-1 flex items-center gap-1">
 
-<div v-if="product" class="min-h-screen flex flex-col">
-  <div class="px-5 pt-6 pb-32 flex flex-col gap-8">
-    <section class="flex flex-col gap-2">
-      <h1 class="text-2xl font-bold text-emerald-950">
-        Editar producto
-      </h1>
+  <button
+    @click="tab = 'product'"
+    class="flex-1 h-11 rounded-xl text-sm font-semibold transition"
+    :class="tab === 'product'
+      ? 'bg-emerald-500 text-white shadow-sm'
+      : 'text-gray-500'"
+  >
+    Producto
+  </button>
 
-      <p class="text-sm leading-6 text-gray-500">
-        Modificá la información visible
-        del producto dentro de la tienda.
-      </p>
-    </section>
+  <button
+    @click="tab = 'images'"
+    class="flex-1 h-11 rounded-xl text-sm font-semibold transition"
+    :class="tab === 'images'
+      ? 'bg-emerald-500 text-white shadow-sm'
+      : 'text-gray-500'"
+  >
+    Imágenes
+  </button>
 
-    <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">Nombre</label>
-
-        <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
-      </div>
+</div>
 
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Precio
-        </label>
+<div v-if="tab==='product'">
 
-        <input v-model="price" type="text" placeholder="$ 120000"
-        class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
-      </div>
+  <div v-if="product" class="min-h-screen flex flex-col">
+    <div class="px-5 pt-6 pb-32 flex flex-col gap-8">
+      <section class="flex flex-col gap-2">
+        <h1 class="text-2xl font-bold text-emerald-950">
+          Editar producto
+        </h1>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Descripción
-        </label>
-
-        <textarea v-model="description" placeholder="Describe el producto..."
-        class="min-h-[140px] p-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none resize-none focus:border-emerald-500">
-        </textarea>
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Sección
-        </label>
-
-        <select v-model="selectedSection" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
-          <option v-for="section in sections" :key="section.id" :value="section.id">{{ section.name }}</option>
-        </select>
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Categoría
-        </label>
-
-        <select v-model="category" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500" >
-          <option v-for="category in filterCatBySec" :value="category" >
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
-
-      <section class="flex flex-col gap-3">
-
-        <div class="flex flex-col gap-3">
-          <h2 class="text-lg font-bold text-emerald-950">
-            Inventario
-          </h2>
-
-          <p class="text-sm text-gray-500">
-            Gestioná el stock disponible.
-          </p>
-
-          <div class="w-full flex text-xl items-center justify-center gap-5">
-            <span @click="downStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">-</span>
-            <span>{{actualStock}}</span>
-            <span @click="upStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">+</span>
-          </div>
-        </div>
-
+        <p class="text-sm leading-6 text-gray-500">
+          Modificá la información visible
+          del producto dentro de la tienda.
+        </p>
       </section>
 
-      <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-        Guardar cambios
+      <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">Nombre</label>
+
+          <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
+        </div>
+
+
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Precio
+          </label>
+
+          <input v-model="price" type="text" placeholder="$ 120000"
+          class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Descripción
+          </label>
+
+          <textarea v-model="description" placeholder="Describe el producto..."
+          class="min-h-[140px] p-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none resize-none focus:border-emerald-500">
+          </textarea>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Sección
+          </label>
+
+          <select v-model="selectedSection" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
+            <option v-for="section in sections" :key="section.id" :value="section.id">{{ section.name }}</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Categoría
+          </label>
+
+          <select v-model="category" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500" >
+            <option v-for="category in filterCatBySec" :value="category" >
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+
+        <section class="flex flex-col gap-3">
+
+          <div class="flex flex-col gap-3">
+            <h2 class="text-lg font-bold text-emerald-950">
+              Inventario
+            </h2>
+
+            <p class="text-sm text-gray-500">
+              Gestioná el stock disponible.
+            </p>
+
+            <div class="w-full flex text-xl items-center justify-center gap-5">
+              <span @click="downStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">-</span>
+              <span>{{actualStock}}</span>
+              <span @click="upStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">+</span>
+            </div>
+          </div>
+
+        </section>
+
+        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
+          Guardar cambios
+        </button>
+
+      </form>
+
+      <section class="flex flex-col gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-emerald-950">Vista previa</h2>
+          <p class="text-sm text-gray-500 mt-1"> Así visualizarán el producto los clientes.</p>
+        </div>
+
+        <div class="flex justify-center">
+          <div class="w-full max-w-[320px]">
+            <ProductCard :product="preview" />
+          </div>
+        </div>
+      </section>
+
+      <RouterLink to="/admin-panel/products" class="h-13 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700 text-sm font-semibold flex items-center justify-center">
+        Ver todos los productos
+      </RouterLink>
+
+      <button type="button" @click="openModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
+        Eliminar producto
       </button>
 
-    </form>
+    </div>
 
-    <section class="flex flex-col gap-4">
-      <div>
-        <h2 class="text-lg font-bold text-emerald-950">Vista previa</h2>
-        <p class="text-sm text-gray-500 mt-1"> Así visualizarán el producto los clientes.</p>
-      </div>
-
-      <div class="flex justify-center">
-        <div class="w-full max-w-[320px]">
-          <ProductCard :product="preview" />
-        </div>
-      </div>
-    </section>
-
-    <RouterLink to="/admin-panel/products" class="h-13 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700 text-sm font-semibold flex items-center justify-center">
-      Ver todos los productos
-    </RouterLink>
-
-    <button type="button" @click="openModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
-      Eliminar producto
-    </button>
+    <Modal
+      v-if="isModalVisible"
+      text="Estas por borrar un producto, ¿Desea continuar?"
+      type="actionCaution"
+      action="Eliminar"
+      @close-modal="closeModal"
+      @action="handleDelete"
+    />
 
   </div>
+</div>
 
-  <Modal
-    v-if="isModalVisible"
-    text="Estas por borrar un producto, ¿Desea continuar?"
-    type="actionCaution"
-    action="Eliminar"
-    @close-modal="closeModal"
-    @action="handleDelete"
-  />
+
+<div v-else>
 
 </div>
 
