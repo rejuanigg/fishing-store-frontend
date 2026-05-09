@@ -147,12 +147,11 @@ const handleUpdate = (evento, id, index) =>{
 }
 
 //Eliminacion
-const confirmDelete = ref(null)
+const onDelete = ref(false)
 
-async function handleImgDelete(id){
+async function handleImgDelete(id, index){
   await api.delete(`/images/${id}`)
-  product.value.images.splice(confirmDelete.value,1)
-  confirmDelete.value = null
+  product.value.images.splice(index,1)
 }
 
 
@@ -347,24 +346,24 @@ async function handleImgDelete(id){
 
             <div class="flex items-center gap-2">
 
-              <label v-if="confirmDelete === null" class="flex-1 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-xs font-semibold flex items-center justify-center cursor-pointer active:scale-95 transition">
+              <label v-if="onDelete === false" class="flex-1 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-xs font-semibold flex items-center justify-center cursor-pointer active:scale-95 transition">
                 Reemplazar
                 <input type="file" @change="handleUpdate($event, img.id, index)" class="hidden">
               </label>
 
-              <div v-if="confirmDelete === index" class="flex items-center gap-2 flex-1">
+              <div v-if="onDelete === true" class="flex items-center gap-2 flex-1">
 
-                <button @click="confirmDelete = null" class="flex-1 h-10 rounded-2xl bg-gray-100 text-gray-600 text-xs font-semibold active:scale-95 transition">
+                <button @click="onDelete = false" class="flex-1 h-10 rounded-2xl bg-gray-100 text-gray-600 text-xs font-semibold active:scale-95 transition">
                   Cancelar
                 </button>
 
-                <button @click="handleImgDelete(img.id)" class="flex-1 h-10 rounded-2xl bg-red-500 text-white text-xs font-semibold active:scale-95 transition">
+                <button @click="handleImgDelete(img.id, index)" class="flex-1 h-10 rounded-2xl bg-red-500 text-white text-xs font-semibold active:scale-95 transition">
                   Confirmar
                 </button>
 
               </div>
 
-              <button v-else @click="confirmDelete = index" class="h-10 w-10 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center active:scale-95 transition">
+              <button v-if="onDelete===false" @click="onDelete = true" class="h-10 w-10 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center active:scale-95 transition">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673A2.25 2.25 0 0 1 15.916 21H8.084a2.25 2.25 0 0 1-2.244-1.327L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0A48.11 48.11 0 0 1 8.25 5.5m3.75 0V4.75A2.25 2.25 0 0 1 14.25 2.5h.75A2.25 2.25 0 0 1 17.25 4.75V5.5m-5.25 0h5.25" />
