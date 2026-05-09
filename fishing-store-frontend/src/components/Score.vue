@@ -15,7 +15,6 @@ const selectedScore = ref(0);
 
 const select = (value)=>{
   selectedScore.value = value
-  console.log(selectedScore.value)
 }
 
 watch(selectedScore, async(newScore)=>{

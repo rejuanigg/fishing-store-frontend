@@ -7,8 +7,6 @@ import AllProductsView from '@/views/public/AllProductsView.vue'
 import RegisterView from '@/views/public/RegisterView.vue'
 import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
-import ProductView from '@/views/public/ProductView.vue'
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,11 +31,12 @@ const router = createRouter({
       path:'/admin-panel',
       component:AdminPanel,
       meta: {
-        layout:'admin'
+        layout:'admin',
+        requiresAdmin:true
       },
       children: [
         {
-          path:'',
+          path:'dashboard',
           name:'admin-home',
           component: () => import ('@/views/admin-panel/PrincipalAdminPanel.vue')
         },
@@ -48,12 +47,12 @@ const router = createRouter({
         },
         {
           path:'sections/create',
-          name:'section-create',
+          name:'admin-section-create',
           component: () => import('@/views/admin-panel/admin-panel-edit/CreateSection.vue')
         },
         {
           path:'sections/:id/edit',
-          name:'section-edit',
+          name:'admin-section-edit',
           component: () => import('@/views/admin-panel/admin-panel-edit/EditSection.vue')
         },
         {
@@ -63,12 +62,12 @@ const router = createRouter({
         },
         {
           path:'categories/create',
-          name:'category-create',
+          name:'admin-category-create',
           component: () => import('@/views/admin-panel/admin-panel-edit/CreateCategory.vue')
         },
         {
           path:'categories/:id/edit',
-          name:'category-edit',
+          name:'admin-category-edit',
           component:() => import('@/views/admin-panel/admin-panel-edit/EditCategory.vue')
         },
         {
@@ -78,23 +77,18 @@ const router = createRouter({
         },
         {
           path:'products/create',
-          name:'product-create',
+          name:'admin-product-create',
           component: () => import('@/views/admin-panel/admin-panel-edit/CreateProduct.vue')
         },
         {
-          path:'products/:id/image',
-          name:'product-image',
+          path:'products/:id/images',
+          name:'admin-product-image',
           component: () => import('@/views/admin-panel/ImagePanelView.vue')
         },
         {
           path:'products/:id/edit',
-          name:'products-edit',
+          name:'admin-products-edit',
           component:()=> import('@/views/admin-panel/admin-panel-edit/EditProduct.vue')
-        },
-        {
-          path:'products/stocks',
-          name:'product-stock',
-          component:()=>import('@/views/admin-panel/StockPanel.vue')
         }
       ]
     },
@@ -103,8 +97,7 @@ const router = createRouter({
 
 router.beforeEach((to, from)=>{
   const auth = useAuthStore();
-
-  if (to.path.startsWith('/admin-panel') && !auth.advancedAccess){
+  if (to.meta.requiresAdmin && !auth.advancedAccess){
     return('/');
   }
 

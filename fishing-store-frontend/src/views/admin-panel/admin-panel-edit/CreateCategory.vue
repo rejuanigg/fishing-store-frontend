@@ -15,7 +15,7 @@ async function onSubmit(){
     section_id: sectionId.value
   })
 
-  return router.push('/admin-panel')
+  return router.push('/admin-panel/dashboard')
 }
 
 </script>

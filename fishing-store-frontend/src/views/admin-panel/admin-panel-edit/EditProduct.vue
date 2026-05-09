@@ -102,8 +102,59 @@ const upStock = () => {actualStock.value++}
 const downStock = () => {actualStock.value--}
 
 //Cambiar de pestañas
-
 const tab = ref('product')
+
+//Subir imagen
+const file = ref(null)
+
+const createFormData = async()=>{
+  if(!file.value || file.value.length === 0) return null;
+
+  for (const image of file.value){
+    const formData = new FormData();
+    formData.append('product_id', productId);
+    formData.append('image', image);
+    const response = await api.post('/images', formData)
+    product.value.images.push(response.data.data);
+  }
+}
+
+const handleUpload = (evento) =>{
+  file.value = evento.target.files;
+  createFormData();
+}
+
+//Actualizar img
+
+const updateFile = ref(null)
+
+const uploadFormData = async(id, index)=>{
+  if(!updateFile.value || updateFile.value.length === 0) return null;
+
+  for (const image of updateFile.value){
+    const formData = new FormData();
+    formData.append('product_id', productId);
+    formData.append('image', image);
+    formData.append('_method', 'PUT')
+    const response = await api.post((`/images/${id}`), formData)
+    product.value.images[index] = response.data.data
+  }
+}
+
+const handleUpdate = (evento, id, index) =>{
+  updateFile.value = evento.target.files;
+  uploadFormData(id, index);
+}
+
+//Eliminacion
+const confirmDelete = ref(null)
+
+async function handleImgDelete(id){
+  await api.delete(`/images/${id}`)
+  product.value.images.splice(confirmDelete.value,1)
+  confirmDelete.value = null
+}
+
 
 </script>
 
@@ -259,8 +310,97 @@ const tab = ref('product')
 </div>
 
 
-<div v-else>
+<div v-else class="min-h-screen flex flex-col">
 
+  <div class="px-5 pt-6 pb-32 flex flex-col gap-6">
+
+    <div class="flex flex-col gap-2">
+
+      <h1 class="text-2xl font-bold text-emerald-950">
+        Imágenes del producto
+      </h1>
+
+      <p class="text-sm leading-6 text-gray-500">
+        Administrá, reemplazá y eliminá las imágenes visibles en la tienda.
+      </p>
+
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+
+      <div v-for="(img, index) in product.images" :key="index" @click="item = index" class="bg-white border rounded-[28px] p-3 flex flex-col gap-3 shadow-sm transition cursor-pointer" :class="item === index ? 'border-emerald-500 shadow-emerald-100 scale-[1.01]' : 'border-gray-100'">
+
+        <div class="relative">
+          <img :src="img.image" class="h-40 w-full object-cover rounded-[20px]" />
+
+          <span v-if="index === 0" class="absolute top-3 left-3 h-7 px-3 rounded-full bg-emerald-500 text-white text-[10px] font-semibold tracking-wide flex items-center">
+            Principal
+          </span>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <div class="flex flex-col">
+            <span class="text-sm font-semibold text-emerald-950">
+              Imagen {{ index + 1 }}
+            </span>
+          </div>
+
+            <div class="flex items-center gap-2">
+
+              <label v-if="confirmDelete === null" class="flex-1 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-xs font-semibold flex items-center justify-center cursor-pointer active:scale-95 transition">
+                Reemplazar
+                <input type="file" @change="handleUpdate($event, img.id, index)" class="hidden">
+              </label>
+
+              <div v-if="confirmDelete === index" class="flex items-center gap-2 flex-1">
+
+                <button @click="confirmDelete = null" class="flex-1 h-10 rounded-2xl bg-gray-100 text-gray-600 text-xs font-semibold active:scale-95 transition">
+                  Cancelar
+                </button>
+
+                <button @click="handleImgDelete(img.id)" class="flex-1 h-10 rounded-2xl bg-red-500 text-white text-xs font-semibold active:scale-95 transition">
+                  Confirmar
+                </button>
+
+              </div>
+
+              <button v-else @click="confirmDelete = index" class="h-10 w-10 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center active:scale-95 transition">
+
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673A2.25 2.25 0 0 1 15.916 21H8.084a2.25 2.25 0 0 1-2.244-1.327L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0A48.11 48.11 0 0 1 8.25 5.5m3.75 0V4.75A2.25 2.25 0 0 1 14.25 2.5h.75A2.25 2.25 0 0 1 17.25 4.75V5.5m-5.25 0h5.25" />
+                </svg>
+
+              </button>
+
+            </div>
+          </div>
+      </div>
+
+      <label class="bg-emerald-50 border-2 border-dashed border-emerald-200 rounded-[28px] p-5 flex flex-col items-center justify-center gap-4 min-h-[260px] cursor-pointer active:scale-[0.98] transition">
+
+        <div class="h-14 w-14 rounded-2xl bg-white flex items-center justify-center shadow-sm text-emerald-700">
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+
+        </div>
+
+        <div class="flex flex-col items-center gap-1 text-center">
+          <span class="text-sm font-semibold text-emerald-900">
+            Agregar imagen
+          </span>
+
+          <span class="text-xs text-emerald-600">
+            JPG, PNG o WEBP
+          </span>
+        </div>
+
+        <input @change="handleUpload($event)" type="file" class="hidden" multiple />
+
+      </label>
+    </div>
+  </div>
 </div>
 
 </template>

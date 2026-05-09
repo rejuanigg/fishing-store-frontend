@@ -18,11 +18,10 @@ const createFormData = async() => {
     const formData = new FormData()
     formData.append('product_id', productId)
     formData.append('image', image);
-    console.log(image)
     await api.post('/images', formData)
   }
 
-  return router.push('/admin-panel')
+  return router.push('/admin-panel/dashboard')
 }
 
 onMounted(async()=>{

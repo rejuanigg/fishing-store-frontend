@@ -9,7 +9,7 @@ const router = useRouter();
 const {sections} = useCategory();
 
 const toEdit = (id) => {
-  return router.push({name:'section-edit', params:{ id:id }})
+  return router.push({name:'admin-section-edit', params:{ id:id }})
 }
 
 const searchValue = ref('')

@@ -16,28 +16,29 @@ const logout = () => {
 
 <template>
 
-  <div class="w-full flex items-center">
+  <div class="w-full flex items-center gap-3">
 
-    <img class="h-14 w-14 object-contain shrink-0" src="../assets/icon-b.png"></img>
+    <RouterLink to="/" class="shrink-0 active:scale-95 transition">
+      <img class="h-14 w-14 object-contain" src="../assets/icon-b.png" />
+    </RouterLink>
 
     <div class="ml-auto flex items-center gap-2">
-      <div v-if="authStore.advancedAccess" class="flex items-center gap-2 py-3 px-5 bg-transparent   border border-emerald-100 rounded-2xl">
-        <RouterLink to="/admin-panel">
-          <Settings />
-        </RouterLink>
-      </div>
 
-      <div class="px-4 py-2 rounded-lg bg-emerald-500 text-white text-sm font-medium active:scale-95 transition">
+      <RouterLink v-if="authStore.advancedAccess" to="/admin-panel/dashboard" class="h-11 w-11 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 active:scale-95 transition">
+        <Settings class="w-5 h-5" />
+      </RouterLink>
 
-          <RouterLink v-if="!authStore.isLoggedIn" to="/login">Login</RouterLink>
-          <button v-else @click="logout">Cerrar Sesíon</button>
+      <RouterLink v-if="!authStore.isLoggedIn" to="/login" class="h-11 px-5 rounded-2xl bg-emerald-500 flex items-center justify-center text-white text-sm font-semibold active:scale-95 transition">
+        Login
+      </RouterLink>
 
-      </div>
+      <button v-else @click="logout" class="h-11 px-5 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-95 transition">
+        Cerrar sesión
+      </button>
+
     </div>
+
   </div>
-
-
-
 
 </template>
 

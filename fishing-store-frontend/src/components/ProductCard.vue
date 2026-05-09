@@ -22,7 +22,7 @@ const toProductView = (id) => {
 };
 
 const toEdit = (id) => {
-  return router.push({name:'products-edit', params:{ id:id }})
+  return router.push({name:'admin-products-edit', params:{ id:id }})
 }
 
 const {average} = useAverage(props.product.califications)

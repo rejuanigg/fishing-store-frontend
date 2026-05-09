@@ -15,7 +15,7 @@ const sectionName = (sectionId) => {
 }
 
 const toEdit = (id) => {
-  return router.push({name:'category-edit', params:{ id:id }})
+  return router.push({name:'admin-category-edit', params:{ id:id }})
 }
 
 const searchValue = ref('')

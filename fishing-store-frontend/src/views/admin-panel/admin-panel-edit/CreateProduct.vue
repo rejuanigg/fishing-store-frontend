@@ -34,7 +34,7 @@ async function onSubmit(){
     quantity:actualStock.value
   })
 
-  return router.push(`/admin-panel/products/${response.data.data.id}/image`)
+  return router.push(`/admin-panel/products/${response.data.data.id}/images`)
 }
 
 const preview = computed(()=>{
