@@ -9,12 +9,22 @@ import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 import OrdersView from '@/views/public/OrdersView.vue'
 import OrderDetailView from '@/views/public/OrderDetailView.vue'
+import UserView from '@/views/public/UserView.vue'
+import EditUserView from '@/views/public/EditUserView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {path:'/login', component:LoginView, meta:{layout:'focus'}},
     {path:'/register', component:RegisterView, meta:{layout:'focus'}},
+    {path:'/user',
+      name:'user-profile',
+      component:UserView,
+      meta:{layout:'focus'}},
+    {path:'/user/edit',
+      component:EditUserView,
+      name:'user-edit',
+      meta:{layout:'focus'}},
     {path:'/', component:HomeView},
     {path:'/cart', component:CartView, meta:{layout:'focus'}},
     {

@@ -1,7 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import { routerKey, RouterLink, useRouter } from 'vue-router';
 import CartIcon from './CartIcon.vue';
-import { ArrowRightLeft, FishingRod } from '@lucide/vue';
+import { ArrowRightLeft, FishingHook, FishingRod, User } from '@lucide/vue';
 
 const props = defineProps({
   active: {
@@ -22,7 +22,7 @@ const props = defineProps({
     </RouterLink>
 
     <RouterLink to="/products" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition">
-      <FishingRod class="w-[22px] h-[22px]" />
+      <FishingHook class="w-[22px] h-[22px]" />
       <span class="text-[11px] font-medium">Productos</span>
     </RouterLink>
 
@@ -36,10 +36,10 @@ const props = defineProps({
       <span class="text-[11px] font-medium">Ordenes</span>
     </RouterLink>
 
-    <a href="https://wa.me/5490000000000" target="_blank" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="m3 21 1.9-5.7a9 9 0 1 1 3.8 3.8z"/></svg>
-      <span class="text-[11px] font-medium">WhatsApp</span>
-    </a>
+    <RouterLink to="/user" @click="toProfile" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition">
+      <User />
+      <span class="text-[11px] font-medium">Usuario</span>
+    </RouterLink>
 
   </div>
 

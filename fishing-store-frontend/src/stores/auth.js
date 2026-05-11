@@ -6,7 +6,9 @@ export const useAuthStore = defineStore('login',{
   state: () => ({
     token: localStorage.getItem('token') || '',
     role: '',
-    id: null
+    id: null,
+    name: '',   
+    email: '',
   }),
   getters:{
     isAdmin: (state) => state.role === 'owner',
@@ -22,6 +24,8 @@ export const useAuthStore = defineStore('login',{
       const response = await api.get('/me')
       this.role = response.data.role
       this.id = response.data.id
+      this.name = response.data.name
+      this.email = response.data.email
     }
     ,
     logout(){
