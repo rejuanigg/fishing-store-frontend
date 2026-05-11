@@ -3,11 +3,15 @@ import api from '@/services/api';
 import { cartStore } from '@/stores/cart';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 const cart = cartStore();
+const router = useRouter();
 
 function confirmOrder(){
   api.post('/orders', { products: cart.product.map(p => ({ product_id: p.id, quantity: p.quantity})) })
+  cart.delete()
+  return router.push('/orders')
 }
 
 const formatedPriceValue = (value) => {

@@ -40,7 +40,6 @@ function addCartItem(product) {
 
 const viewAll = () =>{ return selectedCategory.value = null}
 
-console.log(products.value)
 </script>
 
 

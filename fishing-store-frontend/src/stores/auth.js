@@ -3,22 +3,27 @@ import { defineStore } from "pinia";
 import { cartStore } from "./cart";
 
 export const useAuthStore = defineStore('login',{
-  state: () => (
-    {
-      token: localStorage.getItem('token') || '',
-      role: localStorage.getItem('role') || '' 
-    }
-  ),
+  state: () => ({
+    token: localStorage.getItem('token') || '',
+    role: '',
+    id: null
+  }),
   getters:{
     isAdmin: (state) => state.role === 'owner',
     advancedAccess: (state) => state.role === 'employed' || state.role === 'owner',
     isLoggedIn: (state) => state.token !== ""
   },
   actions: {
-    login(token, role){
+    login(token, id){
       this.token = token
-      this.role = role;
+      this.id = id
     },
+    async fetchMe (){
+      const response = await api.get('/me')
+      this.role = response.data.role
+      this.id = response.data.id
+    }
+    ,
     logout(){
 
       const cart = cartStore()
@@ -26,10 +31,9 @@ export const useAuthStore = defineStore('login',{
       api.post('/logout');
 
       this.token =  "",
-      this.role = ""
+      this.role = " "
 
       localStorage.removeItem('token');
-      localStorage.removeItem('role')
 
       cart.delete();
     },

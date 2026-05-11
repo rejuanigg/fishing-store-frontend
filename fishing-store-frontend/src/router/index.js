@@ -7,6 +7,8 @@ import AllProductsView from '@/views/public/AllProductsView.vue'
 import RegisterView from '@/views/public/RegisterView.vue'
 import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
+import OrdersView from '@/views/public/OrdersView.vue'
+import OrderDetailView from '@/views/public/OrderDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,8 +27,19 @@ const router = createRouter({
       name:'product-view',
       component: () => import('@/views/public/ProductView.vue'),
       meta: {layout:'shop'}
-    }
-    ,
+    },
+    {
+      path:'/orders',
+      name:'orders',
+      component: OrdersView,
+      meta:{layout:'focus'}
+    },
+    {
+      path:'/orders/:id',
+      name:'order-details',
+      component: OrderDetailView,
+      meta:{layout:'focus'}
+    },
     {
       path:'/admin-panel',
       component:AdminPanel,

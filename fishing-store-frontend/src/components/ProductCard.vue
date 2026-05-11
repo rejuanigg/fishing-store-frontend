@@ -40,7 +40,7 @@ const formatedPriceValue = (value) => {
     <div @click="toProductView(props.product.id)">
       <div class="bg-emerald-100 h-28 rounded-lg mb-2">
           <img v-if="props.product.images?.length" :src="props.product.images[0].image" class="w-full h-full rounded-lg border border-emerald-200 object-cover">
-          <span v-else>NADA</span>
+          <img v-else src="../assets/1.png" class="w-full h-full rounded-lg border border-emerald-200 object-cover">
       </div>
       <h3 class="text-sm font-semibold text-emerald-700">{{ props.product.name }}</h3>
       <p class="text-sm text-emerald-600">⭐ {{ average }}</p>
@@ -64,3 +64,4 @@ const formatedPriceValue = (value) => {
 
 
 </style>
+

@@ -4,9 +4,17 @@ import { RouterView } from 'vue-router';
 import NavF from './components/NavF.vue';
 import Nav from './components/Nav.vue';
 import AdminNav from './components/AdminNav.vue';
+import { useAuthStore } from './stores/auth';
+import { onMounted } from 'vue';
 
 const route = useRoute();
+const authStore = useAuthStore()
 
+onMounted(async() => {
+  if(authStore.token){
+    await authStore.fetchMe()
+  }
+})
 
 </script>
 

@@ -16,9 +16,8 @@ async function onSubmit(){
     password:password.value,
   })
 
-  authStore.login(response.data.token, response.data.role);
+  authStore.login(response.data.token, response.data.id);
   localStorage.setItem('token', response.data.token);
-  localStorage.setItem('role', response.data.role);
   return router.push('/')
 }
 

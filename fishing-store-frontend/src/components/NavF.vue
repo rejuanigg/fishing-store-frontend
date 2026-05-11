@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import CartIcon from './CartIcon.vue';
-import { FishingRod } from '@lucide/vue';
+import { ArrowRightLeft, FishingRod } from '@lucide/vue';
 
 const props = defineProps({
   active: {
@@ -31,9 +31,9 @@ const props = defineProps({
       <span class="text-[10px] font-semibold">Carrito</span>
     </RouterLink>
 
-    <RouterLink to="/favorites" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="m12 21-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18z"/></svg>
-      <span class="text-[11px] font-medium">Favoritos</span>
+    <RouterLink to="/orders" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition">
+      <ArrowRightLeft />
+      <span class="text-[11px] font-medium">Ordenes</span>
     </RouterLink>
 
     <a href="https://wa.me/5490000000000" target="_blank" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition">

@@ -5,9 +5,9 @@ import { ChartBarStacked, PackageOpen, TableOfContents} from '@lucide/vue';
 
 const adminItems = ref([
       {
-        name:'Secciones',
-        icon:TableOfContents,
-        url:'/admin-panel/sections'
+        name:'Productos',
+        icon:PackageOpen,
+        url:'/admin-panel/products'
       },
       {
         name:'Categorias',
@@ -15,10 +15,11 @@ const adminItems = ref([
         url:'/admin-panel/categories'
       },
       {
-        name:'Productos',
-        icon:PackageOpen,
-        url:'/admin-panel/products'
+        name:'Secciones',
+        icon:TableOfContents,
+        url:'/admin-panel/sections'
       },
+
 ])
 
 
@@ -38,9 +39,9 @@ const adminItems = ref([
           <p class="text-sm leading-6 text-emerald-50">Administrá productos, categorías y órdenes desde un solo lugar.</p>
         </div>
 
-        <button class="h-12 rounded-2xl bg-white text-emerald-700 text-sm font-semibold active:scale-[0.98] transition">
+        <RouterLink to="/orders" class="flex items-center justify-center h-12 rounded-2xl bg-white text-emerald-700 text-sm font-semibold active:scale-[0.98] transition">
           Ver órdenes
-        </button>
+        </RouterLink>
 
       </div>
 

@@ -49,16 +49,19 @@ onMounted(async()=>{
 });
 
 watch(product, (actualValue) =>{
+  if (!actualValue) return
+
   name.value = actualValue.name
   description.value = actualValue.description
   price.value = actualValue.price
   actualStock.value = actualValue.stocks[0]?.quantity ?? 1
 
-  const productCat = product.value.categories[0];
+  const productCat = actualValue.categories[0];
 
-  selectedSection.value = productCat.section_id
-
-  category.value = productCat
+  if(productCat){
+    selectedSection.value = productCat.section_id
+    category.value = productCat
+  }
 
 })
 
@@ -67,7 +70,8 @@ const preview = computed(()=>{
     name:name.value,
     description:description.value,
     price:price.value,
-    categories: category.value ? [category.value] : []
+    categories: category.value ? [category.value] : [],
+    images: product.value?.images ?? []
   }
 })
 
@@ -99,13 +103,16 @@ async function handleDelete(){
 const actualStock = ref(1);
 
 const upStock = () => {actualStock.value++}
-const downStock = () => {actualStock.value--}
+const downStock = () => {
+  if(actualStock.value <= 0) return
+  actualStock.value--
+}
 
 //Cambiar de pestañas
 const tab = ref('product')
 
 //Subir imagen
-const file = ref(null)
+const file = ref([])
 
 const createFormData = async()=>{
   if(!file.value || file.value.length === 0) return null;
@@ -117,10 +124,11 @@ const createFormData = async()=>{
     const response = await api.post('/images', formData)
     product.value.images.push(response.data.data);
   }
+  file.value = []
 }
 
 const handleUpload = (evento) =>{
-  file.value = evento.target.files;
+  file.value = [...evento.target.files];
   createFormData();
 }
 
@@ -136,18 +144,19 @@ const uploadFormData = async(id, index)=>{
     formData.append('product_id', productId);
     formData.append('image', image);
     formData.append('_method', 'PUT')
-    const response = await api.post((`/images/${id}`), formData)
+
+    const response = await api.post(`/images/${id}`, formData)
     product.value.images[index] = response.data.data
   }
 }
 
 const handleUpdate = (evento, id, index) =>{
-  updateFile.value = evento.target.files;
+  updateFile.value = [...evento.target.files]
   uploadFormData(id, index);
 }
 
 //Eliminacion
-const onDelete = ref(false)
+const onDelete = ref(null)
 
 async function handleImgDelete(id, index){
   await api.delete(`/images/${id}`)
@@ -309,7 +318,7 @@ async function handleImgDelete(id, index){
 </div>
 
 
-<div v-else class="min-h-screen flex flex-col">
+<div v-else-if="product" class="min-h-screen flex flex-col">
 
   <div class="px-5 pt-6 pb-32 flex flex-col gap-6">
 
@@ -327,7 +336,7 @@ async function handleImgDelete(id, index){
 
     <div class="grid grid-cols-2 gap-4">
 
-      <div v-for="(img, index) in product.images" :key="index" @click="item = index" class="bg-white border rounded-[28px] p-3 flex flex-col gap-3 shadow-sm transition cursor-pointer" :class="item === index ? 'border-emerald-500 shadow-emerald-100 scale-[1.01]' : 'border-gray-100'">
+      <div v-for="(img, index) in product.images" :key="img.id" @click="item = index" class="bg-white border rounded-[28px] p-3 flex flex-col gap-3 shadow-sm transition cursor-pointer" :class="item === index ? 'border-emerald-500 shadow-emerald-100 scale-[1.01]' : 'border-gray-100'">
 
         <div class="relative">
           <img :src="img.image" class="h-40 w-full object-cover rounded-[20px]" />
@@ -344,16 +353,16 @@ async function handleImgDelete(id, index){
             </span>
           </div>
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 w-full">
 
-              <label v-if="onDelete === false" class="flex-1 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-xs font-semibold flex items-center justify-center cursor-pointer active:scale-95 transition">
+              <label v-if="onDelete !== index" class="flex-1 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-xs font-semibold flex items-center justify-center cursor-pointer active:scale-95 transition">
                 Reemplazar
                 <input type="file" @change="handleUpdate($event, img.id, index)" class="hidden">
               </label>
 
-              <div v-if="onDelete === true" class="flex items-center gap-2 flex-1">
+              <div v-if="onDelete === index" class="flex items-center gap-2 flex-1">
 
-                <button @click="onDelete = false" class="flex-1 h-10 rounded-2xl bg-gray-100 text-gray-600 text-xs font-semibold active:scale-95 transition">
+                <button @click="onDelete = null" class="flex-1 h-10 rounded-2xl bg-gray-100 text-gray-600 text-xs font-semibold active:scale-95 transition">
                   Cancelar
                 </button>
 
@@ -363,14 +372,13 @@ async function handleImgDelete(id, index){
 
               </div>
 
-              <button v-if="onDelete===false" @click="onDelete = true" class="h-10 w-10 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center active:scale-95 transition">
+              <button v-if="onDelete!==index" @click="onDelete = index" class="h-10 w-10 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center active:scale-95 transition">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673A2.25 2.25 0 0 1 15.916 21H8.084a2.25 2.25 0 0 1-2.244-1.327L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0A48.11 48.11 0 0 1 8.25 5.5m3.75 0V4.75A2.25 2.25 0 0 1 14.25 2.5h.75A2.25 2.25 0 0 1 17.25 4.75V5.5m-5.25 0h5.25" />
                 </svg>
 
               </button>
-
             </div>
           </div>
       </div>
