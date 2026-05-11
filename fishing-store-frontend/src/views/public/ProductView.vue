@@ -71,7 +71,8 @@ function addCartItem() {
         :key="index"
         :src="img.image"
         @click="item = index"
-        class="h-20 w-20 object-cover rounded-lg border-2 cursor-pointer shrink-0 snap-start"        :class="item === index
+        class="h-20 w-20 object-cover rounded-lg border-2 cursor-pointer shrink-0 snap-start"
+        :class="item === index
           ? 'border-emerald-500 scale-105'
           : 'border-gray-200 opacity-70'">
     </div>
@@ -106,11 +107,16 @@ function addCartItem() {
   </div>
 
 
-  <div class="bg-white/90 backdrop-blur-md w-full py-3 px-5 border-t fixed bottom-0 left-0">    <button @click="addCartItem" class="rounded-lg text-white font-medium w-full bg-emerald-500 px-5 py-4">
+  <div class="bg-white/90 backdrop-blur-md w-full py-3 px-5 border-t fixed bottom-0 left-0">
+    <button v-if="product.stocks?.[0]?.quantity > 0" @click="addCartItem" class="rounded-lg text-white font-medium w-full bg-emerald-500 px-5 py-4">
       Añadir al carrito
     </button>
+    <span v-else class="mt-2 w-full bg-gray-100 text-gray-400 py-2 rounded-lg text-sm flex justify-center font-medium">
+      Sin stock
+    </span>
   </div>
 </div>
+
 <div v-else>
   Loading PROVISORIO
 </div>
