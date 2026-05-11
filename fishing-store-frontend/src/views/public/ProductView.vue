@@ -81,7 +81,7 @@ function addCartItem() {
   <div class=" flex flex-col gap-2 p-5">
     <h2 class="text-2xl font-semibold text-emerald-900">{{ product.name }}</h2>
     <div class="flex gap-3">
-      <Score :product-id="product.id"></Score>
+      <Score :product-id="product.id" :initial-score="averageValue"></Score>
       <span>
         ({{ averageValue }})
       </span>
