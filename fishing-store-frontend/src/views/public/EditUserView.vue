@@ -1,16 +1,37 @@
 <script setup>
 import api from '@/services/api';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { onMounted, ref, watch } from 'vue';
 
+const auth = useAuthStore();
 
-const route = useRoute();
-const userId = route.params.id;
-const user = ref(null);
+const name = ref(auth.name);
+const email = ref(auth.email);
 
-const users = async () => {
-  const response = await api.get(`/users/${userId}`)
-  user.value = response.data.data
+watch(() => [auth.name, auth.email], ([newName, newEmail]) => {
+  name.value = newName
+  email.value = newEmail
+})
+
+const update = async()=>{
+  await api.patch('/edit_profile',{
+    name:name.value,
+    email:email.value
+  });
+}
+
+//Actualizar contraseña
+
+const actualPassword = ref(null);
+const newPassword = ref(null);
+const newPasswordConfirm = ref(null);
+
+const changePassword = async()=>{
+  await api.patch('/password',{
+    actual_password:actualPassword.value,
+    new_password:newPassword.value,
+    new_password_confirmation:newPasswordConfirm.value
+  })
 }
 
 
@@ -19,9 +40,9 @@ const users = async () => {
 <template>
   <div class="min-h-screen bg-gray-50 px-5 pt-8 pb-28 flex flex-col gap-6">
 
-    <section v-if="user" class="flex flex-col gap-2">
+    <section class="flex flex-col gap-2">
       <h1 class="text-3xl font-bold text-emerald-950">
-        {{user.name}}
+        Gestioná tu cuenta
       </h1>
 
       <p class="text-sm leading-6 text-gray-500">
@@ -30,98 +51,103 @@ const users = async () => {
     </section>
 
     <section class="bg-white rounded-[32px] border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
+      <form @submit.prevent="update">
 
-      <div class="flex flex-col gap-1">
-        <h2 class="text-lg font-bold text-emerald-950">
-          Información personal
-        </h2>
 
-        <p class="text-sm text-gray-500">
-          Actualizá tus datos visibles dentro de la cuenta.
-        </p>
-      </div>
+        <div class="flex flex-col gap-1">
+          <h2 class="text-lg font-bold text-emerald-950">
+            Información personal
+          </h2>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Nombre
-        </label>
+          <p class="text-sm text-gray-500">
+            Actualizá tus datos visibles dentro de la cuenta.
+          </p>
+        </div>
 
-        <input
-          type="text"
-          value="Ignacio"
-          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-        >
-      </div>
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Nombre
+          </label>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Email
-        </label>
+          <input
+            v-model="name"
+            type="text"
+            class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
+          >
+        </div>
 
-        <input
-          type="email"
-          value="ignacio@email.com"
-          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-        >
-      </div>
+        <div class="flex flex-col gap-2">
+          <label  class="text-sm font-semibold text-emerald-900">
+            Email
+          </label>
 
-      <button class="mt-2 h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-        Guardar información
-      </button>
+          <input
+            v-model="email"
+            type="email"
+              class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
+          >
+        </div>
+
+        <button class="mt-2 h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
+          Guardar información
+        </button>
+      </form>
 
     </section>
 
     <section class="bg-white rounded-[32px] border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
+      <form @submit.prevent="changePassword">
 
-      <div class="flex flex-col gap-1">
-        <h2 class="text-lg font-bold text-emerald-950">
-          Seguridad
-        </h2>
+        <div class="flex flex-col gap-1">
+          <h2 class="text-lg font-bold text-emerald-950">
+            Seguridad
+          </h2>
 
-        <p class="text-sm text-gray-500">
-          Cambiá tu contraseña para proteger tu cuenta.
-        </p>
-      </div>
+          <p class="text-sm text-gray-500">
+            Cambiá tu contraseña para proteger tu cuenta.
+          </p>
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Contraseña actual
-        </label>
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Contraseña actual
+          </label>
 
-        <input
-          type="password"
-          placeholder="••••••••"
-          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-        >
-      </div>
+          <input
+          v-model="actualPassword"
+            type="password"
+            class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
+          >
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Nueva contraseña
-        </label>
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Nueva contraseña
+          </label>
 
-        <input
-          type="password"
-          placeholder="••••••••"
-          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-        >
-      </div>
+          <input
+            v-model="newPassword"
+            type="password"
+            class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
+          >
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Confirmar nueva contraseña
-        </label>
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-semibold text-emerald-900">
+            Confirmar nueva contraseña
+          </label>
 
-        <input
-          type="password"
-          placeholder="••••••••"
-          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-        >
-      </div>
+          <input
+          v-model="newPasswordConfirm"
+            type="password"
+            class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
+          >
+        </div>
 
-      <button class="mt-2 h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-        Cambiar contraseña
-      </button>
+        <button class="mt-2 h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
+          Cambiar contraseña
+        </button>
+      </form>
 
     </section>
 
