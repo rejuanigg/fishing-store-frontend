@@ -1,4 +1,5 @@
 <script setup>
+import Modal from '@/components/UI/Modal.vue';
 import { useCategory } from '@/composables/useCategory';
 import api from '@/services/api';
 import { ref } from 'vue';
@@ -9,13 +10,21 @@ const {sections} = useCategory();
 const name = ref('');
 const sectionId = ref(null);
 
+const isModalVisible = ref(false);
+const closeModal = () => isModalVisible.value = false
+
+
 async function onSubmit(){
   const response = await api.post('/categories',{
     name: name.value,
     section_id: sectionId.value
   })
+  return isModalVisible.value = true
+}
 
-  return router.push('/admin-panel/dashboard')
+const modalAction = () => {
+  closeModal();
+  return router.push('/admin-panel/dashboard');
 }
 
 </script>
@@ -44,7 +53,7 @@ async function onSubmit(){
           <select
                 class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500"
                 v-model="sectionId" >
-                  <option v-for="section in sections" :value="section.  id">{{ section.name }}</option>
+                  <option v-for="section in sections" :value="section.id">{{ section.name }}</option>
           </select>
         </div>
 
@@ -52,4 +61,13 @@ async function onSubmit(){
       </form>
     </div>
   </div>
+
+  <Modal
+      v-if="isModalVisible"
+      variant="success"
+      title="Categoria Creada"
+      text="La categoria fué creada correctamente, pudes visualizarla desde el panel de administrador"
+      confirm-text="Continuar"
+      @confirm-action="modalAction"
+    />
 </template>

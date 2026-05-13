@@ -4,7 +4,7 @@ import api from '@/services/api';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProductCard from '@/components/ProductCard.vue';
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/UI/Modal.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -20,11 +20,6 @@ const category = ref(null);
 const name = ref('');
 const description = ref('');
 const price = ref(0);
-
-const isModalVisible = ref(false);
-
-const openModal = () => isModalVisible.value = true;
-const closeModal = () => isModalVisible.value = false;
 
 const filterCatBySec = computed(()=>{
   return categories.value
@@ -89,14 +84,30 @@ async function onSubmit(){
     quantity:actualStock.value
   })
 
-  return router.push('/')
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Cambios aplicados',
+    text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:false
+  }
 }
 
 //Delete
 
 async function handleDelete(){
   const response = await api.delete(`/products/${productId}`)
-  return router.push('/')
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Producto eliminado',
+    text: 'El producto fué eliminado correctamente',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:true
+  }
 }
 
 //Stock
@@ -163,6 +174,51 @@ async function handleImgDelete(id, index){
   product.value.images.splice(index,1)
 }
 
+//Modal
+
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
+
+// Modal de advetencia
+
+const openSuccessModal = () => {
+  modal.value = {
+    visible: true,
+    variant: 'warning',
+    title: 'Está por modificar un Producto',
+    text: 'Tenga en cuenta los cambios serán visibles para todos los productos ya existentes.',
+    confirmText: 'Continuar',
+    action: onSubmit
+  }
+}
+
+//Modal para confirmar eliminacion
+
+const openDeleteModal = () => {
+  modal.value = {
+    visible: true,
+    variant: 'danger',
+    title: '¿Eliminar Producto?',
+    text: 'Está por eliminar un producto, tenga en cuenta que, al eliminar un producto, tambien se eliminaran de las ORDENES PENDIENTES',
+    confirmText: 'Eliminar',
+    action: handleDelete,
+    showCancel:true
+  }
+}
+
+const closeModal = () => {
+  modal.value.visible = false
+}
+
+const successModal = () => router.push('/admin-panel/dashboard')
+
 
 </script>
 
@@ -207,7 +263,7 @@ async function handleImgDelete(id, index){
         </p>
       </section>
 
-      <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
+      <form @submit.prevent="openSuccessModal" class="flex flex-col gap-6">
         <div class="flex flex-col gap-2">
           <label class="text-sm font-semibold text-emerald-900">Nombre</label>
 
@@ -299,20 +355,11 @@ async function handleImgDelete(id, index){
         Ver todos los productos
       </RouterLink>
 
-      <button type="button" @click="openModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
+      <button type="button" @click="openDeleteModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
         Eliminar producto
       </button>
 
     </div>
-
-    <Modal
-      v-if="isModalVisible"
-      text="Estas por borrar un producto, ¿Desea continuar?"
-      type="actionCaution"
-      action="Eliminar"
-      @close-modal="closeModal"
-      @action="handleDelete"
-    />
 
   </div>
 </div>
@@ -409,5 +456,16 @@ async function handleImgDelete(id, index){
     </div>
   </div>
 </div>
+
+<Modal
+v-if="modal.visible"
+:variant="modal.variant"
+:title="modal.title"
+:text="modal.text"
+:confirm-text="modal.confirmText"
+:show-cancel="modal.showCancel"
+@confirm-action="modal.action"
+@close-modal="closeModal"
+/>
 
 </template>

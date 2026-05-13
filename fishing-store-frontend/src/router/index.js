@@ -1,4 +1,3 @@
-
 import AdminPanel from '@/views/admin-panel/AdminPanel.vue'
 import CartView from '@/views/public/CartView.vue'
 import HomeView from '@/views/public/HomeView.vue'

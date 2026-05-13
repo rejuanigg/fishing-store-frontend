@@ -3,7 +3,7 @@ import api from '@/services/api';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCategory } from '@/composables/useCategory';
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/UI/Modal.vue';
 
 const {sections} = useCategory()
 
@@ -15,6 +15,7 @@ const secId = Number(route.params.id)
 const sec = ref(null)
 const name = ref('');
 
+//Muestra los datos anteriores
 watch(sections, (actualValue)=>{
   if (actualValue.length>0){
     const found = actualValue.find(s => s.id === secId);
@@ -25,23 +26,81 @@ watch(sections, (actualValue)=>{
   }
 })
 
+//Sube los nuevos datos y muestra un modal de satisfaccion
+
 async function onSubmit(){
   const response = await api.put(`/sections/${secId}`,{
     name:name.value
   })
-
-  return router.push('/')
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Cambios aplicados',
+    text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:false
+  }
 }
 
-const isModalVisible = ref(false);
+//Modal
 
-const openModal = () => isModalVisible.value = true
-const closeModal = () => isModalVisible.value = false
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
 
+// Modal de advetencia
+
+const openSuccessModal = () => {
+  modal.value = {
+    visible: true,
+    variant: 'warning',
+    title: 'Está por modificar una sección',
+    text: 'Tenga en cuenta los cambios serán visibles para todos los productos ya existentes.',
+    confirmText: 'Continuar',
+    action: onSubmit
+  }
+}
+
+//Modal para confirmar eliminacion
+
+const openDeleteModal = () => {
+  modal.value = {
+    visible: true,
+    variant: 'danger',
+    title: 'Eliminar sección',
+    text: 'Está por borrar una sección. ¿Desea continuar?',
+    confirmText: 'Eliminar',
+    action: handleDelete,
+    showCancel:true
+  }
+}
+
+const closeModal = () => {
+  modal.value.visible = false
+}
+
+//Request para borrar la seccion
 async function handleDelete(){
   const response = await api.delete(`/sections/${secId}`)
-  return router.push('/')
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Seccion eliminada',
+    text: 'La seccion fue eliminada correctamente.',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:true
+  }
 }
+
+const successModal = () => router.push('/admin-panel/dashboard')
 
 </script>
 
@@ -56,7 +115,7 @@ async function handleDelete(){
       </h1>
     </section>
 
-    <form @submit.prevent="onSubmit" class="flex flex-col gap-6">
+    <form @submit.prevent="openSuccessModal" class="flex flex-col gap-6">
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-emerald-900">Nombre</label>
         <input v-model="name" type="text" placeholder="Ej: Accesorios" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
@@ -70,20 +129,22 @@ async function handleDelete(){
 
   <div class="px-5 pb-28 pt-10">
     <button
-      @click="openModal"
+      @click="openDeleteModal"
       class="w-full h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold active:scale-[0.98] transition">
-      Eliminar categoría
+      Eliminar sección
     </button>
 
   </div>
 
   <Modal
-    v-if="isModalVisible"
-    text="Estas por borrar una categoria, ¿Desea continuar?"
-    type="actionCaution"
-    action="Eliminar"
-    @close-modal="closeModal"
-    @action="handleDelete"
+  v-if="modal.visible"
+  :variant="modal.variant"
+  :title="modal.title"
+  :text="modal.text"
+  :confirm-text="modal.confirmText"
+  :show-cancel="modal.showCancel"
+  @confirm-action="modal.action"
+  @close-modal="closeModal"
   />
 
 </section>

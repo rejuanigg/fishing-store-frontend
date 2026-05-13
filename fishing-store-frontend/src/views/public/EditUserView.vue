@@ -50,53 +50,66 @@ const changePassword = async()=>{
       </p>
     </section>
 
+    <section class="bg-white rounded-[32px] border border-gray-100 shadow-sm p-5">
+  <form @submit.prevent="update" class="flex flex-col gap-6">
+
+    <div class="flex flex-col gap-1">
+      <h2 class="text-lg font-bold text-emerald-950">
+        Información personal
+      </h2>
+
+      <p class="text-sm leading-6 text-gray-500">
+        Actualizá los datos asociados a tu cuenta.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-5">
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">
+          Nombre
+        </label>
+
+        <input
+          v-model="name"
+          type="text"
+          placeholder="Tu nombre"
+          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm text-gray-800 outline-none transition focus:border-emerald-500 focus:bg-white"
+        >
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-emerald-900">
+          Email
+        </label>
+
+        <input
+          v-model="email"
+          type="email"
+          placeholder="tuemail@email.com"
+          class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm text-gray-800 outline-none transition focus:border-emerald-500 focus:bg-white"
+        >
+      </div>
+
+    </div>
+
+    <div class="flex flex-col gap-3 pt-2">
+      <button
+        class="h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition"
+      >
+        Guardar cambios
+      </button>
+
+      <p class="text-xs text-center text-gray-400">
+        Los cambios se aplicarán inmediatamente en tu cuenta.
+      </p>
+    </div>
+
+  </form>
+</section>
+
     <section class="bg-white rounded-[32px] border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
-      <form @submit.prevent="update">
-
-
-        <div class="flex flex-col gap-1">
-          <h2 class="text-lg font-bold text-emerald-950">
-            Información personal
-          </h2>
-
-          <p class="text-sm text-gray-500">
-            Actualizá tus datos visibles dentro de la cuenta.
-          </p>
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-semibold text-emerald-900">
-            Nombre
-          </label>
-
-          <input
-            v-model="name"
-            type="text"
-            class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-          >
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <label  class="text-sm font-semibold text-emerald-900">
-            Email
-          </label>
-
-          <input
-            v-model="email"
-            type="email"
-              class="h-13 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm outline-none focus:border-emerald-500"
-          >
-        </div>
-
-        <button class="mt-2 h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-          Guardar información
-        </button>
-      </form>
-
-    </section>
-
-    <section class="bg-white rounded-[32px] border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
-      <form @submit.prevent="changePassword">
+      <form @submit.prevent="changePassword" class="flex flex-col gap-6">
 
         <div class="flex flex-col gap-1">
           <h2 class="text-lg font-bold text-emerald-950">

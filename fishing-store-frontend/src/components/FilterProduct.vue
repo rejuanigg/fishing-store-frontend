@@ -15,6 +15,10 @@ const filterCatBySec = computed(()=>{
   return categories.value.filter(({section_id})=>section_id === selectedSection.value)
 })
 
+const selectCategory = () =>{
+  
+}
+
 </script>
 
 <template>
@@ -44,8 +48,8 @@ const filterCatBySec = computed(()=>{
 
       <select v-model="selectedSection" class="h-12 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm text-emerald-950 outline-none">
 
-        <option value="">
-          Seleccionar sección
+        <option value="" disabled selected hidden>
+          Elige una seccion
         </option>
 
         <option v-for="section in sections" :key="section.id" :value="section.id">

@@ -1,31 +1,5 @@
 <script setup>
-import Nav from '@/components/Nav.vue';
 import Hero from '@/components/Hero.vue';
-import { ref , onMounted} from 'vue';
-import api from '@/services/api';
-import { cartStore } from '@/stores/cart';
-import OrderCard from '@/components/OrderCard.vue';
-
-const cart = cartStore()
-const products = ref([]);
-
-onMounted(async()=>{
-  const response = await api.get('/products')
-
-  products.value = response.data.data
-})
-
-function addCartItem(product) {
-  console.log(product.id)
-  cart.addProduct(product);
-}
-
-const orders = ref(null)
-
-onMounted(async()=>{
-  const response = await api.get('/orders')
-  orders.value = response.data.data
-})
 
 </script>
 
@@ -34,58 +8,6 @@ onMounted(async()=>{
 <div class="min-h-screen bg-gray-50 pb-32">
 
     <main class="px-5 pt-8 flex flex-col gap-10">
-
-      <section class="flex flex-col gap-4">
-
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-xl font-bold text-emerald-950">
-              Categorías
-            </h2>
-
-            <p class="text-sm text-gray-500 mt-1">
-              Explorá el equipamiento.
-            </p>
-          </div>
-
-          <button class="text-sm font-semibold text-emerald-600">
-            Ver todo
-          </button>
-        </div>
-
-        <div class="flex gap-3 overflow-x-auto pb-1">
-
-          <div class="min-w-[120px] h-32 rounded-[28px] bg-emerald-100 p-4 flex flex-col justify-between">
-            <span class="text-3xl">🎣</span>
-            <span class="text-sm font-semibold text-emerald-950">
-              Cañas
-            </span>
-          </div>
-
-          <div class="min-w-[120px] h-32 rounded-[28px] bg-cyan-100 p-4 flex flex-col justify-between">
-            <span class="text-3xl">🛶</span>
-            <span class="text-sm font-semibold text-emerald-950">
-              Kayaks
-            </span>
-          </div>
-
-          <div class="min-w-[120px] h-32 rounded-[28px] bg-orange-100 p-4 flex flex-col justify-between">
-            <span class="text-3xl">🧢</span>
-            <span class="text-sm font-semibold text-emerald-950">
-              Indumentaria
-            </span>
-          </div>
-
-          <div class="min-w-[120px] h-32 rounded-[28px] bg-blue-100 p-4 flex flex-col justify-between">
-            <span class="text-3xl">🪝</span>
-            <span class="text-sm font-semibold text-emerald-950">
-              Accesorios
-            </span>
-          </div>
-
-        </div>
-
-      </section>
 
       <section class="flex flex-col gap-4">
 
@@ -170,30 +92,6 @@ onMounted(async()=>{
           </div>
 
         </div>
-
-      </section>
-
-      <section class="rounded-[32px] bg-gradient-to-br from-emerald-500 to-emerald-700 p-6 text-white flex flex-col gap-5 overflow-hidden relative">
-
-        <div class="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-white/10"></div>
-
-        <div class="relative flex flex-col gap-2">
-          <span class="w-fit px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-semibold">
-            Nuevo contenido
-          </span>
-
-          <h2 class="text-2xl font-black leading-tight max-w-[260px]">
-            Mirá la última expedición en el río Paraná.
-          </h2>
-
-          <p class="text-sm leading-6 text-emerald-100 max-w-[280px]">
-            Equipamiento utilizado y técnicas mostradas durante el viaje.
-          </p>
-        </div>
-
-        <button class="relative h-13 rounded-2xl bg-white text-emerald-700 text-sm font-semibold active:scale-[0.98] transition">
-          Ver video
-        </button>
 
       </section>
 
