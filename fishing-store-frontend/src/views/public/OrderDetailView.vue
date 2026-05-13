@@ -1,4 +1,5 @@
 <script setup>
+import { useFormatDate } from '@/composables/useFormatDate';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import api from '@/services/api';
 import { useAuthStore } from '@/stores/auth';
@@ -33,6 +34,11 @@ const updatedStatus = ref({});
 const updateStatus = async (newStatus, id) => {
   const response = await api.patch(`/orders/${id}`, { status: newStatus })
   updatedStatus.value[id]=response.data.data.status
+}
+
+const formatData = (value)=>{
+  const formatted = useFormatDate(value);
+  return formatted
 }
 
 </script>
@@ -85,7 +91,7 @@ const updateStatus = async (newStatus, id) => {
             </span>
 
             <span class="text-sm font-semibold text-emerald-950">
-              {{ order.datetime }}
+              {{ formatData(order.datetime) }}
             </span>
 
           </div>

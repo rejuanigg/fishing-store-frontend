@@ -5,7 +5,6 @@ import ProductCard from '@/components/ProductCard.vue';
 import api from '@/services/api';
 import FilterProduct from '@/components/FilterProduct.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import NavF from '@/components/NavF.vue';
 
 const cart = cartStore()
 const products = ref([]);
@@ -26,12 +25,12 @@ onMounted(async()=>{
 const filterByName = (value) =>{return value.filter((product)=>product.name.toLowerCase().includes(searchValue.value.toLowerCase()))}
 
 const filterProdByCat =  computed(()=>{
-    if (selectedCategory.value === null) {
-      return filterByName(products.value);
-    }
-    else{
-      return filterByName(products.value.filter(products=>products.categories.some((category => category.id === selectedCategory.value))))
-    }
+  if (selectedCategory.value === null) {
+    return filterByName(products.value);
+  }
+  else{
+    return filterByName(products.value.filter(products=>products.categories.some((category => category.id === selectedCategory.value))))
+  }
   });
 
 function addCartItem(product) {

@@ -6,6 +6,7 @@ import { useAverage } from '@/composables/useAverage';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import { cartStore } from '@/stores/cart';
 import Score from '@/components/Score.vue';
+import Loading from '@/components/UI/Loading.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -13,31 +14,13 @@ const cart = cartStore();
 const productId = Number(route.params.id)
 const product = ref(null)
 const item = ref(0)
+const loading = ref(true)
 
 onMounted(async()=>{
   const response = await api.get(`/products/${productId}`)
   product.value = response.data.data
+  loading.value = false
 })
-
-
-const nextImage = () => {
-  const limit = product.value.images.length - 1;
-  if (item.value < limit){
-    item.value ++
-  }
-  else {
-    item.value = 0
-  }
-}
-
-const prevImage = () => {
-  if (item.value > 0){
-    item.value --
-  }
-  else {
-    item.value = product.value.images.length - 1
-  }
-}
 
 
 const averageValue = computed(() => {
@@ -55,11 +38,17 @@ function addCartItem() {
 }
 
 
+
+
 </script>
 
 <template>
-<div class="w-full min-h-screen" v-if="product">
 
+<div v-if="loading" class="flex min-h-screen w-full items-center justify-center overflow-hidden">
+  <Loading />
+</div>
+
+<div class="w-full min-h-screen" v-if="product">
   <div class="w-full flex flex-col gap-3 px-2">
     <img
       class="h-72 w-full object-contain bg-gray-100 rounded-xl"
@@ -115,10 +104,6 @@ function addCartItem() {
       Sin stock
     </span>
   </div>
-</div>
-
-<div v-else>
-  Loading PROVISORIO
 </div>
 
 </template>

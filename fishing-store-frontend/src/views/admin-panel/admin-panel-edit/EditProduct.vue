@@ -102,8 +102,8 @@ async function handleDelete(){
   modal.value = {
     visible: true,
     variant: 'success',
-    title: 'Producto eliminado',
-    text: 'El producto fué eliminado correctamente',
+    title: 'Producto archivado',
+    text: 'El producto fué archivado correctamente',
     confirmText: 'Continuar',
     action: successModal,
     showCancel:true
@@ -205,9 +205,9 @@ const openDeleteModal = () => {
   modal.value = {
     visible: true,
     variant: 'danger',
-    title: '¿Eliminar Producto?',
-    text: 'Está por eliminar un producto, tenga en cuenta que, al eliminar un producto, tambien se eliminaran de las ORDENES PENDIENTES',
-    confirmText: 'Eliminar',
+    title: '¿Archivar Producto?',
+    text: 'El producto dejará de mostrarse en la tienda, pero seguirá disponible en el historial de órdenes.',
+    confirmText: 'Archivar',
     action: handleDelete,
     showCancel:true
   }
@@ -356,7 +356,7 @@ const successModal = () => router.push('/admin-panel/dashboard')
       </RouterLink>
 
       <button type="button" @click="openDeleteModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
-        Eliminar producto
+        Archivar producto
       </button>
 
     </div>

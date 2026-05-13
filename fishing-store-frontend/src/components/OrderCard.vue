@@ -1,13 +1,14 @@
 <script setup>
+import { useFormatDate } from '@/composables/useFormatDate';
 import api from '@/services/api';
 import { useAuthStore } from '@/stores/auth';
-import { WalletCards } from '@lucide/vue';
 import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const auth = useAuthStore();
 
+const emit = defineEmits(['statusUpdated'])
 defineProps(['orders'])
 
 const toDetailView = (id) => {
@@ -22,11 +23,16 @@ const statusLabels = {
 }
 
 //Edicion
-const updatedStatus = ref({});
 
 const updateStatus = async (newStatus, id) => {
-  const response = await api.patch(`/orders/${id}`, { status: newStatus })
-  updatedStatus.value[id]=response.data.data.status
+  const response = await api.patch(`/orders/${id}`, { status: newStatus });
+
+  emit('statusUpdated', response.data.data);
+}
+
+//formatear fecha a hora argentina
+const formatData = (value) => {
+  return useFormatDate(value);
 }
 
 </script>
@@ -43,22 +49,19 @@ const updateStatus = async (newStatus, id) => {
         </span>
 
         <span class="text-sm text-gray-500">
-          {{ order.datetime }}
+          {{formatData(order.datetime) }}
         </span>
 
       </div>
 
-        <span
-          class="px-3 h-8 rounded-full text-xs font-semibold flex items-center justify-center capitalize transition"
-          :class="{
-            'bg-amber-100 text-amber-700': (updatedStatus[order.id] ?? order.status) === 'waiting',
-            'bg-blue-100 text-blue-700': (updatedStatus[order.id] ?? order.status) === 'processing',
-            'bg-emerald-100 text-emerald-700': (updatedStatus[order.id] ?? order.status) === 'completed',
-            'bg-red-100 text-red-700': (updatedStatus[order.id] ?? order.status) === 'cancelled'
-          }"
-        >
-          {{ statusLabels[updatedStatus[order.id] ?? order.status] }}
-        </span>
+      <span class="px-3 h-8 rounded-full text-xs font-semibold flex items-center justify-center capitalize transition" :class="{
+        'bg-amber-100 text-amber-700': order.status === 'waiting',
+        'bg-blue-100 text-blue-700': order.status === 'processing',
+        'bg-emerald-100 text-emerald-700': order.status === 'completed',
+        'bg-red-100 text-red-700': order.status === 'cancelled'
+      }">
+        {{ statusLabels[order.status] }}
+      </span>
     </div>
 
     <div class="grid grid-cols-2 gap-3">
@@ -95,7 +98,7 @@ const updateStatus = async (newStatus, id) => {
         {{ auth.advancedAccess ? 'Ver detalles' : 'Ver pedido' }}
       </button>
 
-      <select @change="updateStatus($event.target.value, order.id)" v-if="auth.advancedAccess" class="h-11 px-5 rounded-2xl border border-gray-200 text-gray-700 text-sm font-semibold active:scale-95 transition">
+      <select @change="updateStatus($event.target.value, order.id)" :value="order.status" v-if="auth.advancedAccess" class="h-11 px-5 rounded-2xl border border-gray-200 text-gray-700 text-sm font-semibold active:scale-95 transition">
         <option value="" disabled selected hidden>Todos los estado</option>
         <option value="waiting">En espera</option>
         <option value="processing">Empaquetando</option>
