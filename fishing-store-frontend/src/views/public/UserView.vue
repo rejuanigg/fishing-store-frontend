@@ -1,6 +1,7 @@
 <script setup>
+import Modal from '@/components/UI/Modal.vue';
 import { useAuthStore } from '@/stores/auth';
-import { Settings } from '@lucide/vue';
+import { ref } from 'vue';
 import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
@@ -9,6 +10,32 @@ const router = useRouter()
 const logout = () => {
   authStore.logout();
   router.push('/');
+}
+
+//Modal
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
+
+const openSuccessModal = () => {
+  modal.value = {
+    visible: true,
+    variant: 'warning',
+    title: '¿Cerrar Sesión?',
+    text: "Puede volver a iniciar sesión en el inicio con el boton 'Iniciar Sesión'",
+    confirmText: 'Continuar',
+    action: logout
+  }
+}
+
+const closeModal = () => {
+  modal.value.visible = false
 }
 
 </script>
@@ -132,11 +159,23 @@ const logout = () => {
           Modificar datos personales
         </RouterLink>
 
-        <button @click="logout" class="h-11 px-5 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-95 transition">
+        <button @click="openSuccessModal" class="h-11 px-5 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-95 transition">
           Cerrar sesión
         </button>
       </section>
     </main>
+
+  <Modal
+  v-if="modal.visible"
+  :variant="modal.variant"
+  :title="modal.title"
+  :text="modal.text"
+  :confirm-text="modal.confirmText"
+  :show-cancel="modal.showCancel"
+  @confirm-action="modal.action"
+  @close-modal="closeModal"
+  />
+
   </section>
 </template>
 
