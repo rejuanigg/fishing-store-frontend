@@ -1,68 +1,73 @@
 <script setup>
 import { cartStore } from '@/stores/cart';
-import { FishingRod } from '@lucide/vue';
+import { useFormatPrice } from '@/composables/useFormatPrice';
+
+import { Minus, Plus, Trash, Trash2Icon } from '@lucide/vue';
 
 const cart = cartStore();
+const { formatPrice } = useFormatPrice();
+
+//Lo que hice acá es obtener la imagen del producto, pero la diferencia es que le seteo algo por si no llega a llegar la imagen correctamente
+const getProductImage = (product) => {
+  return product.images?.[0]?.image ?? new URL('../assets/1.png', import.meta.url).href;
+};
 
 </script>
 
 <template>
+  <article v-for="product in cart.product" :key="product.id" class="group overflow-hidden rounded-[30px] border border-emerald-100/80 bg-white shadow-[0_14px_35px_rgba(15,23,42,0.06)] transition active:scale-[0.99]">
 
-<div v-if="cart.product.length === 0" class="flex p-50 w-full items-center justify-center overflow-hidden">
-  <div class="flex flex-col justify-center items-center gap-10">
-    <FishingRod :size="50" class="text-emerald-500"/>
-    <p class="text-lg leading-6 text-gray-500">Aun no tienes productos</p>
-  </div>
-</div>
+    <div class="flex gap-4 p-4">
 
-<div v-else v-for="product in cart.product" :key="product.id" class="relative bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
-  <div class="flex gap-4">
+      <button class="h-24 w-24 shrink-0 overflow-hidden rounded-[24px] bg-emerald-50" @click="$router.push(`/products/${product.id}`)">
+        <img :src="getProductImage(product)" :alt="product.name" class="h-full w-full object-cover transition duration-300 group-active:scale-105">
+      </button>
 
-    <div class="h-24 w-24 shrink-0 rounded-2xl overflow-hidden bg-gray-100">
-      <img class="h-full w-full object-cover" :src="product.images[0]?.image">
-    </div>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-start justify-between gap-3">
+          <button class="min-w-0 text-left" @click="$router.push(`/products/${product.id}`)">
+            <h3 class="line-clamp-2 text-sm font-black leading-5 text-emerald-950">
+              {{ product.name }}
+            </h3>
 
-    <div class="flex-1 flex flex-col justify-between">
-      <div class="flex flex-col gap-1 pr-6">
-        <span class="text-base font-semibold text-emerald-950 leading-5">
-          {{ product.name }}
-        </span>
-
-        <span class="text-lg font-bold text-emerald-700">
-          $ {{ product.price }}
-        </span>
-      </div>
-
-      <div class="flex items-center justify-between mt-4">
-        <div class="flex items-center gap-3 bg-gray-100 rounded-2xl px-3 py-2">
-          <button
-            class="h-8 w-8 rounded-xl bg-white text-emerald-900 font-bold active:scale-95 transition"
-            @click="cart.decrement(product.id)"
-          >
-            -
+            <p class="mt-2 text-lg font-black tracking-tight text-emerald-700">
+              {{ formatPrice(product.price) }}
+            </p>
           </button>
 
-          <span class="min-w-[20px] text-center text-sm font-bold text-emerald-950">
-            {{ product.quantity }}
-          </span>
-
-          <button
-            class="h-8 w-8 rounded-xl bg-emerald-500 text-white font-bold active:scale-95 transition"
-            @click="cart.increment(product.id)"
-          >
-            +
+          <button @click="cart.removeProduct(product.id)" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-red-500 transition active:scale-[0.95]">
+            <Trash class="h-4 w-4" />
           </button>
         </div>
+
+        <div class="mt-4 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 rounded-2xl bg-slate-50 p-1.5 ring-1 ring-slate-100">
+            <button @click="cart.decrement(product.id)" class="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-emerald-950 shadow-sm transition active:scale-[0.95]">
+              <Minus class="h-4 w-4" />
+            </button>
+
+            <span class="min-w-[28px] text-center text-sm font-black text-emerald-950">
+              {{ product.quantity }}
+            </span>
+
+            <button @click="cart.increment(product.id)" class="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-sm transition active:scale-[0.95]">
+              <Plus class="h-4 w-4" />
+            </button>
+          </div>
+
+          <div class="text-right">
+            <span class="block text-[11px] font-black uppercase tracking-wide text-slate-400">
+              Subtotal
+            </span>
+
+            <span class="block text-sm font-black text-emerald-950">
+              {{ formatPrice(product.price * product.quantity) }}
+            </span>
+          </div>
+        </div>
       </div>
+
     </div>
-  </div>
 
-  <button
-    class="absolute top-4 right-4 h-8 w-8 rounded-xl bg-red-50 text-red-500 text-sm font-bold active:scale-95 transition"
-    @click="cart.removeProduct(product.id)"
-  >
-    ✕
-  </button>
-</div>
-
+  </article>
 </template>

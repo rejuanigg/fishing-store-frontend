@@ -59,7 +59,7 @@ const router = createRouter({
       component: CartView,
       meta: {
         layout: 'focus',
-        showBottomNav: true,
+        showBottomNav: false,
       },
     },
     {

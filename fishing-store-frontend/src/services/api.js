@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const api = axios.create({
-    baseURL: 'https://fishing-store-production-12bd.up.railway.app/api'
+    baseURL: 'http://127.0.0.1:8000/api'
 })
 
 api.interceptors.request.use((config) => {
