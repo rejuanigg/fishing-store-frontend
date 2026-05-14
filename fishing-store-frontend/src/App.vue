@@ -1,58 +1,65 @@
 <script setup>
-import { useRoute } from 'vue-router';
-import { RouterView } from 'vue-router';
+import { computed, onMounted } from 'vue';
+import { RouterView, useRoute } from 'vue-router';
+
 import NavF from './components/NavF.vue';
 import Nav from './components/Nav.vue';
 import AdminNav from './components/AdminNav.vue';
+
 import { useAuthStore } from './stores/auth';
-import { onMounted } from 'vue';
 
 const route = useRoute();
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
-onMounted(async() => {
-  if(authStore.token){
-    await authStore.fetchMe()
+const layout = computed(() => route.meta.layout);
+
+const showBottomNav = computed(() => {
+  return route.meta.showBottomNav === true;
+});
+
+onMounted(async () => {
+  if (authStore.token) {
+    await authStore.fetchMe();
   }
-})
-
+});
 </script>
 
 <template>
+  <div class="min-h-screen bg-[#F9FAFB]">
 
-  <div class="min-h-screen flex flex-col bg-[#F9FAFB]">
+    <header class="sticky top-0 z-50 h-16 w-full border-b border-gray-100 bg-white/90 px-5 backdrop-blur-md">
+      <div class="mx-auto flex h-full w-full max-w-screen-md items-center justify-between">
 
-    <header class="sticky top-0 z-50 h-16 px-5 border-b bg-white/90 backdrop-blur-md w-full flex items-center justify-between">      <AdminNav  v-if="route.meta.layout === 'shop' " :nav-type="'shop'"></AdminNav>
-      <AdminNav  v-else-if="route.meta.layout === 'focus' " :nav-type="'focus'"></AdminNav>
-      <AdminNav  v-else-if="route.meta.layout === 'admin' " :nav-type="'admin'"></AdminNav>
+        <AdminNav v-if="layout === 'shop'" nav-type="shop" />
+        <AdminNav v-else-if="layout === 'focus'" nav-type="focus" />
+        <AdminNav v-else-if="layout === 'admin'" nav-type="admin" />
 
-      <div v-else class="w-full">
-        <Nav></Nav>
+        <div v-else class="w-full">
+          <Nav />
+        </div>
+
       </div>
     </header>
 
-    <main class="flex-1 pb-24 max-w-screen-md mx-auto w-full">
-      <transition name="fade" mode="out-in">
-        <RouterView />
-      </transition>
+    <main class="mx-auto min-h-[calc(100vh-4rem)] w-full max-w-screen-md pb-28">
+      <RouterView />
     </main>
 
-    <nav class="fixed bottom-0 w-full z-50 flex justify-center" >
-      <NavF class="w-full max-w-screen-md h-20 px-5 bg-white/90 backdrop-blur-md border-t pb-[env(safe-area-inset-bottom)]" v-if="route.meta.layout !== 'focus' && route.meta.layout !== 'shop'"></NavF>
+    <nav v-if="showBottomNav" class="fixed bottom-0 left-0 right-0 z-[999] flex justify-center">
+      <NavF class="h-20 w-full max-w-screen-md border-t border-gray-100 bg-white/90 px-5 pb-[env(safe-area-inset-bottom)] backdrop-blur-md" />
     </nav>
 
   </div>
-
 </template>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-
 @import "tailwindcss";
-body{
-  background-color: #F9FAFB;
-  font-family: 'Plus Jakarta Sans';
+
+body {
   overflow-x: hidden;
+  background-color: #F9FAFB;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 ol,
@@ -61,7 +68,7 @@ menu {
   list-style: none;
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -74,6 +81,4 @@ menu {
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>
-
