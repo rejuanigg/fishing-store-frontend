@@ -4,12 +4,15 @@ import { computed, onMounted, ref } from 'vue';
 import ProductCard from '@/components/ProductCard.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import { useAuthStore } from '@/stores/auth';
+import Loading from '@/components/UI/Loading.vue';
 
 const auth = useAuthStore();
 const isAdmin = ref(false);
 
 const products = ref([]);
 const searchValue = ref('');
+
+const loading = ref(true)
 
 //Autenticacion
 if (auth.advancedAccess){
@@ -20,6 +23,7 @@ if (auth.advancedAccess){
 onMounted(async()=>{
   const response = await api.get('/products')
   products.value = response.data.data
+  loading.value = false
 })
 
 //filtrado
@@ -32,7 +36,11 @@ const filterByName = computed(()=>{
 
 <template>
 
-  <div class="min-h-screen">
+  <div v-if="loading" class="flex min-h-screen w-full items-center justify-center overflow-hidden">
+    <Loading />
+  </div>
+
+  <div v-else class="min-h-screen">
 
   <section class="px-5 pt-6 flex flex-col gap-5">
 

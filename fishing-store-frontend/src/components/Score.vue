@@ -1,6 +1,9 @@
 <script setup>
 import api from '@/services/api';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+
+const auth = useAuthStore();
 
 const props = defineProps({
   productId : {
@@ -15,6 +18,8 @@ const props = defineProps({
 
 const scoreStars = ref([5,4,3,2,1]);
 const selectedScore = ref(0);
+
+const filterValue = ref(null)
 
 watch(() => props.initialScore,(newValue) => {
     selectedScore.value = newValue
@@ -37,6 +42,8 @@ const select = async(value)=>{
     selectedScore.value = previous
   }
 }
+
+
 
 </script>
 

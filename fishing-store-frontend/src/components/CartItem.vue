@@ -1,5 +1,6 @@
 <script setup>
 import { cartStore } from '@/stores/cart';
+import { FishingRod } from '@lucide/vue';
 
 const cart = cartStore();
 
@@ -7,7 +8,14 @@ const cart = cartStore();
 
 <template>
 
-<div v-for="product in cart.product" class="relative bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
+<div v-if="cart.product.length === 0" class="flex p-50 w-full items-center justify-center overflow-hidden">
+  <div class="flex flex-col justify-center items-center gap-10">
+    <FishingRod :size="50" class="text-emerald-500"/>
+    <p class="text-lg leading-6 text-gray-500">Aun no tienes productos</p>
+  </div>
+</div>
+
+<div v-else v-for="product in cart.product" :key="product.id" class="relative bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
   <div class="flex gap-4">
 
     <div class="h-24 w-24 shrink-0 rounded-2xl overflow-hidden bg-gray-100">

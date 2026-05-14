@@ -5,12 +5,15 @@ import ProductCard from '@/components/ProductCard.vue';
 import api from '@/services/api';
 import FilterProduct from '@/components/FilterProduct.vue';
 import SearchBar from '@/components/SearchBar.vue';
+import Loading from '@/components/UI/Loading.vue';
 
 const cart = cartStore()
 const products = ref([]);
 const selectedCategory = ref(null);
 const toggle = ref(false)
 const searchValue = ref('')
+
+const loading = ref(true)
 
 const getSelect = (id) =>{return selectedCategory.value = id}
 
@@ -20,6 +23,7 @@ const toggleClose = () => { toggle.value = false }
 onMounted(async()=>{
   const response = await api.get('/products')
   products.value = response.data.data
+  loading.value = false
 })
 
 const filterByName = (value) =>{return value.filter((product)=>product.name.toLowerCase().includes(searchValue.value.toLowerCase()))}
@@ -45,7 +49,11 @@ const viewAll = () =>{ return selectedCategory.value = null}
 
 <template>
 
-  <div class="min-h-screen pb-28">
+  <div v-if="loading" class="flex min-h-screen w-full items-center justify-center overflow-hidden bg-gray-50">
+    <Loading />
+  </div>
+
+  <div v-else class="min-h-screen pb-28">
 
     <header class="sticky top-16 z-30 bg-white/90 backdrop-blur-md border-b border-gray-100">
 
@@ -69,7 +77,7 @@ const viewAll = () =>{ return selectedCategory.value = null}
 
     </header>
 
-    <main class="px-5 pt-6 pb-10 grid grid-cols-2 gap-4">
+    <main class="px-5 mt-6 pb-10 grid grid-cols-2 gap-4">
 
       <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" @add-cart="addCartItem" />
 

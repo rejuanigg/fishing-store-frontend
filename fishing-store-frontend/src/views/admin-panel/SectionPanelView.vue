@@ -1,12 +1,13 @@
 <script setup>
 import SearchBar from '@/components/SearchBar.vue';
+import Loading from '@/components/UI/Loading.vue';
 import { useCategory } from '@/composables/useCategory';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const {sections} = useCategory();
+const {sections, isLoading} = useCategory();
 
 const toEdit = (id) => {
   return router.push({name:'admin-section-edit', params:{ id:id }})
@@ -22,6 +23,11 @@ const filterByName = computed(()=>{
 
 <template>
 
+  <div v-if="isLoading" class="flex min-h-screen w-full items-center justify-center overflow-hidden">
+    <Loading />
+  </div>
+
+<div v-else>
   <section class="px-5 pt-6 flex flex-col gap-5 w-full">
 
     <div class="flex flex-col gap-2">
@@ -79,6 +85,8 @@ const filterByName = computed(()=>{
     </div>
 
   </section>
+</div>
+
 
 </template>
 

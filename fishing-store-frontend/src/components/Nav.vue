@@ -32,10 +32,6 @@ const logout = () => {
         Login
       </RouterLink>
 
-      <button v-else @click="logout" class="h-11 px-5 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-95 transition">
-        Cerrar sesión
-      </button>
-
     </div>
 
   </div>

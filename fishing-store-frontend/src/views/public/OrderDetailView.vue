@@ -1,4 +1,5 @@
 <script setup>
+import Loading from '@/components/UI/Loading.vue';
 import { useFormatDate } from '@/composables/useFormatDate';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import api from '@/services/api';
@@ -12,9 +13,12 @@ const auth = useAuthStore();
 const orderId = Number(route.params.id);
 const order = ref(null);
 
+const loading = ref(true)
+
 onMounted(async () => {
   const response = await api.get(`/orders/${orderId}`);
   order.value = response.data.data;
+  loading.value = false
 });
 
 const statusLabels = {
@@ -46,8 +50,11 @@ const formatData = (value)=>{
 
 
 <template>
+  <div v-if="loading" class="flex min-h-screen w-full items-center justify-center overflow-hidden">
+    <Loading />
+  </div>
 
-  <div v-if="order" class="min-h-screen pb-28">
+  <div v-else class="min-h-screen pb-28">
 
     <section class="px-5 pt-6 flex flex-col gap-5">
 
