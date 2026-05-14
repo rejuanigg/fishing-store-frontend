@@ -51,7 +51,7 @@ const router = createRouter({
       component: () => import('@/views/public/ProductView.vue'),
       meta: {
         layout: 'shop',
-        showBottomNav: true,
+        showBottomNav: false,
       },
     },
     {
@@ -77,7 +77,7 @@ const router = createRouter({
       component: OrderDetailView,
       meta: {
         layout: 'focus',
-        showBottomNav: true,
+        showBottomNav: false,
       },
     },
     {
