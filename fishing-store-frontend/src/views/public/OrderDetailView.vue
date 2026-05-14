@@ -1,13 +1,16 @@
 <script setup>
 import Loading from '@/components/UI/Loading.vue';
+import Modal from '@/components/UI/Modal.vue';
 import { useFormatDate } from '@/composables/useFormatDate';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import api from '@/services/api';
 import { useAuthStore } from '@/stores/auth';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
+
 const auth = useAuthStore();
 
 const orderId = Number(route.params.id);
@@ -31,6 +34,15 @@ const statusLabels = {
 const cancelOrder = (id) =>{
   const cancelValue = 'cancelled'
   updateStatus(cancelValue, id)
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Orden cancelada.',
+    text: 'Las orden se ha cancelado correctamente.',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:false
+  }
 }
 
 const updatedStatus = ref({});
@@ -47,8 +59,36 @@ const formatData = (value)=>{
 
 const { formatPrice } = useFormatPrice();
 
-</script>
+//Modal
 
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
+
+const openDangerModal = (id) => {
+  modal.value = {
+    visible: true,
+    variant: 'danger',
+    title: 'CUIDADO: Está por cancelar una orden',
+    text: 'Al borrar la orden, no podrá revertirse los cambios, y su orden será cancelada',
+    confirmText: 'Continuar',
+    action: () => cancelOrder(id)
+  }
+}
+
+const closeModal = () => {
+  modal.value.visible = false
+}
+
+const successModal = () => router.push('/orders')
+
+</script>
 
 
 
@@ -202,14 +242,13 @@ const { formatPrice } = useFormatPrice();
           Si cancelás esta orden no se preparará el producto para ser entregado.
         </p>
 
-        <button @click="cancelOrder(order.id)" class="mt-4 h-12 w-full rounded-2xl bg-red-500 text-sm font-black text-white transition active:scale-[0.98]">
+        <button @click="openDangerModal(order.id)" class="mt-4 h-12 w-full rounded-2xl bg-red-500 text-sm font-black text-white transition active:scale-[0.98]">
           Cancelar orden
         </button>
       </div>
     </section>
 
-    <section class="fixed bottom-20 left-0 right-0 z-40 px-5 pb-3">
-      <div class="mx-auto flex w-full max-w-screen-md items-center justify-between gap-4 rounded-[28px] border border-emerald-100 bg-white/95 p-4 shadow-[0_-12px_35px_rgba(15,23,42,0.10)] backdrop-blur-md">
+      <section class="fixed bottom-0 left-0 right-0 z-40 px-5 pb-3">      <div class="mx-auto flex w-full max-w-screen-md items-center justify-between gap-4 rounded-[28px] border border-emerald-100 bg-white/95 p-4 shadow-[0_-12px_35px_rgba(15,23,42,0.10)] backdrop-blur-md">
         <div class="flex flex-col">
           <span class="text-[11px] font-black uppercase tracking-wide text-slate-400">
             Total
@@ -225,6 +264,17 @@ const { formatPrice } = useFormatPrice();
         </button>
       </div>
     </section>
+
+  <Modal
+  v-if="modal.visible"
+  :variant="modal.variant"
+  :title="modal.title"
+  :text="modal.text"
+  :confirm-text="modal.confirmText"
+  :show-cancel="modal.showCancel"
+  @confirm-action="modal.action"
+  @close-modal="closeModal"
+  />
 
   </div>
 </template>
