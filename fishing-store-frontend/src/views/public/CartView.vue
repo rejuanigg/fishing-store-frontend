@@ -5,10 +5,6 @@ import CartInfo from '@/components/CartInfo.vue';
 
 const cart = cartStore();
 
-const clearCart = () => {
-  product.value = [];
-};
-
 </script>
 
 <template>
