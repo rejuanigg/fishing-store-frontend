@@ -1,6 +1,6 @@
 <script setup>
 import api from '@/services/api';
-import { computed, onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCategory } from '@/composables/useCategory';
 import Modal from '@/components/UI/Modal.vue';
