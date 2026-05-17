@@ -1,27 +1,38 @@
 <script setup>
-import Hero from '@/components/Hero.vue';
+import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: 'Caña Shimano FX',
-    category: 'Cañas',
-    price: '$120.000',
-    rating: '4.8',
-    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9',
-    badge: 'TOP',
-  },
-  {
-    id: 2,
-    name: 'Reel Marine Pro',
-    category: 'Reels',
-    price: '$89.990',
-    rating: '4.9',
-    image: 'https://images.unsplash.com/photo-1511884642898-4c92249e20b6',
-    badge: null,
-  },
-];
+import Hero from '@/components/Hero.vue';
+import ProductCard from '@/components/ProductCard.vue';
+import Loading from '@/components/UI/Loading.vue';
+
+import api from '@/services/api';
+import { cartStore } from '@/stores/cart';
+
+const cart = cartStore();
+
+const featuredProducts = ref([]);
+const loadingFeatured = ref(true);
+
+const getFeaturedProducts = async () => {
+  try {
+    const response = await api.get('/products/featured');
+
+    featuredProducts.value = response.data.data;
+  } catch (error) {
+    console.error('Error al cargar productos destacados:', error);
+  } finally {
+    loadingFeatured.value = false;
+  }
+};
+
+const addCart = (product) => {
+  cart.addProduct(product);
+};
+
+onMounted(() => {
+  getFeaturedProducts();
+});
 
 const socialLinks = [
   {
@@ -61,7 +72,7 @@ const socialLinks = [
   <div class="min-h-screen bg-slate-50 pb-32">
     <main class="px-5 pt-8">
 
-      <section class="flex flex-col gap-4">
+            <section class="flex flex-col gap-4">
         <div class="flex items-end justify-between gap-4">
           <div>
             <span class="text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">
@@ -82,39 +93,27 @@ const socialLinks = [
           </RouterLink>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
-          <article v-for="product in featuredProducts" :key="product.id" class="group overflow-hidden rounded-[30px] border border-emerald-100/80 bg-white p-3 shadow-[0_14px_35px_rgba(15,23,42,0.06)] active:scale-[0.98] transition">
-            <div class="relative aspect-[0.88] overflow-hidden rounded-[24px] bg-emerald-50">
-              <img :src="product.image" :alt="product.name" class="h-full w-full object-cover transition duration-300 group-active:scale-105">
+        <div v-if="loadingFeatured" class="flex min-h-[220px] items-center justify-center rounded-[30px] border border-emerald-100 bg-white">
+          <Loading />
+        </div>
 
-              <span v-if="product.badge" class="absolute left-3 top-3 rounded-full bg-emerald-500 px-3 py-1.5 text-[10px] font-black text-white shadow-lg shadow-emerald-900/20">
-                {{ product.badge }}
-              </span>
-            </div>
+        <div v-else-if="featuredProducts.length > 0" class="grid gap-4" :class="featuredProducts.length === 1 ? 'grid-cols-1' : 'grid-cols-2'">
+          <ProductCard
+            v-for="product in featuredProducts"
+            :key="product.id"
+            :product="product"
+            @addCart="addCart"
+          />
+        </div>
 
-            <div class="mt-3 flex flex-col gap-1">
-              <span class="text-[11px] font-bold uppercase tracking-wide text-emerald-500">
-                {{ product.category }}
-              </span>
+        <div v-else class="rounded-[30px] border border-dashed border-emerald-200 bg-white px-6 py-10 text-center shadow-sm">
+          <h3 class="text-lg font-black text-emerald-950">
+            No hay productos destacados
+          </h3>
 
-              <h3 class="line-clamp-2 min-h-[40px] text-sm font-black leading-5 text-emerald-950">
-                {{ product.name }}
-              </h3>
-
-              <div class="flex items-center gap-1 text-xs">
-                <span class="text-amber-400">★</span>
-                <span class="font-semibold text-slate-500">{{ product.rating }}</span>
-              </div>
-
-              <span class="mt-1 text-lg font-black tracking-tight text-emerald-700">
-                {{ product.price }}
-              </span>
-            </div>
-
-            <button class="mt-3 h-11 w-full rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.97]">
-              Agregar
-            </button>
-          </article>
+          <p class="mt-2 text-sm leading-6 text-slate-500">
+            Cuando marques productos como destacados desde el panel, aparecerán acá.
+          </p>
         </div>
       </section>
 
