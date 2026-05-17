@@ -27,9 +27,45 @@ onMounted(async()=>{
 })
 
 //filtrado
+
+const featureFilter = ref(null)
+
+const filterByType = (value) => {
+  return value.filter((v)=>v.name.toLowerCase().includes(searchValue.value.toLowerCase()))
+}
+
 const filterByName = computed(()=>{
-  return products.value.filter((product)=>product.name.toLowerCase().includes(searchValue.value.toLowerCase()))
+  if (featureFilter.value === null ){
+    return filterByType(products.value)
+  }
+  return filterByType(
+    products.value.filter(p=>Boolean(p.is_featured) === Boolean(featureFilter.value))
+  )
 })
+
+//Cambiamos su valor con un patch
+
+const refreshProducts = async() => {
+  const response = await api.get('/products')
+  products.value = response.data.data
+}
+
+const productFeatured = ref(null)
+const filterByFeatured = ref(null)
+
+
+const addFeature = async(value)=>{
+  productFeatured.value = value
+  const response = await api.patch(`/products/${productFeatured.value.id}/featured`,{
+    is_featured:!productFeatured.value.is_featured
+  })
+  await refreshProducts()
+
+  const index = products.value.findIndex(p => p.id === productFeatured.value.id)
+  products.value[index] = response.data.data
+
+  filterByFeatured.value = products.value.filter(p=>p.is_featured === true);
+}
 
 </script>
 
@@ -67,6 +103,12 @@ const filterByName = computed(()=>{
 
   </div>
 
+  <div class="flex gap-2 rounded-2xl bg-white p-1 shadow-[0_10px_30px_rgba(15,23,42,0.06)] border border-slate-100">
+    <button @click="featureFilter = null" :class="featureFilter === null ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-500 active:bg-slate-50'" class="flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition active:scale-[0.98]">Todos</button>
+    <button @click="featureFilter = false" :class="featureFilter === false ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-500 active:bg-slate-50'" class="flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition active:scale-[0.98]">Sin destacar</button>
+    <button @click="featureFilter = true" :class="featureFilter === true ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-500 active:bg-slate-50'" class="flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition active:scale-[0.98]">Destacados</button>
+  </div>
+
   </section>
 
     <main class="px-5 pt-6 pb-28 grid grid-cols-2 gap-4">
@@ -76,6 +118,7 @@ const filterByName = computed(()=>{
       :key="product.id"
       :product="product"
       :is-admin="isAdmin"
+      @toggle-featured="addFeature"
       />
 
     </main>
