@@ -2,7 +2,7 @@
 import { useAverage } from '@/composables/useAverage';
 import { useRouter } from 'vue-router';
 import { useFormatPrice } from '@/composables/useFormatPrice';
-import { computed } from 'vue';
+import { Star } from '@lucide/vue';
 
 const props = defineProps({
   product: {
@@ -14,6 +14,8 @@ const props = defineProps({
     default: false
   }
 });
+
+const emit = defineEmits(['addCart', 'toggleFeatured']);
 
 const router = useRouter();
 
@@ -36,6 +38,25 @@ const formatedPriceValue = (value) => {
 
 <template>
   <article class="group relative overflow-hidden rounded-[28px] border border-emerald-100/80 bg-white p-3 shadow-[0_14px_35px_rgba(15,23,42,0.06)] transition active:scale-[0.98]">
+
+    <button
+      v-if="isAdmin"
+      type="button"
+      @click.stop="emit('toggleFeatured', props.product)"
+      class="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-2xl bg-white/95 shadow-lg shadow-slate-900/10 ring-1 ring-slate-100 backdrop-blur-md transition active:scale-[0.95]"
+    >
+      <Star
+        class="h-5 w-5"
+        :class="props.product.is_featured ? 'fill-amber-400 text-amber-400' : 'text-slate-300'"
+      />
+
+      <span
+        v-if="props.product.is_featured && props.product.featured_order"
+        class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-1 text-[10px] font-black text-white ring-2 ring-white"
+      >
+        {{ props.product.featured_order }}
+      </span>
+    </button>
 
     <button @click="toProductView(props.product.id)" class="block w-full text-left">
       <div class="relative aspect-square overflow-hidden rounded-[22px] bg-emerald-50">
@@ -81,7 +102,7 @@ const formatedPriceValue = (value) => {
       Editar
     </button>
 
-    <button v-else-if="props.product.stocks?.[0]?.quantity > 0" @click.stop="$emit('addCart', props.product)" class="mt-3 h-11 w-full rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.97]">
+    <button v-else-if="props.product.stocks?.[0]?.quantity > 0" @click.stop="emit('addCart', props.product)" class="mt-3 h-11 w-full rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.97]">
       Agregar
     </button>
 
