@@ -4,56 +4,77 @@ import api from '@/services/api';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import SearchBar from '@/components/SearchBar.vue';
 import Loading from '@/components/UI/Loading.vue';
+import { useAuthStore } from '@/stores/auth';
 
-const orders = ref([]);
+const auth = useAuthStore();
+
+const orders = ref({});
 const searchValue = ref('');
 const selectedStatus = ref(null);
 const loading = ref(true);
 
-const statusFilters = [
-  {
-    label: 'Todas',
-    value: null,
-  },
-  {
-    label: 'En espera',
-    value: 'waiting',
-  },
-  {
-    label: 'En proceso',
-    value: 'processing',
-  },
-  {
-    label: 'Listas',
-    value: 'completed',
-  },
-  {
-    label: 'Canceladas',
-    value: 'cancelled',
-  },
-];
-
-const activeFilterClass = 'h-11 shrink-0 rounded-2xl bg-emerald-500 px-5 text-sm font-black text-white shadow-lg shadow-emerald-500/20 active:scale-[0.98] transition';
-
-const inactiveFilterClass = 'h-11 shrink-0 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-bold text-slate-500 active:scale-[0.98] transition';
-
-const fetchOrders = async()=>{
-  const response = await api.get('/orders');
-  orders.value = response.data.data.sort((a, b) => {
-    return new Date(b.datetime) - new Date(a.datetime);
-  });
+const fetchRecentOrders = async () => {
+  const response = await api.get('/orders/recent')
+  orders.value = response.data.data
 }
+const fetchAllOrders = async()=>{
+  clearInterval(interval.value)
+  const response = await api.get('/orders');
+  orders.value = response.data.data;
+  actualView.value = 'all'
+}
+const fetchActiveOrders = async()=>{
+  clearInterval(interval.value)
+  const response = await api.get('/orders/active');
+  orders.value = response.data.data;
+  actualView.value = 'active'
+}
+const fetchHistoricalOrders = async()=>{
+  clearInterval(interval.value)
+  const response = await api.get('/orders/historical');
+  orders.value = response.data.data;
+  actualView.value = 'historical'
+}
+
+const actualView = ref('');
+
+
 const interval = ref(null)
 
 onMounted(async () => {
-  await fetchOrders()
+  if (auth.advancedAccess){
+    actualView.value = 'initial';
+  }
+  else {
+    actualView.value = 'all'
+  }
 
-  interval.value = setInterval(() => {
-    fetchOrders()
-  }, 8000)
+  if(auth.advancedAccess &&  actualView.value === 'initial'){
+    handleRecentClick()
+  }
+  else if(!auth.advancedAccess &&  actualView.value === 'all') {
+    await fetchAllOrders();
+  }
 
   loading.value = false
 })
+
+
+const startRecentPolling = () => {
+  clearInterval(interval.value)
+  fetchRecentOrders()
+  interval.value = setInterval(() => {
+    console.log('polling...')
+    fetchRecentOrders()
+
+  }, 8000)
+  actualView.value = 'initial'
+}
+
+const handleRecentClick = () => {
+  clearInterval(interval.value)
+  startRecentPolling()
+}
 
 onUnmounted(() => {
   clearInterval(interval.value)
@@ -194,11 +215,15 @@ const groupedOrders = computed(() => {
       <div class="mt-5 rounded-[28px] border border-emerald-100 bg-white p-4 shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
         <SearchBar v-model="searchValue" />
 
-        <div class="mt-4 flex gap-2 overflow-x-auto pb-1">
-          <button v-for="status in statusFilters" :key="status.value ?? 'all'" @click="selectedStatus = status.value" :class="selectedStatus === status.value ? activeFilterClass : inactiveFilterClass">
-            {{ status.label }}
-          </button>
-        </div>
+<div class="mt-4 flex gap-2 overflow-x-auto pb-1">
+  <button @click="handleRecentClick" v-if="auth.advancedAccess" class="h-11 shrink-0 rounded-2xl border px-5 text-sm font-black transition active:scale-[0.98]" :class="actualView === 'initial' ? 'border-emerald-950 bg-emerald-950 text-white shadow-[0_10px_25px_rgba(2,44,34,0.18)]' : 'border-slate-200 bg-white text-slate-500'">Recientes</button>
+
+  <button @click="fetchAllOrders" class="h-11 shrink-0 rounded-2xl border px-5 text-sm font-black transition active:scale-[0.98]" :class="actualView === 'all' ? 'border-emerald-950 bg-emerald-950 text-white shadow-[0_10px_25px_rgba(2,44,34,0.18)]' : 'border-slate-200 bg-white text-slate-500'">Todas</button>
+
+  <button @click="fetchActiveOrders" class="h-11 shrink-0 rounded-2xl border px-5 text-sm font-black transition active:scale-[0.98]" :class="actualView === 'active' ? 'border-emerald-950 bg-emerald-950 text-white shadow-[0_10px_25px_rgba(2,44,34,0.18)]' : 'border-slate-200 bg-white text-slate-500'">Activas</button>
+
+  <button @click="fetchHistoricalOrders" class="h-11 shrink-0 rounded-2xl border px-5 text-sm font-black transition active:scale-[0.98]" :class="actualView === 'historical' ? 'border-emerald-950 bg-emerald-950 text-white shadow-[0_10px_25px_rgba(2,44,34,0.18)]' : 'border-slate-200 bg-white text-slate-500'">Históricas</button>
+</div>
       </div>
 
     </section>

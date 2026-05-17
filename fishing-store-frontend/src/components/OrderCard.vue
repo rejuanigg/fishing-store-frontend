@@ -88,7 +88,7 @@ const formatData = (value) => {
           </span>
 
           <p class="mt-2 text-xl font-black tracking-tight text-emerald-700">
-            {{ order.details.length }}
+            {{ order.details_count}}
           </p>
         </div>
 
