@@ -1,7 +1,7 @@
 <script setup>
 import OrderCard from '@/components/OrderCard.vue';
 import api from '@/services/api';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import SearchBar from '@/components/SearchBar.vue';
 import Loading from '@/components/UI/Loading.vue';
 
@@ -37,15 +37,27 @@ const activeFilterClass = 'h-11 shrink-0 rounded-2xl bg-emerald-500 px-5 text-sm
 
 const inactiveFilterClass = 'h-11 shrink-0 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-bold text-slate-500 active:scale-[0.98] transition';
 
-onMounted(async () => {
+const fetchOrders = async()=>{
   const response = await api.get('/orders');
-
   orders.value = response.data.data.sort((a, b) => {
     return new Date(b.datetime) - new Date(a.datetime);
   });
+}
+const interval = ref(null)
 
-  loading.value = false;
-});
+onMounted(async () => {
+  await fetchOrders()
+
+  interval.value = setInterval(() => {
+    fetchOrders()
+  }, 8000)
+
+  loading.value = false
+})
+
+onUnmounted(() => {
+  clearInterval(interval.value)
+})
 
 const filterById = (value) => {
   if (!searchValue.value) {
@@ -134,6 +146,8 @@ const groupedOrders = computed(() => {
 
   return groups;
 });
+
+
 </script>
 
 <template>
