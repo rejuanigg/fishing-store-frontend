@@ -7,7 +7,7 @@ export const useAuthStore = defineStore('login',{
     token: localStorage.getItem('token') || '',
     role: '',
     id: null,
-    name: '',   
+    name: '',
     email: '',
   }),
   getters:{
@@ -22,10 +22,11 @@ export const useAuthStore = defineStore('login',{
     },
     async fetchMe (){
       const response = await api.get('/me')
-      this.role = response.data.role
-      this.id = response.data.id
-      this.name = response.data.name
-      this.email = response.data.email
+      const user = response.data.data
+      this.role = user.role
+      this.id = user.id
+      this.name = user.name
+      this.email = user.email
     }
     ,
     logout(){
