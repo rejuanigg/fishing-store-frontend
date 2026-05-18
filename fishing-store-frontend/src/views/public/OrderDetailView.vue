@@ -32,7 +32,7 @@ const statusLabels = {
 }
 
 const cancelOrder = async(id) =>{
-  await api.patch(`/orders/${id}/cancel`)
+  await api.patch(`/orders/${id}/cancel`, {status: 'cancelled'})
   modal.value = {
     visible: true,
     variant: 'success',
