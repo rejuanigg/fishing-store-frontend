@@ -1,7 +1,7 @@
 <script setup>
 import Modal from '@/components/UI/Modal.vue';
 import api from '@/services/api';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCategoryStore } from '@/stores/category';
 
@@ -24,13 +24,34 @@ async function onSubmit(){
     name: name.value,
     section_id: sectionId.value
   })
-  return isModalVisible.value = true
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Categoria Creada',
+    text: 'La categoria fué creada correctamente, puedes visualizarla desde el panel de administrador',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:false
+  }
 }
 
 const modalAction = () => {
   closeModal();
   return router.push('/admin-panel/dashboard');
 }
+
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
+
+const successModal = () => router.push('/admin-panel/dashboard')
+
 
 </script>
 
@@ -67,12 +88,14 @@ const modalAction = () => {
     </div>
   </div>
 
-  <Modal
-      v-if="isModalVisible"
-      variant="success"
-      title="Categoria Creada"
-      text="La categoria fué creada correctamente, pudes visualizarla desde el panel de administrador"
-      confirm-text="Continuar"
-      @confirm-action="modalAction"
-    />
+<Modal
+v-if="modal.visible"
+:variant="modal.variant"
+:title="modal.title"
+:text="modal.text"
+:confirm-text="modal.confirmText"
+:show-cancel="modal.showCancel"
+@confirm-action="modal.action"
+@close-modal="closeModal"
+/>
 </template>

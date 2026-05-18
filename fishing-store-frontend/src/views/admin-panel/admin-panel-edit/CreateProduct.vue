@@ -4,6 +4,7 @@ import api from '@/services/api';
 import { computed, onMounted, ref } from 'vue';
 import ProductCard from '@/components/ProductCard.vue';
 import { useCategoryStore } from '@/stores/category';
+import Modal from '@/components/UI/Modal.vue';
 
 const router = useRouter();
 
@@ -33,12 +34,20 @@ async function onSubmit(){
     categories:[category.value.id]
   })
 
-  const resStocks = await api.post('/stocks',{
+  await api.post('/stocks',{
     product_id:response.data.data.id,
     quantity:actualStock.value
   })
 
-  return router.push(`/admin-panel/products/${response.data.data.id}/images`)
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Producto Creado',
+      text: "El producto fué creada correctamente, puedes visualizarlo en la seccion: 'Productos'",
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:false
+  }
 }
 
 const preview = computed(()=>{
@@ -55,6 +64,21 @@ const actualStock = ref(1);
 
 const upStock = () => {actualStock.value++}
 const downStock = () => {actualStock.value--}
+
+//Modal
+
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
+
+const successModal = () => router.push('/admin-panel/dashboard')
+
 
 </script>
 
@@ -161,6 +185,17 @@ const downStock = () => {actualStock.value--}
   </div>
 
 </div>
+
+<Modal
+v-if="modal.visible"
+:variant="modal.variant"
+:title="modal.title"
+:text="modal.text"
+:confirm-text="modal.confirmText"
+:show-cancel="modal.showCancel"
+@confirm-action="modal.action"
+@close-modal="closeModal"
+/>
 
 
 </template>

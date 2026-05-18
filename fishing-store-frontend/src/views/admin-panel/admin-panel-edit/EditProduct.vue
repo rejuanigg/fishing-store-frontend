@@ -83,8 +83,7 @@ async function onSubmit(){
     categories:[category.value.id],
   })
 
-  const resStocks = await api.put(`/stocks/${idStock.value}`,{
-
+  await api.put(`/stocks/${idStock.value}`,{
     product_id:response.data.data.id,
     quantity:actualStock.value
   })

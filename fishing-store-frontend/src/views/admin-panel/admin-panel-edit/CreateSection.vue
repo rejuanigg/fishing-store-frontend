@@ -2,6 +2,7 @@
 import api from '@/services/api';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Modal from '@/components/UI/Modal.vue';
 
 const router = useRouter();
 const name = ref('');
@@ -10,12 +11,36 @@ async function onSubmit() {
   const response = await api.post('/sections', {
     name: name.value
   })
-  return router.push('/admin-panel/dashboard')
+
+  modal.value = {
+    visible: true,
+    variant: 'success',
+    title: 'Seccion Creada',
+    text: 'La sección fué creada correctamente, puedes visualizarla desde el panel de administrador',
+    confirmText: 'Continuar',
+    action: successModal,
+    showCancel:false
+  }
 }
+
+const modal = ref({
+  visible: false,
+  variant: 'warning',
+  title: '',
+  text: '',
+  confirmText: '',
+  action: null,
+  showCancel:true
+})
+
+const successModal = () => router.push('/admin-panel/dashboard')
+
 
 </script>
 
 <template>
+
+
   <div class="px-5 pt-6 pb-32 flex flex-col gap-8">
 
     <section class="flex flex-col gap-2">
@@ -36,4 +61,15 @@ async function onSubmit() {
 
     </form>
   </div>
+
+  <Modal
+v-if="modal.visible"
+:variant="modal.variant"
+:title="modal.title"
+:text="modal.text"
+:confirm-text="modal.confirmText"
+:show-cancel="modal.showCancel"
+@confirm-action="modal.action"
+@close-modal="closeModal"
+/>
 </template>
