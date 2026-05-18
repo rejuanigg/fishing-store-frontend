@@ -1,18 +1,23 @@
 <script setup>
-import { useCategory } from '@/composables/useCategory';
 import api from '@/services/api';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProductCard from '@/components/ProductCard.vue';
 import Modal from '@/components/UI/Modal.vue';
+import { useCategoryStore } from '@/stores/category';
+
+const categoryStore = useCategoryStore()
+
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
+const categories = computed(() => categoryStore.categories)
 
 const route = useRoute();
 const router = useRouter();
 
 const product = ref(null);
 const productId = Number(route.params.id)
-
-const { categories, sections } = useCategory();
 
 const selectedSection = ref(null);
 

@@ -2,7 +2,6 @@
 import SearchBar from '@/components/SearchBar.vue';
 import Loading from '@/components/UI/Loading.vue';
 import api from '@/services/api';
-import { useCategoryStore } from '@/stores/category';
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 

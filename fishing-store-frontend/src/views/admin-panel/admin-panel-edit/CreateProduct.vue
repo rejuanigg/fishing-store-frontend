@@ -1,14 +1,18 @@
 <script setup>
-import { useCategory } from '@/composables/useCategory';
 import { useRouter } from 'vue-router';
 import api from '@/services/api';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import ProductCard from '@/components/ProductCard.vue';
+import { useCategoryStore } from '@/stores/category';
 
 const router = useRouter();
 
-const { categories, sections } = useCategory();
+const categoryStore = useCategoryStore()
 
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
+const categories = computed(() => categoryStore.categories)
 const selectedSection = ref(null);
 
 const category = ref(null);

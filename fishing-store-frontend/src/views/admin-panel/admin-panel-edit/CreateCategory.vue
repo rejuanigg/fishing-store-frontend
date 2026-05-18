@@ -1,12 +1,17 @@
 <script setup>
 import Modal from '@/components/UI/Modal.vue';
-import { useCategory } from '@/composables/useCategory';
 import api from '@/services/api';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useCategoryStore } from '@/stores/category';
+
+const categoryStore = useCategoryStore()
+
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
 
 const router = useRouter();
-const {sections} = useCategory();
 const name = ref('');
 const sectionId = ref(null);
 

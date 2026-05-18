@@ -1,11 +1,16 @@
 <script setup>
 import api from '@/services/api';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useCategory } from '@/composables/useCategory';
 import Modal from '@/components/UI/Modal.vue';
 
-const {sections} = useCategory()
+import { useCategoryStore } from '@/stores/category';
+
+const categoryStore = useCategoryStore()
+
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
 
 const route = useRoute();
 const router = useRouter();

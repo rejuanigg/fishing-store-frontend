@@ -1,23 +1,22 @@
 <script setup>
-import { useCategory } from '@/composables/useCategory';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { useCategoryStore } from '@/stores/category';
 
-const {sections, categories} = useCategory();
+const categoryStore = useCategoryStore()
+
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
+const categories = computed(() => categoryStore.categories)
 
 const selectedSection = ref(null);
 const emit = defineEmits(['sendCat', 'viewAll', 'toggleClose'])
-
-const selected = computed((id)=>{
-  return selectedSection.value = id
-})
 
 const filterCatBySec = computed(()=>{
   return categories.value.filter(({section_id})=>section_id === selectedSection.value)
 })
 
-const selectCategory = () =>{
-  
-}
+
 
 </script>
 

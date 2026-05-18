@@ -2,15 +2,20 @@
 import api from '@/services/api';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useCategory } from '@/composables/useCategory';
 import Modal from '@/components/UI/Modal.vue';
+import { useCategoryStore } from '@/stores/category';
+
+const categoryStore = useCategoryStore()
+
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
+const categories = computed(() => categoryStore.categories)
 
 const route = useRoute();
 const router = useRouter();
 
 //Traemos las secciones
-const {categories, sections} = useCategory()
-
 //Traer la categoria de la ruta anterior, catId guarda el id a editar.
 const catId = Number(route.params.id)
 
