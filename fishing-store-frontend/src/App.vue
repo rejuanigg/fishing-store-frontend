@@ -7,7 +7,10 @@ import Nav from './components/Nav.vue';
 import AdminNav from './components/AdminNav.vue';
 
 import { useAuthStore } from './stores/auth';
+import Toast from './components/UI/Toast.vue';
+import { useToastStore } from './stores/toast';
 
+const toast = useToastStore()
 const route = useRoute();
 const authStore = useAuthStore();
 
@@ -28,6 +31,10 @@ onMounted(async () => {
     await authStore.fetchMe();
   }
 });
+
+const isFullPage = computed(() => {
+  return route.meta.fullPage === true
+})
 </script>
 
 <template>
@@ -47,21 +54,30 @@ onMounted(async () => {
       </div>
     </header>
 
-    <main :class="['mx-auto min-h-[calc(100vh-4rem)] w-full max-w-screen-md', mainPaddingClass]">
+    <main :class="[isFullPage ? 'min-h-[100dvh] w-full' : 'mx-auto min-h-[calc(100dvh-4rem)] w-full max-w-screen-md', isFullPage ? '' : mainPaddingClass]">
       <RouterView v-slot="{ Component, route }">
         <Transition name="fade" mode="out-in">
-          <div :key="route.path" class="min-h-[calc(100vh-4rem)]">
+          <div :key="route.path" :class="isFullPage ? 'min-h-[100dvh]' : 'min-h-[calc(100dvh-4rem)]'">
             <component :is="Component" />
           </div>
         </Transition>
       </RouterView>
     </main>
 
-    <nav v-if="showBottomNav" class="fixed bottom-0 left-0 right-0 z-[999] flex justify-center">
-      <NavF class="h-20 w-full max-w-screen-md border-t border-slate-100 bg-white/95 px-5 pb-[env(safe-area-inset-bottom)] backdrop-blur-md shadow-[0_-12px_35px_rgba(15,23,42,0.08)]" />
+    <nav v-if="showBottomNav" class="fixed inset-x-0 bottom-0 bg-white/95 left-0 right-0 z-[999] flex justify-center">
+      <NavF class="mx-auto h-20 w-full max-w-screen-md border-t border-slate-100 bg-white/95 px-5 pb-[env(safe-area-inset-bottom)] backdrop-blur-md shadow-[0_-12px_35px_rgba(15,23,42,0.08)]" />
     </nav>
 
   </div>
+
+  <Toast
+    v-if="toast.toast"
+    :title="toast.toast.title"
+    :text="toast.toast.text"
+    :variant="toast.toast.variant"
+    @close-modal="toast.hide()"
+  />
+
 </template>
 
 <style>
