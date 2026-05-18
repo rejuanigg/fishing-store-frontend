@@ -6,6 +6,11 @@ import ProductCard from '@/components/ProductCard.vue';
 import { useCategoryStore } from '@/stores/category';
 import Modal from '@/components/UI/Modal.vue';
 
+import { useToastStore } from '@/stores/toast';
+
+const toast = useToastStore();
+const fecthLoading = ref(false)
+
 const router = useRouter();
 
 const categoryStore = useCategoryStore()
@@ -27,26 +32,32 @@ const filterCatBySec = computed(()=>{
 })
 
 async function onSubmit(){
-  const response = await api.post('/products',{
-    name:name.value,
-    description:description.value,
-    price:price.value,
-    categories:[category.value.id]
-  })
+  fecthLoading.value = true
+  try {
+    const response = await api.post('/products',{
+      name:name.value,
+      description:description.value,
+      price:price.value,
+      categories:[category.value.id]
+    })
 
-  await api.post('/stocks',{
-    product_id:response.data.data.id,
-    quantity:actualStock.value
-  })
+    await api.post('/stocks',{
+      product_id:response.data.data.id,
+      quantity:actualStock.value
+    })
+    successModal(response.data.data.id)
+  }
 
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Producto Creado',
-      text: "El producto fué creada correctamente, puedes visualizarlo en la seccion: 'Productos'",
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:false
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se puede crear el producto, revisá bien antes de enviar.'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
 
@@ -77,8 +88,10 @@ const modal = ref({
   showCancel:true
 })
 
-const successModal = () => router.push('/admin-panel/dashboard')
-
+const successModal = (id) => {
+  toast.show('Éxito', 'Producto creado correctamente', 'success')
+  return router.push({name:'admin-product-image', params:{id:id}})
+}
 
 </script>
 
@@ -165,8 +178,9 @@ const successModal = () => router.push('/admin-panel/dashboard')
 
         </section>
 
-        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white  text-sm font-semibold active:scale-[0.98] transition">
-          Guardar cambios
+        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white  text-sm font-semibold active:scale-[0.98] transition" :disabled="fecthLoading">
+          <span v-if="fecthLoading"> Creando...</span>
+          <span v-else>Crear producto</span>
         </button>
       </form>
 

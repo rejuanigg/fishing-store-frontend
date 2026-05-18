@@ -3,12 +3,13 @@ import api from '@/services/api';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ProductCard from '@/components/ProductCard.vue';
+import { useToastStore } from '@/stores/toast';
 
 const router = useRouter();
 const route = useRoute();
 
 const productId = route.params.id;
-const products = ref([]);
+const product = ref([]);
 
 const files = ref([]);
 const previews = ref([]);
@@ -31,25 +32,60 @@ const handleUpload = (event) => {
   event.target.value = '';
 };
 
+const toast = useToastStore();
+const fecthLoading = ref(false);
+
 const createFormData = async () => {
-  if (files.value.length === 0) return;
-  for (const image of files.value) {
-    const formData = new FormData();
-    formData.append('product_id', productId);
-    formData.append('image', image);
-    await api.post('/images', formData);
+  if (files.value.length === 0) {
+    toast.show('Atención', 'Seleccioná al menos una imagen para guardar.', 'warning');
+    return;
   }
-  router.push('/admin-panel/dashboard');
+
+  fecthLoading.value = true;
+
+  try {
+    const totalImages = files.value.length;
+
+    for (const image of files.value) {
+      const formData = new FormData();
+
+      formData.append('product_id', productId);
+      formData.append('image', image);
+
+      await api.post('/images', formData);
+    }
+
+    toast.show(
+      'Éxito',
+      totalImages === 1 ? 'Imagen guardada correctamente.' : 'Imágenes guardadas correctamente.',
+      'success'
+    );
+
+    router.push('/admin-panel/dashboard');
+  }
+
+  catch (error) {
+    const errors = error.response?.data?.errors;
+
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudieron guardar las imágenes';
+
+    toast.show('Error', message, 'error');
+  }
+
+  finally {
+    fecthLoading.value = false;
+  }
 };
 
 onMounted(async () => {
-  const response = await api.get('/products');
-  products.value = response.data.data;
+  const response = await api.get(`/products/${productId}`);
+  product.value = response.data.data;
 
 });
 
 const previewProduct = computed(() => {
-  const product = products.value.find(p => p.id == productId);
   if (!product) return null;
   return {
     ...product, images: previews.value
@@ -62,7 +98,6 @@ const removeImage = (index) => {
   previews.value.splice(index, 1);
   files.value.splice(index, 1);
   onDelete.value = null;
-
 };
 
 const moveImageLeft = (index) => {
@@ -116,9 +151,10 @@ const moveImageRight = (index) => {
 
         </label>
 
-        <button class="h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-          Guardar imágenes
-        </button>
+        <button class="h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition disabled:opacity-60 disabled:active:scale-100" :disabled="fecthLoading">
+  <span v-if="fecthLoading">Guardando...</span>
+  <span v-else>Guardar imágenes</span>
+</button>
 
       </form>
 
@@ -173,7 +209,8 @@ const moveImageRight = (index) => {
                   </button>
 
                   <button @click="removeImage(index)" class="h-10 px-4 rounded-2xl bg-red-500 text-white text-xs font-semibold active:scale-95 transition">
-                    Confirmar
+                    <span v-if="fecthLoading">Añadiendo...</span>
+                    <span v-else>Añadir Imagenes</span>
                   </button>
                 </div>
 

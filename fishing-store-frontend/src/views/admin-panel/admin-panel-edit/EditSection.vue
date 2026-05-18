@@ -1,8 +1,10 @@
 <script setup>
 import api from '@/services/api';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Modal from '@/components/UI/Modal.vue';
+
+import { useToastStore } from '@/stores/toast';
 
 import { useCategoryStore } from '@/stores/category';
 
@@ -20,6 +22,9 @@ const secId = Number(route.params.id)
 const sec = ref(null)
 const name = ref('');
 
+const toast = useToastStore();
+const fecthLoading = ref(false)
+
 //Muestra los datos anteriores
 watch(sections, (actualValue)=>{
   if (actualValue.length>0){
@@ -34,17 +39,30 @@ watch(sections, (actualValue)=>{
 //Sube los nuevos datos y muestra un modal de satisfaccion
 
 async function onSubmit(){
-  const response = await api.put(`/sections/${secId}`,{
-    name:name.value
-  })
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Cambios aplicados',
-    text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:false
+  try {
+    await api.put(`/sections/${secId}`,{
+      name:name.value
+    })
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Cambios aplicados',
+      text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel:false
+    }
+  }
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo editar la sección'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
 
@@ -93,19 +111,43 @@ const closeModal = () => {
 
 //Request para borrar la seccion
 async function handleDelete(){
-  const response = await api.delete(`/sections/${secId}`)
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Seccion eliminada',
-    text: 'La seccion fue eliminada correctamente.',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:true
+  try {
+    await api.delete(`/sections/${secId}`)
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Seccion eliminada',
+      text: 'La seccion fue eliminada correctamente.',
+      confirmText: 'Continuar',
+      action: successDeleteModal,
+      showCancel:true
+    }
   }
+
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo eliminar la sección'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
+  }
+
 }
 
-const successModal = () => router.push('/admin-panel/dashboard')
+
+const successDeleteModal = () => {
+  toast.show('Éxito', 'Seccion eliminada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
+
+const successModal = () => {
+  toast.show('Éxito', 'Seccion modificada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
 
 </script>
 
@@ -116,7 +158,7 @@ const successModal = () => router.push('/admin-panel/dashboard')
 
     <section class="flex flex-col gap-2">
       <h1 class="text-2xl font-bold text-emerald-950">
-        Crear Seccion
+        Editar Seccion
       </h1>
     </section>
 
@@ -126,7 +168,7 @@ const successModal = () => router.push('/admin-panel/dashboard')
         <input v-model="name" type="text" placeholder="Ej: Accesorios" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
       </div>
       <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-        Guardar cambios
+        <span >Guardar Cambios</span>
       </button>
 
     </form>
@@ -135,8 +177,8 @@ const successModal = () => router.push('/admin-panel/dashboard')
   <div class="px-5 pb-28 pt-10">
     <button
       @click="openDeleteModal"
-      class="w-full h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold active:scale-[0.98] transition">
-      Eliminar sección
+      class="w-full h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold active:scale-[0.98] transition"  >
+        <span >Eliminar Seccion</span>
     </button>
 
   </div>

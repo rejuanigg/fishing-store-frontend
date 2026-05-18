@@ -4,6 +4,10 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Modal from '@/components/UI/Modal.vue';
 import { useCategoryStore } from '@/stores/category';
+import { useToastStore } from '@/stores/toast';
+
+const toast = useToastStore();
+const fecthLoading = ref(false)
 
 const categoryStore = useCategoryStore()
 
@@ -63,15 +67,28 @@ const openDeleteModal = () => {
 
 //  Delete, esta funcion borra la categoria y devuelve un mensaje de success
 async function handleDelete(){
-  const response = await api.delete(`/categories/${catId}`)
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Categoría eliminada',
-    text: 'La categoría fue eliminada correctamente.',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:true
+  try {
+    await api.delete(`/categories/${catId}`)
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Categoría eliminada',
+      text: 'La categoría fue eliminada correctamente.',
+      confirmText: 'Continuar',
+      action: successDeleteModal,
+      showCancel:true
+    }
+  }
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo eliminar la categoria'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
 
@@ -93,22 +110,46 @@ const openSuccessModal = () => {
 }
 
 async function onSubmit(){
-  const response = await api.put(`/categories/${catId}`,{
-    name:name.value,
-    section_id:selectedSection.value
-  })
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Cambios aplicados',
-    text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:false
+  try {
+    await api.put(`/categories/${catId}`,{
+      name:name.value,
+      section_id:selectedSection.value
+    })
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Cambios aplicados',
+      text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel:false
+    }
+  }
+
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo editar la categoria'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
 // Esto retorna a el panel luego de que se haya creado o eliminado una categoria
-const successModal = () => router.push('/admin-panel/dashboard')
+
+const successDeleteModal = () => {
+  toast.show('Éxito', 'Categoria eliminada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
+
+const successModal = () => {
+  toast.show('Éxito', 'Categoria modificada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
+
 </script>
 
 <template>
@@ -149,7 +190,7 @@ const successModal = () => router.push('/admin-panel/dashboard')
 
       <button
         class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-        Guardar cambios
+          <span>Guardar Cambios</span>
       </button>
 
     </form>
@@ -159,7 +200,7 @@ const successModal = () => router.push('/admin-panel/dashboard')
     <button
       @click="openDeleteModal"
       class="w-full h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold active:scale-[0.98] transition">
-      Eliminar categoría
+        <span>Eliminar categoria</span>
     </button>
 
   </div>

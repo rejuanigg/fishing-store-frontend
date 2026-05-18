@@ -43,7 +43,6 @@ const filterByName = computed(()=>{
   )
 })
 
-//Cambiamos su valor con un patch
 
 const refreshProducts = async() => {
   const response = await api.get('/products')

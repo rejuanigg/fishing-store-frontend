@@ -3,23 +3,40 @@ import api from '@/services/api';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Modal from '@/components/UI/Modal.vue';
+import { useToastStore } from '@/stores/toast';
 
+const toast = useToastStore();
 const router = useRouter();
 const name = ref('');
+const fecthLoading = ref(false)
 
 async function onSubmit() {
-  const response = await api.post('/sections', {
-    name: name.value
-  })
+  fecthLoading.value = true
+  try {
+    await api.post('/sections', {
+      name: name.value
+    })
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Seccion Creada',
+      text: 'La sección fué creada correctamente, puedes visualizarla desde el panel de administrador',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel:false
+    }
+  }
 
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Seccion Creada',
-    text: 'La sección fué creada correctamente, puedes visualizarla desde el panel de administrador',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:false
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo crear la sección'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
 
@@ -33,7 +50,10 @@ const modal = ref({
   showCancel:true
 })
 
-const successModal = () => router.push('/admin-panel/dashboard')
+const successModal = () => {
+  toast.show('Éxito', 'Seccion creada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
 
 
 </script>
@@ -55,8 +75,9 @@ const successModal = () => router.push('/admin-panel/dashboard')
 
         <input v-model="name" type="text" placeholder="Ej: Accesorios" class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
       </div>
-      <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-        Guardar cambios
+      <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition" :disabled="fecthLoading">
+        <span v-if="fecthLoading">Creando...</span>
+        <span v-else>Crear Sección</span>
       </button>
 
     </form>

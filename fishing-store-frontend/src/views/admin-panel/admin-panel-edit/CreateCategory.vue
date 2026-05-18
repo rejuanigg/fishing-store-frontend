@@ -4,6 +4,10 @@ import api from '@/services/api';
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCategoryStore } from '@/stores/category';
+import { useToastStore } from '@/stores/toast';
+
+const toast = useToastStore();
+const fecthLoading = ref(false)
 
 const categoryStore = useCategoryStore()
 
@@ -20,24 +24,34 @@ const closeModal = () => isModalVisible.value = false
 
 
 async function onSubmit(){
-  const response = await api.post('/categories',{
-    name: name.value,
-    section_id: sectionId.value
-  })
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Categoria Creada',
-    text: 'La categoria fué creada correctamente, puedes visualizarla desde el panel de administrador',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:false
+  fecthLoading.value = true
+  try {
+    await api.post('/categories',{
+      name: name.value,
+      section_id: sectionId.value
+    })
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Categoria Creada',
+      text: 'La categoria fué creada correctamente, puedes visualizarla desde el panel de administrador',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel:false
+    }
   }
-}
 
-const modalAction = () => {
-  closeModal();
-  return router.push('/admin-panel/dashboard');
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo crear la categoria'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
+  }
 }
 
 const modal = ref({
@@ -50,8 +64,10 @@ const modal = ref({
   showCancel:true
 })
 
-const successModal = () => router.push('/admin-panel/dashboard')
-
+const successModal = () => {
+  toast.show('Éxito', 'Categoria creada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
 
 </script>
 
@@ -83,7 +99,11 @@ const successModal = () => router.push('/admin-panel/dashboard')
           </select>
         </div>
 
-        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">Guardar</button>
+      <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition"
+      :disabled="fecthLoading">
+        <span v-if="fecthLoading">Creando...</span>
+        <span v-else>Crear Categoria</span>
+      </button>
       </form>
     </div>
   </div>

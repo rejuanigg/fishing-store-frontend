@@ -5,6 +5,10 @@ import { useRoute, useRouter } from 'vue-router';
 import ProductCard from '@/components/ProductCard.vue';
 import Modal from '@/components/UI/Modal.vue';
 import { useCategoryStore } from '@/stores/category';
+import { useToastStore } from '@/stores/toast';
+
+const toast = useToastStore();
+const fecthLoading = ref(false)
 
 const categoryStore = useCategoryStore()
 
@@ -76,41 +80,70 @@ const preview = computed(()=>{
 })
 
 async function onSubmit(){
-  const response = await api.put(`/products/${productId}`,{
-    name:name.value,
-    description:description.value,
-    price:price.value,
-    categories:[category.value.id],
-  })
+  try {
+    const response = await api.put(`/products/${productId}`,{
+      name:name.value,
+      description:description.value,
+      price:price.value,
+      categories:[category.value.id],
+    })
 
-  await api.put(`/stocks/${idStock.value}`,{
-    product_id:response.data.data.id,
-    quantity:actualStock.value
-  })
+    await api.put(`/stocks/${idStock.value}`,{
+      product_id:response.data.data.id,
+      quantity:actualStock.value
+    })
 
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Cambios aplicados',
-    text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:false
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Cambios aplicados',
+      text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel:false
+    }
+  }
+
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo editar la sección'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
+
 
 //Delete
 
 async function handleDelete(){
-  const response = await api.delete(`/products/${productId}`)
-  modal.value = {
-    visible: true,
-    variant: 'success',
-    title: 'Producto archivado',
-    text: 'El producto fué archivado correctamente',
-    confirmText: 'Continuar',
-    action: successModal,
-    showCancel:true
+  try {
+    const response = await api.delete(`/products/${productId}`)
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Producto archivado',
+      text: 'El producto fué archivado correctamente',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel:true
+    }
+  }
+
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo archivar el producto'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
   }
 }
 
@@ -130,16 +163,31 @@ const tab = ref('product')
 const file = ref([])
 
 const createFormData = async()=>{
-  if(!file.value || file.value.length === 0) return null;
+  try {
+    if(!file.value || file.value.length === 0) return null;
 
-  for (const image of file.value){
-    const formData = new FormData();
-    formData.append('product_id', productId);
-    formData.append('image', image);
-    const response = await api.post('/images', formData)
-    product.value.images.push(response.data.data);
+    for (const image of file.value){
+      const formData = new FormData();
+      formData.append('product_id', productId);
+      formData.append('image', image);
+      const response = await api.post('/images', formData)
+      product.value.images.push(response.data.data);
+    }
+    file.value = []
   }
-  file.value = []
+
+
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo cargar las imagenes'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
+  }
 }
 
 const handleUpload = (evento) =>{
@@ -152,17 +200,33 @@ const handleUpload = (evento) =>{
 const updateFile = ref(null)
 
 const uploadFormData = async(id, index)=>{
-  if(!updateFile.value || updateFile.value.length === 0) return null;
 
-  for (const image of updateFile.value){
-    const formData = new FormData();
-    formData.append('product_id', productId);
-    formData.append('image', image);
-    formData.append('_method', 'PUT')
+  try{
+    if(!updateFile.value || updateFile.value.length === 0) return null;
 
-    const response = await api.post(`/images/${id}`, formData)
-    product.value.images[index] = response.data.data
+    for (const image of updateFile.value){
+      const formData = new FormData();
+      formData.append('product_id', productId);
+      formData.append('image', image);
+      formData.append('_method', 'PUT')
+
+      const response = await api.post(`/images/${id}`, formData)
+      product.value.images[index] = response.data.data
+    }
   }
+
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo reemplazar las imagenes'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
+  }
+
 }
 
 const handleUpdate = (evento, id, index) =>{
@@ -174,8 +238,21 @@ const handleUpdate = (evento, id, index) =>{
 const onDelete = ref(null)
 
 async function handleImgDelete(id, index){
-  await api.delete(`/images/${id}`)
-  product.value.images.splice(index,1)
+  try{
+    await api.delete(`/images/${id}`)
+    product.value.images.splice(index,1)
+  }
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo eliminar la imagen'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
+  }
 }
 
 //Modal
@@ -221,8 +298,10 @@ const closeModal = () => {
   modal.value.visible = false
 }
 
-const successModal = () => router.push('/admin-panel/dashboard')
-
+const successModal = () => {
+  toast.show('Éxito', 'Seccion modificada correctamente', 'success')
+  return router.push('/admin-panel/dashboard')
+}
 
 </script>
 
@@ -338,8 +417,8 @@ const successModal = () => router.push('/admin-panel/dashboard')
 
         </section>
 
-        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-          Guardar cambios
+        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition" >
+          <span>Guardar Cambios</span>
         </button>
 
       </form>
@@ -362,7 +441,8 @@ const successModal = () => router.push('/admin-panel/dashboard')
       </RouterLink>
 
       <button type="button" @click="openDeleteModal" class="h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold">
-        Archivar producto
+
+        <span >Archivar Producto</span>
       </button>
 
     </div>
@@ -420,7 +500,8 @@ const successModal = () => router.push('/admin-panel/dashboard')
                 </button>
 
                 <button @click="handleImgDelete(img.id, index)" class="flex-1 h-10 rounded-2xl bg-red-500 text-white text-xs font-semibold active:scale-95 transition">
-                  Confirmar
+                  <span v-if="fecthLoading"></span>
+                  <span v-else>Eliminar Imagen</span>
                 </button>
 
               </div>
