@@ -7,6 +7,8 @@ import { useFormatPrice } from '@/composables/useFormatPrice';
 import { cartStore } from '@/stores/cart';
 import Score from '@/components/Score.vue';
 import Loading from '@/components/UI/Loading.vue';
+import Toast from '@/components/UI/Toast.vue';
+import { useToastStore } from '@/stores/toast';
 
 const route = useRoute();
 const router = useRouter();
@@ -33,7 +35,10 @@ const formatedPriceValue = computed(() => {
   return formatedPrice;
 });
 
+const toast = useToastStore()
+
 function addCartItem() {
+  toast.show('Éxito', 'Producto agregado correctamente', 'success');
   cart.addProduct(product.value);
 }
 

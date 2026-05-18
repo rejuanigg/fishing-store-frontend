@@ -1,13 +1,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { cartStore } from '@/stores/cart';
 import ProductCard from '@/components/ProductCard.vue';
 import api from '@/services/api';
 import FilterProduct from '@/components/FilterProduct.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import Loading from '@/components/UI/Loading.vue';
 
-const cart = cartStore()
 const products = ref([]);
 const selectedCategory = ref(null);
 const toggle = ref(false)
@@ -36,10 +34,6 @@ const filterProdByCat =  computed(()=>{
     return filterByName(products.value.filter(products=>products.categories.some((category => category.id === selectedCategory.value))))
   }
   });
-
-function addCartItem(product) {
-  cart.addProduct(product);
-}
 
 const viewAll = () =>{ return selectedCategory.value = null}
 
@@ -79,7 +73,7 @@ const viewAll = () =>{ return selectedCategory.value = null}
 
     <main class="px-5 mt-6 pb-10 grid grid-cols-2 gap-4">
 
-      <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" @add-cart="addCartItem" />
+      <ProductCard v-for="product in filterProdByCat" :key="product.id" :product="product" />
 
     </main>
 

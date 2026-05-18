@@ -1,6 +1,6 @@
-<!-- <script setup>
+<script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { CircleAlert, CircleCheck, TriangleAlert, Info } from 'lucide-vue-next';
+import { CircleAlert, CircleCheck, TriangleAlert, Info } from '@lucide/vue';
 
 const emit = defineEmits(['closeModal', 'confirmAction']);
 
@@ -92,4 +92,4 @@ onUnmounted(() => {
       </div>
     </div>
   </div>
-</template> -->
+</template>

@@ -3,6 +3,11 @@ import { useAverage } from '@/composables/useAverage';
 import { useRouter } from 'vue-router';
 import { useFormatPrice } from '@/composables/useFormatPrice';
 import { Star } from '@lucide/vue';
+import { cartStore } from '@/stores/cart';
+import { useToastStore } from '@/stores/toast';
+
+const toast = useToastStore();
+const cart = cartStore();
 
 const props = defineProps({
   product: {
@@ -15,7 +20,12 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['addCart', 'toggleFeatured']);
+function addCartItem() {
+  cart.addProduct(props.product)
+  toast.show('Éxito', 'Producto agregado correctamente', 'success')
+}
+
+const emit = defineEmits(['toggleFeatured']);
 
 const router = useRouter();
 
@@ -102,7 +112,7 @@ const formatedPriceValue = (value) => {
       Editar
     </button>
 
-    <button v-else-if="props.product.stocks?.[0]?.quantity > 0" @click.stop="emit('addCart', props.product)" class="mt-3 h-11 w-full rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.97]">
+    <button v-else-if="props.product.stocks?.[0]?.quantity > 0" @click.stop="addCartItem" class="mt-3 h-11 w-full rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.97]">
       Agregar
     </button>
 
