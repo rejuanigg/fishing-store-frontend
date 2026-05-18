@@ -10,7 +10,7 @@ async function onSubmit() {
   const response = await api.post('/sections', {
     name: name.value
   })
-  return router.push('/panel')
+  return router.push('/admin-panel/dashboard')
 }
 
 </script>
