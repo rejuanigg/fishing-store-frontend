@@ -157,7 +157,7 @@ const successModal = () => router.push('/admin-panel/dashboard')
 
             <div class="w-full flex text-xl items-center justify-center gap-5">
               <span @click="downStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">-</span>
-              <span>{{actualStock}}</span>
+              <input v-model="actualStock" type="number">
               <span @click="upStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">+</span>
             </div>
 
