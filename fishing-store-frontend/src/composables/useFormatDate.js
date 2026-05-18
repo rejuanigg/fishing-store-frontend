@@ -4,7 +4,7 @@ export function useFormatDate(value) {
 
   try {
     //Le damos un formato que entienda js
-    const dateString = String(value).trim().replace(' ', 'T') + 'Z';
+    const dateString = String(value).trim().replace(' ', 'T');
     //Creamos la nueva fecha con la fecha seteada
     const date = new Date(dateString);
 
