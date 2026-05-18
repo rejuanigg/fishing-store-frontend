@@ -406,12 +406,10 @@ const successModal = () => {
               Gestioná el stock disponible.
             </p>
 
-            <div class="flex w-full items-center justify-center gap-3">
-              <button @click="downStock" type="button" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 text-xl font-black text-emerald-700 transition active:scale-[0.96]">-</button>
-
-              <input v-model="actualStock" type="number" class="h-11 w-24 rounded-2xl border border-slate-200 bg-white text-center text-base font-black text-emerald-950 outline-none transition focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100">
-
-              <button @click="upStock" type="button" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 text-xl font-black text-emerald-700 transition active:scale-[0.96]">+</button>
+            <div class="w-full flex text-xl items-center justify-center gap-5">
+              <span @click="downStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">-</span>
+              <input v-model="actualStock" type="number">
+              <span @click="upStock" class="border border-emerald-400 bg-emerald-100 px-2 rounded-lg">+</span>
             </div>
           </div>
 
