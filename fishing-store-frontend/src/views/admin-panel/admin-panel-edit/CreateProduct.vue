@@ -178,9 +178,9 @@ const successModal = (id) => {
 
         </section>
 
-        <button class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white  text-sm font-semibold active:scale-[0.98] transition" :disabled="fecthLoading">
-          <span v-if="fecthLoading"> Creando...</span>
-          <span v-else>Crear producto</span>
+        <button class="h-13 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition disabled:opacity-60 disabled:active:scale-100" :disabled="fecthLoading">
+          <span v-if="fecthLoading">Guardando...</span>
+          <span v-else>Guardar Producto</span>
         </button>
       </form>
 
