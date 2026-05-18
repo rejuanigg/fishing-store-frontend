@@ -20,6 +20,7 @@ const router = createRouter({
       meta: {
         layout: 'focus',
         showBottomNav: false,
+        fullPage: true
       },
     },
     {
@@ -28,6 +29,7 @@ const router = createRouter({
       meta: {
         layout: 'focus',
         showBottomNav: false,
+        fullPage: true
       },
     },
     {
@@ -101,6 +103,7 @@ const router = createRouter({
     {
       path: '/admin-panel',
       component: AdminPanel,
+      name:'admin-panel',
       meta: {
         layout: 'admin',
         requiresAdmin: true,
