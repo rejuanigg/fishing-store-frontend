@@ -1,13 +1,18 @@
 <script setup>
 import SearchBar from '@/components/SearchBar.vue';
 import Loading from '@/components/UI/Loading.vue';
-import { useCategory } from '@/composables/useCategory';
-import { computed, ref } from 'vue';
+import { useCategoryStore } from '@/stores/category';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
+const categoryStore = useCategoryStore()
 
-const {categories , sections, isLoading} = useCategory();
+onMounted(() => categoryStore.fetch())
+
+const sections = computed(() => categoryStore.sections)
+const categories = computed(() => categoryStore.categories)
+
+const router = useRouter();
 
 const sectionName = (sectionId) => {
   const section = sections.value.find(s => s.id === sectionId);
