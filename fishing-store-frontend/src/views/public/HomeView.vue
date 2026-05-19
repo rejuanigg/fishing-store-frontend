@@ -71,30 +71,34 @@ const socialLinks = [
     <Hero />
 
     <main class="px-5 pt-6">
-      <section class="relative overflow-hidden rounded-[34px] border border-emerald-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+      <section class="relative overflow-hidden rounded-[34px] border border-emerald-100 bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)] sm:p-5">
         <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-100 blur-3xl"></div>
         <div class="absolute -left-16 bottom-0 h-36 w-36 rounded-full bg-cyan-100 blur-3xl"></div>
 
-        <div class="relative flex items-start justify-between gap-4">
-          <div class="min-w-0">
-            <div class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5">
-              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-              <span class="text-[11px] font-black uppercase tracking-[0.16em] text-emerald-700">Selección del creador</span>
+        <div class="relative flex flex-col gap-4">
+          <div class="flex items-center justify-between gap-3">
+            <div class="inline-flex min-w-0 items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5">
+              <span class="h-2 w-2 shrink-0 rounded-full bg-emerald-500"></span>
+              <span class="truncate text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700 sm:text-[11px]">Selección del creador</span>
             </div>
 
-            <h2 class="mt-4 text-2xl font-black leading-tight tracking-tight text-emerald-950">Productos destacados</h2>
-            <p class="mt-2 max-w-[260px] text-sm font-medium leading-6 text-slate-500">Equipos recomendados para comprar rápido y preparar tu próxima salida.</p>
+            <RouterLink to="/products" class="shrink-0 rounded-2xl border border-emerald-100 bg-white px-4 py-2.5 text-xs font-black text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.96]">Ver todos</RouterLink>
           </div>
 
-          <RouterLink to="/products" class="shrink-0 rounded-2xl border border-emerald-100 bg-white px-4 py-2.5 text-xs font-black text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.96]">Ver todos</RouterLink>
+          <div>
+            <h2 class="text-2xl font-black leading-tight tracking-tight text-emerald-950">Productos destacados</h2>
+            <p class="mt-2 max-w-[300px] text-sm font-medium leading-6 text-slate-500">Equipos recomendados para comprar rápido y preparar tu próxima salida.</p>
+          </div>
         </div>
 
         <div v-if="loadingFeatured" class="relative mt-5 flex min-h-[220px] items-center justify-center rounded-[28px] border border-emerald-100 bg-slate-50/80">
           <Loading />
         </div>
 
-        <div v-else-if="featuredProducts.length > 0" class="relative mt-5 grid gap-4" :class="featuredProducts.length === 1 ? 'grid-cols-1' : 'grid-cols-2'">
-          <ProductCard v-for="product in featuredProducts" :key="product.id" :product="product" @addCart="addCart" />
+        <div v-else-if="featuredProducts.length > 0" class="relative -mx-1 mt-5 grid auto-cols-[minmax(155px,170px)] grid-flow-col gap-3 overflow-x-auto px-1 pb-3 snap-x snap-mandatory sm:mx-0 sm:grid-flow-row sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+          <div v-for="product in featuredProducts" :key="product.id" class="snap-start">
+            <ProductCard :product="product" @addCart="addCart" />
+          </div>
         </div>
 
         <div v-else class="relative mt-5 rounded-[28px] border border-dashed border-emerald-200 bg-emerald-50/40 px-6 py-10 text-center">

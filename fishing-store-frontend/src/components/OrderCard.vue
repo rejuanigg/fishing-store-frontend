@@ -4,9 +4,11 @@ import api from '@/services/api';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { useFormatPrice } from '@/composables/useFormatPrice';
+import { useToastStore } from '@/stores/toast';
 
 const router = useRouter();
 const auth = useAuthStore();
+const toast = useToastStore();
 
 const emit = defineEmits(['statusUpdated'])
 defineProps(['orders'])
@@ -25,9 +27,22 @@ const statusLabels = {
 //Edicion
 
 const updateStatus = async (newStatus, id) => {
-  const response = await api.patch(`/orders/${id}`, { status: newStatus });
+  try {
+    const response = await api.patch(`/orders/${id}`, { status: newStatus });
+    emit('statusUpdated', response.data.data);
+  }
 
-  emit('statusUpdated', response.data.data);
+  catch (error) {
+    const errors = error.response?.data?.errors
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo cambiar el estado de la orden.'
+    toast.show('Error', message, 'error')
+  }
+
+  finally {
+    fecthLoading.value = false
+  }
 }
 
 const { formatPrice } = useFormatPrice();

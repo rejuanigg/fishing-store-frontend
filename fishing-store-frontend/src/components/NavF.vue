@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-  <nav v-if="active" class="w-full h-full px-2 py-3 flex items-center justify-between">
+  <nav v-if="active" class="relative flex h-full w-full items-center justify-between">
 
     <RouterLink to="/" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition" active-class="text-emerald-600">
       <House class="h-[22px] w-[22px]" />

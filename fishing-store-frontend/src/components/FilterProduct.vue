@@ -1,92 +1,128 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useCategoryStore } from '@/stores/category';
 
-const categoryStore = useCategoryStore()
+const emit = defineEmits(['sendCat', 'viewAll', 'toggleClose']);
 
-onMounted(() => categoryStore.fetch())
-
-const sections = computed(() => categoryStore.sections)
-const categories = computed(() => categoryStore.categories)
+const categoryStore = useCategoryStore();
 
 const selectedSection = ref(null);
-const emit = defineEmits(['sendCat', 'viewAll', 'toggleClose'])
+const selectedCategory = ref(null);
+const sectionSearch = ref('');
+const categorySearch = ref('');
 
-const filterCatBySec = computed(()=>{
-  return categories.value.filter(({section_id})=>section_id === selectedSection.value)
-})
+onMounted(() => {
+  categoryStore.fetch();
+});
 
+const sections = computed(() => categoryStore.sections);
+const categories = computed(() => categoryStore.categories);
 
+const filteredSections = computed(() => {
+  const search = sectionSearch.value.trim().toLowerCase();
 
+  if (!search) return sections.value;
+
+  return sections.value.filter((section) => section.name.toLowerCase().includes(search));
+});
+
+const categoriesBySelectedSection = computed(() => {
+  if (!selectedSection.value) return [];
+
+  return categories.value.filter((category) => category.section_id === selectedSection.value);
+});
+
+const filteredCategories = computed(() => {
+  const search = categorySearch.value.trim().toLowerCase();
+
+  if (!search) return categoriesBySelectedSection.value;
+
+  return categoriesBySelectedSection.value.filter((category) => category.name.toLowerCase().includes(search));
+});
+
+watch(selectedSection, () => {
+  selectedCategory.value = null;
+  categorySearch.value = '';
+});
+
+function selectSection(sectionId) {
+  selectedSection.value = sectionId;
+}
+
+function selectCategory(categoryId) {
+  selectedCategory.value = categoryId;
+}
+
+function applyFilter() {
+  if (!selectedCategory.value) return;
+
+  emit('sendCat', selectedCategory.value);
+}
+
+function clearFilters() {
+  selectedSection.value = null;
+  selectedCategory.value = null;
+  sectionSearch.value = '';
+  categorySearch.value = '';
+
+  emit('viewAll');
+}
 </script>
 
 <template>
-
-  <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-5 pb-8 max-h-[75vh] overflow-y-auto shadow-2xl flex flex-col gap-6">
-
-    <div class="w-14 h-1.5 rounded-full bg-gray-200 mx-auto"></div>
-
-    <div class="flex items-center justify-between">
-
-      <div class="flex flex-col">
-        <h3 class="text-lg font-bold text-emerald-950">Filtros</h3>
-        <p class="text-sm text-gray-500">Encontrá productos más rápido.</p>
+  <div class="flex flex-col gap-6">
+    <section class="flex flex-col gap-3">
+      <div>
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Sección</span>
+        <p class="mt-1 text-sm font-medium leading-6 text-slate-500">Buscá el tipo de producto para filtrar más rápido.</p>
       </div>
 
-      <button @click="$emit('toggleClose')" class="h-10 w-10 rounded-2xl bg-gray-100 text-gray-500 text-lg font-semibold active:scale-95 transition">
-        ×
-      </button>
+      <input v-model="sectionSearch" type="text" placeholder="Buscar sección..." class="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white">
 
-    </div>
-
-    <div class="flex flex-col gap-3">
-
-      <label class="text-sm font-semibold text-emerald-900">
-        Tipo de producto
-      </label>
-
-      <select v-model="selectedSection" class="h-12 px-4 rounded-2xl border border-gray-200 bg-gray-50 text-sm text-emerald-950 outline-none">
-
-        <option value="" disabled selected hidden>
-          Elige una seccion
-        </option>
-
-        <option v-for="section in sections" :key="section.id" :value="section.id">
-          {{ section.name }}
-        </option>
-
-      </select>
-
-    </div>
-
-    <div class="flex flex-col gap-3">
-
-      <span class="text-sm font-semibold text-emerald-900">
-        Categorías
-      </span>
-
-      <div class="flex flex-wrap gap-2">
-
-        <button v-for="category in filterCatBySec" :key="category.id" @click="$emit('sendCat', category.id)" class="px-4 h-10 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-medium active:scale-95 transition">
-          {{ category.name }}
+      <div v-if="filteredSections.length" class="grid max-h-[220px] grid-cols-1 gap-2 overflow-y-auto pr-1 min-[420px]:grid-cols-2">
+        <button v-for="section in filteredSections" :key="section.id" type="button" @click="selectSection(section.id)" class="flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition active:scale-[0.97]" :class="selectedSection === section.id ? 'border-emerald-500 bg-emerald-50 text-emerald-800 shadow-[0_10px_24px_rgba(5,150,105,0.10)]' : 'border-slate-100 bg-white text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)]'">
+          <span class="line-clamp-2 text-sm font-black">{{ section.name }}</span>
+          <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-black" :class="selectedSection === section.id ? 'border-emerald-500 bg-emerald-600 text-white' : 'border-slate-200 bg-slate-50 text-transparent'">✓</span>
         </button>
-
       </div>
 
-    </div>
+      <div v-else class="rounded-[28px] border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center">
+        <p class="text-sm font-bold text-slate-500">No encontramos secciones con ese nombre.</p>
+      </div>
+    </section>
 
-    <div class="flex items-center gap-3 pt-2">
+    <section class="flex flex-col gap-3">
+      <div>
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Categoría</span>
+        <p class="mt-1 text-sm font-medium leading-6 text-slate-500">Elegí una categoría específica dentro de la sección.</p>
+      </div>
 
-      <button @click="$emit('viewAll')" class="flex-1 h-12 rounded-2xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold active:scale-95 transition">
-        Ver todo
-      </button>
+      <div v-if="!selectedSection" class="rounded-[28px] border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center">
+        <p class="text-sm font-bold text-slate-500">Primero seleccioná una sección.</p>
+      </div>
 
-      <button @click="$emit('toggleClose')" class="flex-1 h-12 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-95 transition">
-        Aplicar
-      </button>
+      <template v-else>
+        <input v-model="categorySearch" type="text" placeholder="Buscar categoría..." class="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white">
 
-    </div>
+        <div v-if="filteredCategories.length" class="grid max-h-[240px] grid-cols-1 gap-2 overflow-y-auto pr-1 min-[420px]:grid-cols-2">
+          <button v-for="category in filteredCategories" :key="category.id" type="button" @click="selectCategory(category.id)" class="flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition active:scale-[0.97]" :class="selectedCategory === category.id ? 'border-emerald-500 bg-emerald-50 text-emerald-800 shadow-[0_10px_24px_rgba(5,150,105,0.10)]' : 'border-slate-100 bg-white text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)]'">
+            <span class="line-clamp-2 text-sm font-black">{{ category.name }}</span>
+            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-black" :class="selectedCategory === category.id ? 'border-emerald-500 bg-emerald-600 text-white' : 'border-slate-200 bg-slate-50 text-transparent'">✓</span>
+          </button>
+        </div>
 
+        <div v-else class="rounded-[28px] border border-dashed border-slate-200 bg-slate-50 px-5 py-8 text-center">
+          <p class="text-sm font-bold text-slate-500">No encontramos categorías para esa búsqueda.</p>
+        </div>
+      </template>
+    </section>
+
+    <section class="sticky bottom-0 -mx-5 border-t border-slate-100 bg-white/95 px-5 pb-[calc(env(safe-area-inset-bottom)+4px)] pt-4 backdrop-blur-xl">
+      <div class="flex items-center gap-3">
+        <button type="button" @click="clearFilters" class="flex h-12 flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition active:scale-[0.97]">Ver todo</button>
+
+        <button type="button" @click="applyFilter" :disabled="!selectedCategory" class="flex h-12 flex-1 items-center justify-center rounded-2xl bg-emerald-600 px-4 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.97] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">Aplicar filtro</button>
+      </div>
+    </section>
   </div>
-
 </template>

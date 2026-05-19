@@ -5,102 +5,154 @@ import { useCategoryStore } from '@/stores/category';
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const categoryStore = useCategoryStore()
-
-onMounted(() => categoryStore.fetch())
-
-const sections = computed(() => categoryStore.sections)
-const categories = computed(() => categoryStore.categories)
-
+const categoryStore = useCategoryStore();
 const router = useRouter();
 
-const sectionName = (sectionId) => {
-  const section = sections.value.find(s => s.id === sectionId);
+const isLoading = ref(true);
+const searchValue = ref('');
+
+onMounted(async () => {
+  try {
+    await categoryStore.fetch();
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+const sections = computed(() => categoryStore.sections);
+const categories = computed(() => categoryStore.categories);
+
+const filteredCategories = computed(() => {
+  const search = searchValue.value.trim().toLowerCase();
+
+  if (!search) return categories.value;
+
+  return categories.value.filter((category) => {
+    return category.name.toLowerCase().includes(search);
+  });
+});
+
+function sectionName(sectionId) {
+  const section = sections.value.find((section) => {
+    return section.id === sectionId;
+  });
+
   return section ? section.name : 'Sin sección';
 }
 
-const toEdit = (id) => {
-  return router.push({name:'admin-category-edit', params:{ id:id }})
+function toEdit(id) {
+  router.push({
+    name: 'admin-category-edit',
+    params: { id },
+  });
 }
-
-const searchValue = ref('')
-
-const filterByName = computed(()=>{
-  return categories.value.filter((cat)=>cat.name.toLowerCase().includes(searchValue.value.toLowerCase()))
-})
-
 </script>
 
 <template>
-
-
-  <div v-if="isLoading" class="flex min-h-screen w-full items-center justify-center overflow-hidden">
+  <div v-if="isLoading" class="min-h-[100dvh] bg-slate-50">
     <Loading />
   </div>
 
-  <div v-else>
-
-    <section class="px-5 pt-6 flex flex-col gap-5 w-full">
-
+  <div v-else class="min-h-[100dvh] bg-slate-50">
+    <section class="mx-auto flex w-full max-w-5xl flex-col gap-5 px-5 pt-6">
       <div class="flex flex-col gap-2">
-        <h1 class="text-2xl font-bold text-emerald-950">
-          Gestión de Categorías
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+          Panel admin
+        </span>
+
+        <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+          Gestión de categorías
         </h1>
 
-        <p class="text-sm leading-6 text-gray-500">
+        <p class="text-sm font-medium leading-6 text-slate-500">
           Editá, organizá y administrá las categorías visibles dentro de la tienda.
         </p>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="rounded-[30px] border border-slate-100 bg-white p-3 shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
+        <div class="flex items-center gap-3">
+          <div class="min-w-0 flex-1">
+            <SearchBar v-model="searchValue" />
+          </div>
 
-        <div class="flex-1">
-          <SearchBar v-model="searchValue"></SearchBar>
+          <RouterLink
+            to="/admin-panel/categories/create"
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-xl font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.95]"
+          >
+            +
+          </RouterLink>
         </div>
+      </div>
+    </section>
+
+    <main class="mx-auto w-full max-w-5xl px-5 pb-28 pt-6">
+      <div class="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-black text-emerald-950">
+            Categorías registradas
+          </h2>
+
+          <p class="mt-1 text-xs font-semibold text-slate-500">
+            {{ filteredCategories.length }} categorías encontradas
+          </p>
+        </div>
+
+        <span class="shrink-0 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-black text-emerald-700">
+          Catálogo
+        </span>
+      </div>
+
+      <section v-if="filteredCategories.length" class="grid grid-cols-1 gap-3 min-[640px]:grid-cols-2">
+        <article
+          v-for="category in filteredCategories"
+          :key="category.id"
+          class="rounded-[28px] border border-slate-100 bg-white p-4 shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition active:scale-[0.99]"
+        >
+          <div class="flex items-start justify-between gap-4">
+            <div class="min-w-0 flex-1">
+              <span class="line-clamp-2 text-base font-black leading-5 text-emerald-950">
+                {{ category.name }}
+              </span>
+
+              <p class="mt-2 text-sm font-semibold text-slate-500">
+                {{ sectionName(category.section_id) }}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              @click="toEdit(category.id)"
+              class="flex h-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 px-4 text-sm font-black text-emerald-700 transition active:scale-[0.95]"
+            >
+              Editar
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <section
+        v-else
+        class="rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]"
+      >
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
+          🗂️
+        </div>
+
+        <h3 class="mt-5 text-lg font-black text-emerald-950">
+          No encontramos categorías
+        </h3>
+
+        <p class="mt-2 text-sm font-medium leading-6 text-slate-500">
+          Probá cambiando la búsqueda o creá una nueva categoría.
+        </p>
 
         <RouterLink
           to="/admin-panel/categories/create"
-          class="h-12 w-12 shrink-0 rounded-2xl bg-emerald-500 text-white text-xl font-semibold flex items-center justify-center active:scale-95 transition"
+          class="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-emerald-600 px-6 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.98]"
         >
-          +
+          Crear categoría
         </RouterLink>
-
-      </div>
-
-    </section>
-
-    <section class="px-5 pt-6 pb-28 flex flex-col gap-3">
-
-      <div
-        v-for="category in filterByName"
-        :key="category.id"
-        class="bg-white border border-gray-100 rounded-3xl p-4 shadow-sm active:scale-[0.99] transition"
-      >
-
-        <div class="flex items-start justify-between gap-4">
-
-          <div class="flex flex-col gap-1">
-
-            <span class="text-base font-semibold text-emerald-950">
-              {{ category.name }}
-            </span>
-            <p class="text-sm text-gray-500"> {{ sectionName(category.section_id) }}</p>
-
-          </div>
-
-          <button
-            @click="toEdit(category.id)"
-            class="h-10 px-4 rounded-xl bg-emerald-50 text-emerald-700 text-sm font-semibold whitespace-nowrap active:scale-95 transition"
-          >
-            Editar
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
+      </section>
+    </main>
   </div>
-
-
 </template>

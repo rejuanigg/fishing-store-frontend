@@ -1,23 +1,61 @@
 <script setup>
 import api from '@/services/api';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useToastStore } from '@/stores/toast';
+
+const router = useRouter();
+const toast = useToastStore();
 
 const name = ref('');
 const email = ref('');
 const password = ref('');
+const passwordConfirmation = ref('');
 
-const router = useRouter();
+const registerLoading = ref(false);
 
-async function onSubmit(){
-  const response = await api.post('/register',{
-    name:name.value,
-    email:email.value,
-    password:password.value
-  })
-  return router.push('/login')
+const canSubmit = computed(() => {
+  return name.value.trim() !== '' && email.value.trim() !== '' && password.value.length >= 8 && password.value === passwordConfirmation.value && !registerLoading.value;
+});
+
+async function onSubmit() {
+  if (!canSubmit.value) {
+    if (password.value.length < 8) {
+      toast.show('Atención', 'La contraseña debe tener al menos 8 caracteres.', 'warning');
+      return;
+    }
+
+    if (password.value !== passwordConfirmation.value) {
+      toast.show('Atención', 'Las contraseñas no coinciden.', 'warning');
+      return;
+    }
+
+    toast.show('Atención', 'Completá todos los campos antes de crear la cuenta.', 'warning');
+    return;
+  }
+
+  registerLoading.value = true;
+
+  try {
+    await api.post('/register', {
+      name: name.value.trim(),
+      email: email.value.trim(),
+      password: password.value,
+      password_confirmation: passwordConfirmation.value,
+    });
+
+    toast.show('Éxito', 'Cuenta creada correctamente. Ahora podés iniciar sesión.', 'success');
+
+    router.replace('/login');
+  } catch (error) {
+    const errors = error.response?.data?.errors;
+    const message = errors ? Object.values(errors).flat().join(' | ') : error.response?.data?.message ?? 'No se pudo crear la cuenta. Revisá los datos e intentá nuevamente.';
+
+    toast.show('Error', message, 'error');
+  } finally {
+    registerLoading.value = false;
+  }
 }
-
 </script>
 
 <template>
@@ -58,6 +96,7 @@ async function onSubmit(){
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-3xl bg-white shadow-[0_14px_35px_rgba(15,23,42,0.08)]">
               <span class="text-2xl">🎣</span>
             </div>
+
             <p class="text-sm font-black uppercase tracking-[0.16em] text-emerald-700">Tienda de pesca</p>
             <h1 class="mt-2 text-3xl font-black tracking-tight text-emerald-950">Creá tu cuenta</h1>
             <p class="mt-2 text-sm font-medium leading-relaxed text-slate-500">Pedí más rápido y seguí tus órdenes desde la tienda.</p>
@@ -70,23 +109,35 @@ async function onSubmit(){
               <p class="mt-2 text-sm font-medium leading-relaxed text-slate-500">Registrate para hacer pedidos y consultar el estado de tus compras.</p>
             </div>
 
-            <form class="mt-6 flex w-full flex-col gap-5 lg:mt-8" @submit.prevent="onSubmit" id="login">
+            <form class="mt-6 flex w-full flex-col gap-5 lg:mt-8" @submit.prevent="onSubmit" id="register">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-black text-emerald-950" for="register-name">Nombre</label>
-                <input class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100" type="text" placeholder="Tu nombre" v-model="name" id="register-name">
+                <input v-model="name" id="register-name" type="text" autocomplete="name" placeholder="Tu nombre" class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100">
               </div>
 
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-black text-emerald-950" for="login-email">Email</label>
-                <input class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100" type="email" placeholder="example@user.com" v-model="email" id="login-email">
+                <label class="text-sm font-black text-emerald-950" for="register-email">Email</label>
+                <input v-model="email" id="register-email" type="email" autocomplete="email" placeholder="example@user.com" class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100">
               </div>
 
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-black text-emerald-950" for="login-password">Contraseña</label>
-                <input class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100" type="password" placeholder="Mínimo 8 caracteres" v-model="password" id="login-password">
+                <label class="text-sm font-black text-emerald-950" for="register-password">Contraseña</label>
+                <input v-model="password" id="register-password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100">
               </div>
 
-              <button class="mt-2 min-h-[56px] rounded-2xl bg-emerald-600 px-5 text-base font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition hover:bg-emerald-700 active:scale-[0.98]">Crear cuenta</button>
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-black text-emerald-950" for="register-password-confirmation">Confirmar contraseña</label>
+                <input v-model="passwordConfirmation" id="register-password-confirmation" type="password" autocomplete="new-password" placeholder="Repetí tu contraseña" class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100">
+              </div>
+
+              <p v-if="password && password.length < 8" class="rounded-2xl bg-amber-50 px-4 py-3 text-xs font-bold leading-5 text-amber-700">La contraseña debe tener al menos 8 caracteres.</p>
+
+              <p v-if="passwordConfirmation && password !== passwordConfirmation" class="rounded-2xl bg-red-50 px-4 py-3 text-xs font-bold leading-5 text-red-600">Las contraseñas no coinciden.</p>
+
+              <button type="submit" :disabled="!canSubmit" class="mt-2 min-h-[56px] rounded-2xl bg-emerald-600 px-5 text-base font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition hover:bg-emerald-700 active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">
+                <span v-if="registerLoading">Cargando...</span>
+                <span v-else>Crear cuenta</span>
+              </button>
             </form>
 
             <div class="mt-6 rounded-3xl border border-emerald-100 bg-emerald-50/70 px-5 py-4 text-center">

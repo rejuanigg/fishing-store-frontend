@@ -20,5 +20,17 @@ export const useCategoryStore = defineStore('category', () => {
     isLoading.value = false
   }
 
-  return { sections, categories, isLoading, fetch }
+  const refresh = async () => {
+  isLoading.value = true
+  const [resSections, resCategories] = await Promise.all([
+    api.get('/sections'),
+    api.get('/categories')
+  ])
+  sections.value = resSections.data.data
+  categories.value = resCategories.data.data
+  isLoading.value = false
+}
+
+return { sections, categories, isLoading, fetch, refresh }
+
 })

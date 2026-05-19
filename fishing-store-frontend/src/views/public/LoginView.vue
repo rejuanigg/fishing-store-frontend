@@ -1,26 +1,59 @@
 <script setup>
 import api from '@/services/api';
 import { useAuthStore } from '@/stores/auth';
-import { ref } from 'vue';
+import { useToastStore } from '@/stores/toast';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-
-const email = ref('');
-const password =  ref('');
 
 const router = useRouter();
 const authStore = useAuthStore();
+const toast = useToastStore();
 
-async function onSubmit(){
-  const response = await api.post('/login', {
-    email:email.value,
-    password:password.value,
-  })
+const email = ref('');
+const password = ref('');
 
-  authStore.login(response.data.token, response.data.id);
-  localStorage.setItem('token', response.data.token);
-  return router.push('/')
+const loginLoading = ref(false);
+
+const canSubmit = computed(() => {
+  return email.value.trim() !== '' && password.value.trim() !== '' && !loginLoading.value;
+});
+
+async function onSubmit() {
+  if (!canSubmit.value) {
+    toast.show('Atención', 'Completá email y contraseña antes de ingresar.', 'warning');
+    return;
+  }
+
+  loginLoading.value = true;
+
+  try {
+    const response = await api.post('/login', {
+      email: email.value.trim(),
+      password: password.value,
+    });
+
+    authStore.login(response.data.token, response.data.id);
+    localStorage.setItem('token', response.data.token);
+
+    if (typeof authStore.fetchMe === 'function') {
+      await authStore.fetchMe();
+    }
+
+    toast.show('Éxito', 'Sesión iniciada correctamente.', 'success');
+
+    router.replace('/');
+  } catch (error) {
+    const errors = error.response?.data?.errors;
+
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo iniciar sesión. Revisá tus datos.';
+
+    toast.show('Error', message, 'error');
+  } finally {
+    loginLoading.value = false;
+  }
 }
-
 </script>
 
 <template>
@@ -40,8 +73,13 @@ async function onSubmit(){
             <span class="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Tienda de pesca</span>
           </div>
 
-          <h1 class="mt-8 max-w-md text-5xl font-black leading-[1.05] tracking-tight text-emerald-950">Volvé a tu tienda. Revisá tus pedidos.</h1>
-          <p class="mt-5 max-w-md text-base font-medium leading-relaxed text-slate-500">Ingresá para continuar compras, consultar órdenes activas y coordinar tus pedidos por WhatsApp.</p>
+          <h1 class="mt-8 max-w-md text-5xl font-black leading-[1.05] tracking-tight text-emerald-950">
+            Volvé a tu tienda. Revisá tus pedidos.
+          </h1>
+
+          <p class="mt-5 max-w-md text-base font-medium leading-relaxed text-slate-500">
+            Ingresá para continuar compras, consultar órdenes activas y coordinar tus pedidos por WhatsApp.
+          </p>
 
           <div class="mt-10 grid gap-3">
             <div class="rounded-[28px] border border-emerald-100 bg-white/80 p-5 shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
@@ -61,6 +99,7 @@ async function onSubmit(){
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-3xl bg-white shadow-[0_14px_35px_rgba(15,23,42,0.08)]">
               <span class="text-2xl">🎣</span>
             </div>
+
             <p class="text-sm font-black uppercase tracking-[0.16em] text-emerald-700">Tienda de pesca</p>
             <h1 class="mt-2 text-3xl font-black tracking-tight text-emerald-950">Iniciá sesión</h1>
             <p class="mt-2 text-sm font-medium leading-relaxed text-slate-500">Entrá para ver tus pedidos y comprar más rápido.</p>
@@ -76,15 +115,38 @@ async function onSubmit(){
             <form class="mt-6 flex w-full flex-col gap-5 lg:mt-8" @submit.prevent="onSubmit" id="login">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-black text-emerald-950" for="login-email">Email</label>
-                <input class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100" type="email" placeholder="example@user.com" v-model="email" id="login-email">
+
+                <input
+                  v-model="email"
+                  id="login-email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="example@user.com"
+                  class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+                >
               </div>
 
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-black text-emerald-950" for="login-password">Contraseña</label>
-                <input class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100" type="password" placeholder="Tu contraseña" v-model="password" id="login-password">
+
+                <input
+                  v-model="password"
+                  id="login-password"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Tu contraseña"
+                  class="min-h-[54px] rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm font-semibold text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+                >
               </div>
 
-              <button class="mt-2 min-h-[56px] rounded-2xl bg-emerald-600 px-5 text-base font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition hover:bg-emerald-700 active:scale-[0.98]">Iniciar sesión</button>
+              <button
+                type="submit"
+                :disabled="!canSubmit"
+                class="mt-2 min-h-[56px] rounded-2xl bg-emerald-600 px-5 text-base font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition hover:bg-emerald-700 active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100"
+              >
+                <span v-if="loginLoading">Cargando...</span>
+                <span v-else>Iniciar sesión</span>
+              </button>
             </form>
 
             <div class="mt-6 rounded-3xl border border-emerald-100 bg-emerald-50/70 px-5 py-4 text-center">

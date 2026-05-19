@@ -1,47 +1,27 @@
 <script setup>
 import api from '@/services/api';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Modal from '@/components/UI/Modal.vue';
 import { useCategoryStore } from '@/stores/category';
 import { useToastStore } from '@/stores/toast';
 
 const toast = useToastStore();
-const fecthLoading = ref(false)
-
-const categoryStore = useCategoryStore()
-
-onMounted(() => categoryStore.fetch())
-
-const sections = computed(() => categoryStore.sections)
-const categories = computed(() => categoryStore.categories)
+const categoryStore = useCategoryStore();
 
 const route = useRoute();
 const router = useRouter();
 
-//Traemos las secciones
-//Traer la categoria de la ruta anterior, catId guarda el id a editar.
-const catId = Number(route.params.id)
+const catId = Number(route.params.id);
 
-//Traer las categorias de la base de datos
-const cat = ref(null)
+const pageLoading = ref(true);
+const updateLoading = ref(false);
+const deleteLoading = ref(false);
 
-//Mostrar datos anteriores
+const cat = ref(null);
 const name = ref('');
-const selectedSection = ref(null)
-////Acá vamos a buscar a la seccion que teniamos seleccionada
-watch([categories, sections], ([actualCat, ActualSec])=>{
-  if (actualCat.length > 0 || ActualSec.length > 0){
-    const found = actualCat.find(c=>c.id === catId)
-    if(found){
-      cat.value = found;
-      name.value = found.name;
-      selectedSection.value = found.section_id;
-    }
-  }
-})
+const selectedSection = ref(null);
 
-//Manejo del modal
 const modal = ref({
   visible: false,
   variant: 'warning',
@@ -49,26 +29,112 @@ const modal = ref({
   text: '',
   confirmText: '',
   action: null,
-  showCancel:true
-})
+  showCancel: true,
+});
 
-//  El modal de confirmar eliminacion se abre
-const openDeleteModal = () => {
+const sections = computed(() => categoryStore.sections);
+
+const canSubmit = computed(() => {
+  return name.value.trim() !== '' && selectedSection.value !== null && !updateLoading.value;
+});
+
+onMounted(async () => {
+  try {
+    await categoryStore.fetch();
+
+    const found = categoryStore.categories.find((category) => {
+      return category.id === catId;
+    });
+
+    if (!found) {
+      toast.show('Error', 'No se encontró la categoría solicitada.', 'error');
+      router.replace({ name: 'admin-categories' });
+      return;
+    }
+
+    cat.value = found;
+    name.value = found.name;
+    selectedSection.value = found.section_id;
+  } finally {
+    pageLoading.value = false;
+  }
+});
+
+function closeModal() {
+  if (updateLoading.value || deleteLoading.value) return;
+
+  modal.value.visible = false;
+}
+
+function openSuccessModal() {
+  if (!canSubmit.value) {
+    toast.show('Atención', 'Completá el nombre y la sección antes de guardar.', 'warning');
+    return;
+  }
+
   modal.value = {
     visible: true,
     variant: 'warning',
-    title: 'Eliminar categoría',
-    text: 'Estas por borrar una categoría. ¿Desea continuar?',
-    confirmText: 'Eliminar',
-    action: handleDelete,
-    showCancel:true
+    title: 'Modificar categoría',
+    text: 'Los cambios serán visibles en todos los productos asociados a esta categoría.',
+    confirmText: 'Guardar cambios',
+    action: onSubmit,
+    showCancel: true,
+  };
+}
+
+async function onSubmit() {
+  if (!canSubmit.value) return;
+
+  updateLoading.value = true;
+
+  try {
+    await api.put(`/categories/${catId}`, {
+      name: name.value.trim(),
+      section_id: selectedSection.value,
+    });
+
+    modal.value = {
+      visible: true,
+      variant: 'success',
+      title: 'Cambios aplicados',
+      text: 'La categoría fue modificada correctamente.',
+      confirmText: 'Continuar',
+      action: successModal,
+      showCancel: false,
+    };
+  } catch (error) {
+    const errors = error.response?.data?.errors;
+    const message = errors
+      ? Object.values(errors).flat().join(' | ')
+      : error.response?.data?.message ?? 'No se pudo editar la categoría';
+
+    toast.show('Error', message, 'error');
+  } finally {
+    updateLoading.value = false;
   }
 }
 
-//  Delete, esta funcion borra la categoria y devuelve un mensaje de success
-async function handleDelete(){
+function openDeleteModal() {
+  modal.value = {
+    visible: true,
+    variant: 'danger',
+    title: '¿Eliminar categoría?',
+    text: 'Esta acción puede afectar la organización de productos asociados. Confirmá solo si estás seguro.',
+    confirmText: 'Eliminar',
+    action: handleDelete,
+    showCancel: true,
+  };
+}
+
+async function handleDelete() {
+  if (deleteLoading.value) return;
+
+  deleteLoading.value = true;
+
   try {
-    await api.delete(`/categories/${catId}`)
+    await api.delete(`/categories/${catId}`);
+
     modal.value = {
       visible: true,
       variant: 'success',
@@ -76,147 +142,147 @@ async function handleDelete(){
       text: 'La categoría fue eliminada correctamente.',
       confirmText: 'Continuar',
       action: successDeleteModal,
-      showCancel:true
-    }
-  }
-  catch (error) {
-    const errors = error.response?.data?.errors
+      showCancel: false,
+    };
+  } catch (error) {
+    const errors = error.response?.data?.errors;
     const message = errors
       ? Object.values(errors).flat().join(' | ')
-      : error.response?.data?.message ?? 'No se pudo eliminar la categoria'
-    toast.show('Error', message, 'error')
-  }
+      : error.response?.data?.message ?? 'No se pudo eliminar la categoría';
 
-  finally {
-    fecthLoading.value = false
-  }
-}
-
-// Esta funcion es para cerrar el modal
-const closeModal = () => {
-  modal.value.visible = false
-}
-
-//Esta tiene un mensaje de advertencia
-const openSuccessModal = () => {
-  modal.value = {
-    visible: true,
-    variant: 'warning',
-    title: 'Está por modificar una categoria',
-    text: 'Tenga en cuenta los cambios serán visibles para todos los productos ya existentes.',
-    confirmText: 'Continuar',
-    action: onSubmit
+    toast.show('Error', message, 'error');
+  } finally {
+    deleteLoading.value = false;
   }
 }
 
-async function onSubmit(){
-  try {
-    await api.put(`/categories/${catId}`,{
-      name:name.value,
-      section_id:selectedSection.value
-    })
-    modal.value = {
-      visible: true,
-      variant: 'success',
-      title: 'Cambios aplicados',
-      text: 'Las modificaciones se aplicaron correctamente. Puedes ver los cambios en el panel de administrador',
-      confirmText: 'Continuar',
-      action: successModal,
-      showCancel:false
-    }
-  }
+async function successModal() {
+  await categoryStore.refresh();
 
-  catch (error) {
-    const errors = error.response?.data?.errors
-    const message = errors
-      ? Object.values(errors).flat().join(' | ')
-      : error.response?.data?.message ?? 'No se pudo editar la categoria'
-    toast.show('Error', message, 'error')
-  }
+  toast.show('Éxito', 'Categoría modificada correctamente', 'success');
 
-  finally {
-    fecthLoading.value = false
-  }
-}
-// Esto retorna a el panel luego de que se haya creado o eliminado una categoria
-
-const successDeleteModal = () => {
-  toast.show('Éxito', 'Categoria eliminada correctamente', 'success')
-  return router.push('/admin-panel/dashboard')
+  router.replace({ name: 'admin-categories' });
 }
 
-const successModal = () => {
-  toast.show('Éxito', 'Categoria modificada correctamente', 'success')
-  return router.push('/admin-panel/dashboard')
-}
+async function successDeleteModal() {
+  await categoryStore.refresh();
 
+  toast.show('Éxito', 'Categoría eliminada correctamente', 'success');
+
+  router.replace({ name: 'admin-categories' });
+}
 </script>
 
 <template>
+  <section class="min-h-screen bg-slate-50">
+    <div v-if="pageLoading" class="flex min-h-[100dvh] w-full items-center justify-center px-5">
+      <div class="rounded-[34px] border border-slate-100 bg-white px-8 py-10 text-center shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+          Panel admin
+        </span>
 
-<section class="min-h-screen w-full flex flex-col justify-between">
-  <div class="px-5 pt-6 flex flex-col gap-6">
-    <div class="flex flex-col gap-2">
+        <h2 class="mt-2 text-xl font-black text-emerald-950">
+          Cargando categoría...
+        </h2>
 
-      <h1 class="text-2xl font-bold text-emerald-950">Configuración de Categoría</h1>
-
-      <p class="text-sm leading-6 text-gray-500">Modificá el nombre y la sección asociada a esta categoría.</p>
+        <p class="mt-2 text-sm font-medium leading-6 text-slate-500">
+          Estamos buscando la información guardada.
+        </p>
+      </div>
     </div>
 
-    <form @submit.prevent="openSuccessModal" class="flex flex-col gap-5">
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Sección
-        </label>
+    <div v-else class="mx-auto flex w-full max-w-screen-md flex-col gap-8 px-5 pb-32 pt-6">
+      <section class="flex flex-col gap-2">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+          Panel admin
+        </span>
 
-        <select
-          v-model="selectedSection"
-          class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
-          <option v-for="value in sections" :value="value.id">
-              {{ value.name }}
-          </option>
-        </select>
+        <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+          Configuración de categoría
+        </h1>
 
-      </div>
+        <p class="text-sm font-medium leading-6 text-slate-500">
+          Modificá el nombre y la sección asociada a esta categoría.
+        </p>
+      </section>
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-emerald-900">
-          Nombre
-        </label>
+      <form @submit.prevent="openSuccessModal" class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-black text-emerald-900">
+              Sección
+            </label>
 
-        <input type="text" v-model="name" placeholder="Ej: Cañas de pesca"
-        class="h-13 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none focus:border-emerald-500">
-      </div>
+            <select
+              v-model="selectedSection"
+              class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition focus:border-emerald-500"
+            >
+              <option :value="null" disabled>
+                Seleccioná una sección
+              </option>
 
-      <button
-        class="h-13 mt-2 rounded-2xl bg-emerald-500 text-white text-sm font-semibold active:scale-[0.98] transition">
-          <span>Guardar Cambios</span>
-      </button>
+              <option v-for="section in sections" :key="section.id" :value="section.id">
+                {{ section.name }}
+              </option>
+            </select>
+          </div>
 
-    </form>
-  </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-black text-emerald-900">
+              Nombre
+            </label>
 
-  <div class="px-5 pb-28 pt-10">
-    <button
-      @click="openDeleteModal"
-      class="w-full h-13 rounded-2xl border border-red-200 bg-red-50 text-red-600 text-sm font-semibold active:scale-[0.98] transition">
-        <span>Eliminar categoria</span>
-    </button>
+            <input
+              v-model="name"
+              type="text"
+              placeholder="Ej: Cañas de pesca"
+              class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"
+            >
+          </div>
 
-  </div>
+          <button
+            type="submit"
+            :disabled="!canSubmit"
+            class="h-13 rounded-2xl bg-emerald-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100"
+          >
+            <span v-if="updateLoading">Cargando...</span>
+            <span v-else>Guardar cambios</span>
+          </button>
+        </div>
+      </form>
 
+      <section class="rounded-[34px] border border-red-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
+        <div>
+          <h2 class="text-lg font-black text-red-600">
+            Zona peligrosa
+          </h2>
 
-<Modal
-  v-if="modal.visible"
-  :variant="modal.variant"
-  :title="modal.title"
-  :text="modal.text"
-  :confirm-text="modal.confirmText"
-  :show-cancel="modal.showCancel"
-  @confirm-action="modal.action"
-  @close-modal="closeModal"
-/>
+          <p class="mt-1 text-sm font-medium leading-6 text-slate-500">
+            Eliminá la categoría solo si ya no forma parte de la organización del catálogo.
+          </p>
+        </div>
 
-</section>
+        <button
+          type="button"
+          @click="openDeleteModal"
+          :disabled="deleteLoading"
+          class="mt-5 h-13 w-full rounded-2xl border border-red-200 bg-red-50 text-sm font-black text-red-600 transition active:scale-[0.98] disabled:opacity-60 disabled:active:scale-100"
+        >
+          <span v-if="deleteLoading">Cargando...</span>
+          <span v-else>Eliminar categoría</span>
+        </button>
+      </section>
+    </div>
 
+    <Modal
+      v-if="modal.visible"
+      :variant="modal.variant"
+      :title="modal.title"
+      :text="modal.text"
+      :confirm-text="updateLoading || deleteLoading ? 'Cargando...' : modal.confirmText"
+      :show-cancel="modal.showCancel"
+      @confirm-action="modal.action"
+      @close-modal="closeModal"
+    />
+  </section>
 </template>
