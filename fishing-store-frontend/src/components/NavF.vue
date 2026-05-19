@@ -13,31 +13,64 @@ defineProps({
 
 <template>
   <nav v-if="active" class="relative flex h-full w-full items-center justify-between">
+    <RouterLink to="/" custom v-slot="{ href, navigate, isExactActive }">
+      <a :href="href" @click="navigate" class="relative flex h-full flex-1 flex-col items-center justify-center gap-1 rounded-2xl transition active:scale-95" :class="isExactActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-400'">
+        <span v-if="isExactActive" class="absolute top-1 h-1 w-7 rounded-full bg-emerald-500"></span>
 
-    <RouterLink to="/" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition" active-class="text-emerald-600">
-      <House class="h-[22px] w-[22px]" />
-      <span class="text-[11px] font-semibold">Home</span>
+        <House class="h-[22px] w-[22px]" />
+
+        <span class="text-[11px] font-black">
+          Home
+        </span>
+      </a>
     </RouterLink>
 
-    <RouterLink to="/products" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition" active-class="text-emerald-600">
-      <FishingHook class="h-[22px] w-[22px]" />
-      <span class="text-[11px] font-semibold">Productos</span>
+    <RouterLink to="/products" custom v-slot="{ href, navigate, isActive }">
+      <a :href="href" @click="navigate" class="relative flex h-full flex-1 flex-col items-center justify-center gap-1 rounded-2xl transition active:scale-95" :class="isActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-400'">
+        <span v-if="isActive" class="absolute top-1 h-1 w-7 rounded-full bg-emerald-500"></span>
+
+        <FishingHook class="h-[22px] w-[22px]" />
+
+        <span class="text-[11px] font-black">
+          Productos
+        </span>
+      </a>
     </RouterLink>
 
-    <RouterLink to="/cart" class="relative -mt-8 h-16 w-16 rounded-full bg-emerald-500 shadow-lg shadow-emerald-200 flex flex-col items-center justify-center text-white active:scale-95 transition border-4 border-[#F9FAFB]">
-      <CartIcon class="h-6 w-6" />
-      <span class="text-[10px] font-bold">Carrito</span>
+    <RouterLink to="/cart" custom v-slot="{ href, navigate, isActive }">
+      <a :href="href" @click="navigate" class="relative -mt-8 flex h-16 w-16 flex-col items-center justify-center rounded-full border-4 border-[#F9FAFB] text-white shadow-lg transition active:scale-95" :class="isActive ? 'bg-emerald-700 shadow-emerald-300 ring-4 ring-emerald-100' : 'bg-emerald-500 shadow-emerald-200'">
+        <CartIcon class="h-6 w-6" />
+
+        <span class="text-[10px] font-black">
+          Carrito
+        </span>
+
+        <span v-if="isActive" class="absolute -bottom-2 h-1.5 w-9 rounded-full bg-emerald-600"></span>
+      </a>
     </RouterLink>
 
-    <RouterLink to="/orders" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition" active-class="text-emerald-600">
-      <ArrowRightLeft class="h-[22px] w-[22px]" />
-      <span class="text-[11px] font-semibold">Órdenes</span>
+    <RouterLink to="/orders" custom v-slot="{ href, navigate, isActive }">
+      <a :href="href" @click="navigate" class="relative flex h-full flex-1 flex-col items-center justify-center gap-1 rounded-2xl transition active:scale-95" :class="isActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-400'">
+        <span v-if="isActive" class="absolute top-1 h-1 w-7 rounded-full bg-emerald-500"></span>
+
+        <ArrowRightLeft class="h-[22px] w-[22px]" />
+
+        <span class="text-[11px] font-black">
+          Órdenes
+        </span>
+      </a>
     </RouterLink>
 
-    <RouterLink to="/user" class="flex-1 h-full flex flex-col items-center justify-center gap-1 text-gray-400 active:scale-95 transition" active-class="text-emerald-600">
-      <User class="h-[22px] w-[22px]" />
-      <span class="text-[11px] font-semibold">Usuario</span>
-    </RouterLink>
+    <RouterLink to="/user" custom v-slot="{ href, navigate, isActive }">
+      <a :href="href" @click="navigate" class="relative flex h-full flex-1 flex-col items-center justify-center gap-1 rounded-2xl transition active:scale-95" :class="isActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-400'">
+        <span v-if="isActive" class="absolute top-1 h-1 w-7 rounded-full bg-emerald-500"></span>
 
+        <User class="h-[22px] w-[22px]" />
+
+        <span class="text-[11px] font-black">
+          Usuario
+        </span>
+      </a>
+    </RouterLink>
   </nav>
 </template>
