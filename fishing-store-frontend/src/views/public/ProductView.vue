@@ -40,11 +40,33 @@ const userCalification = computed(() =>{
 })
 
 const averageValue = computed(() => {
-  const { average } = useAverage(product.value.califications);
+  const { average } = useAverage(product.value?.califications ?? []);
   return average;
 });
 
 const { formatPrice } = useFormatPrice();
+
+const whatsappPhone = '5493876190835';
+
+const productWhatsappUrl = computed(() => {
+  if (!product.value) return '#';
+
+  const productUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  const message = [
+    'Hola, buenas. Quiero consultar por este producto de la tienda online.',
+    '',
+    `Producto: ${product.value.name}`,
+    `Precio: ${formatPrice(product.value.price)}`,
+    `Stock disponible: ${product.value.stocks?.[0]?.quantity ?? 0} unidades`,
+    '',
+    'Me gustaría recibir más información para coordinar la compra.',
+    productUrl ? '' : null,
+    productUrl ? `Link del producto: ${productUrl}` : null,
+  ].filter(Boolean).join('\n');
+
+  return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
+});
 
 const toast = useToastStore()
 
@@ -81,7 +103,6 @@ const productCategories = computed(() => {
           </div>
 
           <div class="relative flex h-[300px] w-full items-center justify-center bg-white p-3 min-[380px]:h-[340px] min-[380px]:p-4 sm:h-[430px] lg:h-[520px]">
-
             <img v-if="product.images?.[item]?.image" class="relative z-[1] h-full w-full rounded-[24px] object-contain transition duration-300 sm:rounded-[28px]" :class="product.stocks?.[0]?.quantity <= 0 ? 'opacity-70 grayscale-[0.15]' : ''" :src="product.images?.[item]?.image" :alt="product.name">
             <img v-else src="../../assets/1.png" class="relative z-[1] h-full w-full rounded-[24px] object-contain transition duration-300 sm:rounded-[28px]" :class="product.stocks?.[0]?.quantity <= 0 ? 'opacity-70 grayscale-[0.15]' : ''" :alt="product.name">
           </div>
@@ -113,6 +134,18 @@ const productCategories = computed(() => {
                 {{ formatPrice(product.price) }}
               </p>
             </div>
+
+            <a :href="productWhatsappUrl" target="_blank" rel="noopener noreferrer" class="flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-emerald-200 bg-white px-2 py-3 text-center text-[12px] font-black leading-tight text-emerald-700 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition active:scale-[0.98] hover:bg-emerald-50 min-[300px]:px-4 min-[300px]:text-sm">
+              <span class="flex min-w-0 items-center justify-center gap-1.5 min-[300px]:gap-2">
+                <svg class="h-4 w-4 shrink-0 min-[300px]:h-5 min-[300px]:w-5" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                  <path d="M16.04 3C8.86 3 3.02 8.84 3.02 16.02c0 2.3.6 4.55 1.75 6.53L3 29l6.62-1.73a13 13 0 0 0 6.42 1.68h.01c7.18 0 13.02-5.84 13.02-13.02C29.07 8.84 23.23 3 16.04 3Zm0 23.75h-.01c-1.91 0-3.78-.51-5.42-1.48l-.39-.23-3.93 1.03 1.05-3.83-.25-.39a10.75 10.75 0 0 1-1.65-5.83c0-5.93 4.83-10.76 10.77-10.76 2.87 0 5.57 1.12 7.6 3.15a10.7 10.7 0 0 1 3.15 7.6c0 5.94-4.83 10.76-10.76 10.76Zm5.9-8.06c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.84 1.05-1.03 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.59-.96-.85-1.6-1.9-1.79-2.22-.19-.32-.02-.5.14-.66.15-.15.32-.38.49-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.57-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.57.08-.86.4-.3.32-1.13 1.11-1.13 2.71s1.16 3.14 1.32 3.36c.16.21 2.28 3.49 5.53 4.9.77.33 1.37.53 1.84.68.77.24 1.47.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.3-.21-.62-.37Z" />
+                </svg>
+
+                <span class="hidden min-[300px]:inline">Consultar este producto por WhatsApp</span>
+                <span class="inline min-[300px]:hidden">Consultar WhatsApp</span>
+              </span>
+            </a>
+
             <div class="flex flex-col gap-3">
               <div class="rounded-[28px] border border-amber-100 bg-amber-50/70 p-4">
                 <div class="flex items-start justify-between gap-3">
@@ -163,9 +196,6 @@ const productCategories = computed(() => {
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </article>
 
