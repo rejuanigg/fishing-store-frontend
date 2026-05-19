@@ -44,7 +44,7 @@ const router = createRouter({
       component: AllProductsView,
       meta: {
         layout: 'shop',
-        showBottomNav: true,
+        showBottomNav: false,
       },
     },
     {
@@ -58,10 +58,12 @@ const router = createRouter({
     },
     {
       path: '/cart',
+      name: 'cart',
       component: CartView,
       meta: {
         layout: 'focus',
         showBottomNav: false,
+        requiresAuth: true
       },
     },
     {
@@ -71,6 +73,7 @@ const router = createRouter({
       meta: {
         layout: 'focus',
         showBottomNav: true,
+        requiresAuth: true
       },
     },
     {
@@ -80,6 +83,7 @@ const router = createRouter({
       meta: {
         layout: 'focus',
         showBottomNav: false,
+        requiresAuth: true
       },
     },
     {
@@ -168,14 +172,26 @@ const router = createRouter({
       ],
     },
   ],
-});
 
-router.beforeEach((to, from)=>{
-  const auth = useAuthStore();
-  if (to.meta.requiresAdmin && !auth.advancedAccess){
-    return('/');
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      top: 0,
+      left: 0
+    }
   }
 
+});
+
+router.beforeEach((to, from) => {
+  const auth = useAuthStore();
+
+  if (to.meta.requiresAdmin && !auth.advancedAccess) {
+    return '/'
+  }
+
+  if (to.meta.requiresAuth && !auth.token) {
+    return '/login'
+  }
 })
 
 export default router

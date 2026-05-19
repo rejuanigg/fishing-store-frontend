@@ -10,7 +10,7 @@ import { useAuthStore } from './stores/auth';
 import Toast from './components/UI/Toast.vue';
 import { useToastStore } from './stores/toast';
 
-const toast = useToastStore()
+const toast = useToastStore();
 const route = useRoute();
 const authStore = useAuthStore();
 
@@ -18,12 +18,20 @@ const layout = computed(() => {
   return route.meta.layout ?? 'default';
 });
 
+const isFullPage = computed(() => {
+  return route.meta.fullPage === true;
+});
+
+const showHeader = computed(() => {
+  return route.meta.hideHeader !== true;
+});
+
 const showBottomNav = computed(() => {
   return route.meta.showBottomNav === true;
 });
 
 const mainPaddingClass = computed(() => {
-  return showBottomNav.value ? 'pb-28' : 'pb-6';
+  return showBottomNav.value ? 'pb-24' : 'pb-6';
 });
 
 onMounted(async () => {
@@ -31,18 +39,12 @@ onMounted(async () => {
     await authStore.fetchMe();
   }
 });
-
-const isFullPage = computed(() => {
-  return route.meta.fullPage === true
-})
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#F9FAFB] text-slate-900">
-
-    <header class="sticky top-0 z-50 h-16 w-full border-b border-slate-100 bg-white/90 px-5 backdrop-blur-md">
+  <div class="min-h-[100dvh] bg-gradient-to-br from-emerald-50 via-slate-50 to-cyan-50">
+    <header v-if="showHeader" class="sticky top-0 z-50 h-16 w-full border-b border-slate-100 bg-white/90 px-5 shadow-[0_8px_24px_rgba(15,23,42,0.03)] backdrop-blur-xl">
       <div class="mx-auto flex h-full w-full max-w-screen-md items-center justify-between">
-
         <AdminNav v-if="layout === 'shop'" nav-type="shop" />
         <AdminNav v-else-if="layout === 'focus'" nav-type="focus" />
         <AdminNav v-else-if="layout === 'admin'" nav-type="admin" />
@@ -50,11 +52,10 @@ const isFullPage = computed(() => {
         <div v-else class="w-full">
           <Nav />
         </div>
-
       </div>
     </header>
 
-    <main :class="[isFullPage ? 'min-h-[100dvh] w-full' : 'mx-auto min-h-[calc(100dvh-4rem)] w-full max-w-screen-md', isFullPage ? '' : mainPaddingClass]">
+    <main :class="[isFullPage ? 'min-h-[100dvh] w-full' : 'mx-auto min-h-[calc(100dvh-4rem)] w-full max-w-screen-md bg-slate-50 shadow-[0_0_60px_rgba(15,23,42,0.06)]', isFullPage ? '' : mainPaddingClass]">
       <RouterView v-slot="{ Component, route }">
         <Transition name="fade" mode="out-in">
           <div :key="route.path" :class="isFullPage ? 'min-h-[100dvh]' : 'min-h-[calc(100dvh-4rem)]'">
@@ -64,10 +65,11 @@ const isFullPage = computed(() => {
       </RouterView>
     </main>
 
-    <nav v-if="showBottomNav" class="fixed inset-x-0 bottom-0 bg-white/95 left-0 right-0 z-[999] flex justify-center">
-      <NavF class="mx-auto h-20 w-full max-w-screen-md border-t border-slate-100 bg-white/95 px-5 pb-[env(safe-area-inset-bottom)] backdrop-blur-md shadow-[0_-12px_35px_rgba(15,23,42,0.08)]" />
+    <nav v-if="showBottomNav" class="fixed inset-x-0 bottom-0 z-[999] border-t border-slate-100 bg-white/95 shadow-[0_-8px_26px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+      <div class="mx-auto h-[68px] w-full max-w-screen-md px-3 pb-[env(safe-area-inset-bottom)]">
+        <NavF class="h-full w-full" />
+      </div>
     </nav>
-
   </div>
 
   <Toast
@@ -77,7 +79,6 @@ const isFullPage = computed(() => {
     :variant="toast.toast.variant"
     @close-modal="toast.hide()"
   />
-
 </template>
 
 <style>
