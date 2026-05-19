@@ -83,7 +83,7 @@ const productCategories = computed(() => {
           <div class="relative flex h-[300px] w-full items-center justify-center bg-white p-3 min-[380px]:h-[340px] min-[380px]:p-4 sm:h-[430px] lg:h-[520px]">
 
             <img v-if="product.images?.[item]?.image" class="relative z-[1] h-full w-full rounded-[24px] object-contain transition duration-300 sm:rounded-[28px]" :class="product.stocks?.[0]?.quantity <= 0 ? 'opacity-70 grayscale-[0.15]' : ''" :src="product.images?.[item]?.image" :alt="product.name">
-            <img v-else src="../../assets/1.png"> class="relative z-[1] h-full w-full rounded-[24px] object-contain transition duration-300 sm:rounded-[28px]" :class="product.stocks?.[0]?.quantity <= 0 ? 'opacity-70 grayscale-[0.15]' : ''" :alt="product.name">
+            <img v-else src="../../assets/1.png" class="relative z-[1] h-full w-full rounded-[24px] object-contain transition duration-300 sm:rounded-[28px]" :class="product.stocks?.[0]?.quantity <= 0 ? 'opacity-70 grayscale-[0.15]' : ''" :alt="product.name">
           </div>
         </div>
 
