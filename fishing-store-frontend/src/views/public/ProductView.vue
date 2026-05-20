@@ -120,9 +120,16 @@ const productCategories = computed(() => {
           <div class="flex flex-col gap-5">
             <div class="flex items-start justify-between gap-4">
               <div class="min-w-0">
-                <span class="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-600 min-[380px]:text-[11px]">Producto</span>
-                <h1 class="mt-2 text-[clamp(24px,7vw,38px)] font-black leading-tight tracking-tight text-emerald-950">{{ product.name }}</h1>
-              </div>
+  <div class="flex items-center justify-between gap-3">
+    <span class="text-[9px] font-black uppercase tracking-[0.16em] text-emerald-600 min-[380px]:text-[10px]">
+      Producto
+    </span>
+  </div>
+
+  <h1 class="mt-3 max-w-full whitespace-normal break-words text-[clamp(20px,5.6vw,30px)] font-black leading-[1.08] tracking-tight text-emerald-950 [overflow-wrap:anywhere]">
+    {{ product.name }}
+  </h1>
+</div>
 
               <span v-if="product.stocks?.[0]?.quantity > 0" class="shrink-0 rounded-full bg-emerald-50 px-3 py-2 text-[11px] font-black text-emerald-700">Disponible</span>
               <span v-else class="shrink-0 rounded-full bg-red-50 px-3 py-2 text-[11px] font-black text-red-600">Sin stock</span>
