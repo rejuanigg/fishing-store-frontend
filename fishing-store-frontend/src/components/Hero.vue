@@ -1,4 +1,6 @@
 <script setup>
+import { Store } from '@lucide/vue';
+
 
 </script>
 
@@ -14,13 +16,13 @@
     <div class="relative px-5 pb-7 pt-6">
       <div class="hero-top flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="h-12 w-12 overflow-hidden rounded-2xl border border-white/15 bg-white/10 p-1 backdrop-blur-md">
-            <img src="../assets/dorado1.jpg" class="h-full w-full rounded-xl object-cover">
+          <div class="h-12 w-12 overflow-hidden rounded-2xl border border-white/15 bg-white/10 p-1 backdrop-blur-md flex justify-center items-center">
+            <Store />
           </div>
 
           <div class="flex flex-col">
-            <span class="text-sm font-black tracking-wide text-white">Tienda de pesca</span>
-            <span class="text-xs font-semibold text-emerald-100/80">Pesca Argentina</span>
+            <span class="text-sm font-black tracking-wide text-white">Tienda</span>
+            <span class="text-xs font-semibold text-emerald-100/80">Tienda Argentina</span>
           </div>
         </div>
 
@@ -31,11 +33,11 @@
 
       <div class="hero-copy mt-7">
         <h1 class="mt-5 max-w-[335px] text-[33px] font-black leading-[1.05] tracking-tight text-white">
-          Equipamiento confiable para tu próxima salida.
+          Texto principal para tienda.
         </h1>
 
         <p class="mt-3 max-w-[330px] text-[14px] font-medium leading-6 text-emerald-50/85">
-          Cañas, reels y accesorios recomendados para comprar simple y coordinar por WhatsApp.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus distinctio fugiat natus laborum amet corporis earum deserunt quae? Molestias pariatur voluptatibus beatae quos, quia velit rem consequatur. Odio, quidem iure?
         </p>
       </div>
 
