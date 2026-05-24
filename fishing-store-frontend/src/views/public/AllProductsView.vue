@@ -5,6 +5,7 @@ import api from '@/services/api';
 import FilterProduct from '@/components/FilterProduct.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import Loading from '@/components/UI/Loading.vue';
+import { CircleOff } from '@lucide/vue';
 
 const products = ref([]);
 const selectedCategory = ref(null);
@@ -100,7 +101,7 @@ function viewAll() {
     </span>
 
     <h1 class="mt-1 text-2xl font-black tracking-tight text-emerald-950">
-      Productos de pesca
+      Productos
     </h1>
 
     <p class="mt-1 text-sm font-medium leading-6 text-slate-500">
@@ -163,7 +164,7 @@ function viewAll() {
 
       <div v-else class="mt-6 rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
-          🎣
+          <CircleOff />
         </div>
 
         <h3 class="mt-5 text-lg font-black text-emerald-950">

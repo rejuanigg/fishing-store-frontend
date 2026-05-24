@@ -6,6 +6,7 @@ import SearchBar from '@/components/SearchBar.vue';
 import { useAuthStore } from '@/stores/auth';
 import Loading from '@/components/UI/Loading.vue';
 import { useToastStore } from '@/stores/toast';
+import { CircleOff } from '@lucide/vue';
 
 const toast = useToastStore();
 const auth = useAuthStore();
@@ -226,7 +227,7 @@ async function addFeature(product) {
         class="rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]"
       >
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
-          🎣
+          <CircleOff />
         </div>
 
         <h3 class="mt-5 text-lg font-black text-emerald-950">

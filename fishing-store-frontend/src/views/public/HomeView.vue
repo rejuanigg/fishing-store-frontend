@@ -7,6 +7,7 @@ import ProductCard from '@/components/ProductCard.vue';
 
 import api from '@/services/api';
 import { cartStore } from '@/stores/cart';
+import { CircleOff } from '@lucide/vue';
 
 const cart = cartStore();
 
@@ -36,35 +37,35 @@ const socialLinks = [
   {
     id: 1,
     name: 'YouTube',
-    description: 'Reviews, salidas y pruebas reales de equipo.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec congue diam. ',
     href: 'https://www.youtube.com/',
     tone: 'youtube',
   },
   {
     id: 2,
     name: 'Facebook',
-    description: 'Contacto con la comunidad.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec congue diam. ',
     href: 'https://www.facebook.com/',
     tone: 'facebook',
   },
   {
     id: 3,
     name: 'Instagram',
-    description: 'Fotos, novedades y contenido diario.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec congue diam. ',
     href: 'https://www.instagram.com/',
     tone: 'instagram',
   },
   {
     id: 4,
     name: 'TikTok',
-    description: 'Tips rápidos y clips de pesca.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec congue diam. ',
     href: 'https://www.tiktok.com/',
     tone: 'tiktok',
   },
   {
     id: 5,
     name: 'WhatsApp',
-    description: 'Consultas directas y asesoramiento.',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec congue diam. ',
     href: 'https://www.whatsapp.com/',
     tone: 'whatsapp',
   },
@@ -100,7 +101,7 @@ const socialLinks = [
             </h2>
 
             <p class="mt-2 max-w-[340px] text-sm font-medium leading-6 text-slate-500">
-              Equipos recomendados para comprar rápido y preparar tu próxima salida.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec congue diam.
             </p>
           </div>
         </div>
@@ -117,7 +118,7 @@ const socialLinks = [
 
         <div v-else class="relative mt-5 rounded-[28px] border border-dashed border-emerald-200 bg-emerald-50/40 px-5 py-10 text-center min-[380px]:px-6">
           <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-3xl bg-white text-2xl shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
-            🎣
+            <CircleOff />
           </div>
 
           <h3 class="mt-4 text-lg font-black text-emerald-950">
@@ -145,15 +146,15 @@ const socialLinks = [
 
             <div class="min-w-0 flex-1">
               <span class="text-[10px] font-black uppercase tracking-[0.12em] text-emerald-600 min-[360px]:text-[11px] min-[360px]:tracking-[0.18em]">
-                Canal oficial
+                Red principal
               </span>
 
               <h2 class="mt-1 text-xl font-black leading-tight tracking-tight text-emerald-950">
-                Pescando
+                Youtube
               </h2>
 
               <p class="mt-1 text-sm font-medium leading-6 text-slate-500">
-                Salidas de pesca, reviews y recomendaciones reales.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ex, ab quidem porro magni, adipisci ea aliquid tenetur vel sint doloribus et numquam rerum, a sed debitis consequuntur totam placeat!
               </p>
             </div>
           </div>
@@ -208,7 +209,7 @@ const socialLinks = [
             </h2>
 
             <p class="mt-1 text-sm font-medium leading-6 text-slate-500">
-              Consultas, novedades y contenido de pesca en un solo lugar.
+              Consultas, novedades y contenido en un solo lugar.
             </p>
           </div>
         </div>

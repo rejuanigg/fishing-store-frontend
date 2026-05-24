@@ -6,6 +6,7 @@ import { useFormatPrice } from '@/composables/useFormatPrice';
 import api from '@/services/api';
 import { useAuthStore } from '@/stores/auth';
 import { useToastStore } from '@/stores/toast';
+import { CircleOff } from '@lucide/vue';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -279,7 +280,7 @@ function successModal() {
             <div class="h-20 w-20 shrink-0 overflow-hidden rounded-3xl bg-emerald-50">
               <img v-if="detail.products?.images?.[0]?.image" :src="detail.products.images[0].image" class="h-full w-full object-cover" :alt="detail.products?.name">
               <div v-else class="flex h-full w-full items-center justify-center text-2xl">
-                🎣
+                <CircleOff />
               </div>
             </div>
 

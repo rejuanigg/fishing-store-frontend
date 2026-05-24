@@ -43,8 +43,8 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="hidden min-[430px]:block">
-          <span class="block text-[10px] font-black uppercase tracking-[0.18em] text-emerald-600">Fishing Store</span>
-          <span class="mt-0.5 block text-sm font-black text-emerald-950 transition-all duration-500" :class="isScrolled ? 'opacity-100' : 'opacity-90'">Tienda de pesca</span>
+          <span class="block text-[10px] font-black uppercase tracking-[0.18em] text-emerald-600">sweet store</span>
+          <span class="mt-0.5 block text-sm font-black text-emerald-950 transition-all duration-500" :class="isScrolled ? 'opacity-100' : 'opacity-90'">Tienda genérica</span>
         </div>
       </RouterLink>
 

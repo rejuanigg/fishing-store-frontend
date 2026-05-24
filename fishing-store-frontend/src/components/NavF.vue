@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import CartIcon from './CartIcon.vue';
-import { ArrowRightLeft, FishingHook, House, User } from '@lucide/vue';
+import { ArrowRightLeft, FishingHook, House, Shirt, User } from '@lucide/vue';
 
 defineProps({
   active: {
@@ -29,8 +29,7 @@ defineProps({
       <a :href="href" @click="navigate" class="relative flex h-full flex-1 flex-col items-center justify-center gap-1 rounded-2xl transition active:scale-95" :class="isActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-400'">
         <span v-if="isActive" class="absolute top-1 h-1 w-7 rounded-full bg-emerald-500"></span>
 
-        <FishingHook class="h-[22px] w-[22px]" />
-
+        <Shirt class="h-[22px] w-[22px]"/>
         <span class="text-[11px] font-black">
           Productos
         </span>

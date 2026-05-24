@@ -3,6 +3,7 @@ import api from '@/services/api';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToastStore } from '@/stores/toast';
+import { CircleOff } from '@lucide/vue';
 
 const router = useRouter();
 const toast = useToastStore();
@@ -72,10 +73,10 @@ async function onSubmit() {
         <section class="hidden rounded-[34px] border border-white/70 bg-white/65 p-7 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-xl lg:block">
           <div class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-4 py-2">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-            <span class="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Tienda de pesca</span>
+            <span class="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Tienda generica</span>
           </div>
 
-          <h1 class="mt-8 max-w-md text-5xl font-black leading-[1.05] tracking-tight text-emerald-950">Comprá simple. Coordiná rápido. Salí a pescar.</h1>
+          <h1 class="mt-8 max-w-md text-5xl font-black leading-[1.05] tracking-tight text-emerald-950">Comprá simple. Coordiná rápido.</h1>
           <p class="mt-5 max-w-md text-base font-medium leading-relaxed text-slate-500">Una experiencia pensada para descubrir productos, armar tu pedido y coordinar por WhatsApp sin vueltas.</p>
 
           <div class="mt-10 grid gap-3">
@@ -94,10 +95,10 @@ async function onSubmit() {
         <section class="mx-auto w-full max-w-md">
           <div class="mb-6 text-center lg:hidden">
             <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-3xl bg-white shadow-[0_14px_35px_rgba(15,23,42,0.08)]">
-              <span class="text-2xl">🎣</span>
+              <span class="text-2xl"><CircleOff /></span>
             </div>
 
-            <p class="text-sm font-black uppercase tracking-[0.16em] text-emerald-700">Tienda de pesca</p>
+            <p class="text-sm font-black uppercase tracking-[0.16em] text-emerald-700">Tienda Generica</p>
             <h1 class="mt-2 text-3xl font-black tracking-tight text-emerald-950">Creá tu cuenta</h1>
             <p class="mt-2 text-sm font-medium leading-relaxed text-slate-500">Pedí más rápido y seguí tus órdenes desde la tienda.</p>
           </div>
