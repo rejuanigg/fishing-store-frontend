@@ -73,16 +73,16 @@ function clearFilters() {
   <div class="flex flex-col gap-6">
     <section class="flex flex-col gap-3">
       <div>
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Sección</span>
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">Sección</span>
         <p class="mt-1 text-sm font-medium leading-6 text-slate-500">Buscá el tipo de producto para filtrar más rápido.</p>
       </div>
 
-      <input v-model="sectionSearch" type="text" placeholder="Buscar sección..." class="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white">
+      <input v-model="sectionSearch" type="text" placeholder="Buscar sección..." class="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white">
 
       <div v-if="filteredSections.length" class="grid max-h-[220px] grid-cols-1 gap-2 overflow-y-auto pr-1 min-[420px]:grid-cols-2">
-        <button v-for="section in filteredSections" :key="section.id" type="button" @click="selectSection(section.id)" class="flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition active:scale-[0.97]" :class="selectedSection === section.id ? 'border-emerald-500 bg-emerald-50 text-emerald-800 shadow-[0_10px_24px_rgba(5,150,105,0.10)]' : 'border-slate-100 bg-white text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)]'">
+        <button v-for="section in filteredSections" :key="section.id" type="button" @click="selectSection(section.id)" class="flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition active:scale-[0.97]" :class="selectedSection === section.id ? 'border-blue-500 bg-blue-50 text-blue-800 shadow-[0_10px_24px_rgba(5,150,105,0.10)]' : 'border-slate-100 bg-white text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)]'">
           <span class="line-clamp-2 text-sm font-black">{{ section.name }}</span>
-          <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-black" :class="selectedSection === section.id ? 'border-emerald-500 bg-emerald-600 text-white' : 'border-slate-200 bg-slate-50 text-transparent'">✓</span>
+          <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-black" :class="selectedSection === section.id ? 'border-blue-500 bg-blue-600 text-white' : 'border-slate-200 bg-slate-50 text-transparent'">✓</span>
         </button>
       </div>
 
@@ -93,7 +93,7 @@ function clearFilters() {
 
     <section class="flex flex-col gap-3">
       <div>
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Categoría</span>
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">Categoría</span>
         <p class="mt-1 text-sm font-medium leading-6 text-slate-500">Elegí una categoría específica dentro de la sección.</p>
       </div>
 
@@ -102,12 +102,12 @@ function clearFilters() {
       </div>
 
       <template v-else>
-        <input v-model="categorySearch" type="text" placeholder="Buscar categoría..." class="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white">
+        <input v-model="categorySearch" type="text" placeholder="Buscar categoría..." class="h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white">
 
         <div v-if="filteredCategories.length" class="grid max-h-[240px] grid-cols-1 gap-2 overflow-y-auto pr-1 min-[420px]:grid-cols-2">
-          <button v-for="category in filteredCategories" :key="category.id" type="button" @click="selectCategory(category.id)" class="flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition active:scale-[0.97]" :class="selectedCategory === category.id ? 'border-emerald-500 bg-emerald-50 text-emerald-800 shadow-[0_10px_24px_rgba(5,150,105,0.10)]' : 'border-slate-100 bg-white text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)]'">
+          <button v-for="category in filteredCategories" :key="category.id" type="button" @click="selectCategory(category.id)" class="flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition active:scale-[0.97]" :class="selectedCategory === category.id ? 'border-blue-500 bg-blue-50 text-blue-800 shadow-[0_10px_24px_rgba(5,150,105,0.10)]' : 'border-slate-100 bg-white text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)]'">
             <span class="line-clamp-2 text-sm font-black">{{ category.name }}</span>
-            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-black" :class="selectedCategory === category.id ? 'border-emerald-500 bg-emerald-600 text-white' : 'border-slate-200 bg-slate-50 text-transparent'">✓</span>
+            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-black" :class="selectedCategory === category.id ? 'border-blue-500 bg-blue-600 text-white' : 'border-slate-200 bg-slate-50 text-transparent'">✓</span>
           </button>
         </div>
 
@@ -121,7 +121,7 @@ function clearFilters() {
       <div class="flex items-center gap-3">
         <button type="button" @click="clearFilters" class="flex h-12 flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 shadow-[0_8px_20px_rgba(15,23,42,0.04)] transition active:scale-[0.97]">Ver todo</button>
 
-        <button type="button" @click="applyFilter" :disabled="!selectedCategory" class="flex h-12 flex-1 items-center justify-center rounded-2xl bg-emerald-600 px-4 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.97] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">Aplicar filtro</button>
+        <button type="button" @click="applyFilter" :disabled="!selectedCategory" class="flex h-12 flex-1 items-center justify-center rounded-2xl bg-blue-600 px-4 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.97] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">Aplicar filtro</button>
       </div>
     </section>
   </div>

@@ -85,7 +85,7 @@ async function confirmOrder() {
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="rounded-[28px] border border-emerald-100 bg-white p-4 shadow-[0_-10px_35px_rgba(15,23,42,0.08)]">
+    <div class="rounded-[28px] border border-blue-100 bg-white p-4 shadow-[0_-10px_35px_rgba(15,23,42,0.08)]">
       <div class="flex items-start justify-between gap-4">
         <div>
           <span class="text-[11px] font-black uppercase tracking-wide text-slate-400">
@@ -97,12 +97,12 @@ async function confirmOrder() {
           </p>
         </div>
 
-        <span class="text-2xl font-black tracking-tight text-emerald-950">
+        <span class="text-2xl font-black tracking-tight text-blue-950">
           {{ formatPrice(cart.total) }}
         </span>
       </div>
 
-<button @click="confirmOrder" :disabled="cart.product.length === 0 || loading" class="mt-4 flex min-h-14 w-full items-center justify-center rounded-2xl bg-emerald-500 px-3 py-3 text-center text-sm font-black leading-tight text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none max-[300px]:text-[13px]">
+<button @click="confirmOrder" :disabled="cart.product.length === 0 || loading" class="mt-4 flex min-h-14 w-full items-center justify-center rounded-2xl bg-blue-500 px-3 py-3 text-center text-sm font-black leading-tight text-white shadow-lg shadow-blue-500/20 transition active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none max-[300px]:text-[13px]">
   <span v-if="loading">
     Procesando...
   </span>

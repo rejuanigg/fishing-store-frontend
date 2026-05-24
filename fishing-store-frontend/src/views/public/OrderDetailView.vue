@@ -175,14 +175,14 @@ function successModal() {
 
   <div v-else class="min-h-[100dvh] bg-slate-50 pb-56">
     <section class="mx-auto w-full max-w-screen-md px-5 pt-6">
-      <div class="overflow-hidden rounded-[34px] border border-emerald-100 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-        <div class="relative bg-emerald-950 p-5 text-white">
-          <div class="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-emerald-400/20 blur-3xl"></div>
+      <div class="overflow-hidden rounded-[34px] border border-blue-100 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+        <div class="relative bg-blue-950 p-5 text-white">
+          <div class="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-blue-400/20 blur-3xl"></div>
           <div class="absolute -left-16 bottom-0 h-40 w-40 rounded-full bg-cyan-300/10 blur-3xl"></div>
 
           <div class="relative flex items-start justify-between gap-4">
             <div class="min-w-0">
-              <span class="text-xs font-black uppercase tracking-[0.22em] text-emerald-300">
+              <span class="text-xs font-black uppercase tracking-[0.22em] text-blue-300">
                 {{ auth.advancedAccess ? 'Detalle de orden' : 'Detalle de pedido' }}
               </span>
 
@@ -190,7 +190,7 @@ function successModal() {
                 {{ auth.advancedAccess ? 'Orden' : 'Pedido' }} #{{ order.id }}
               </h1>
 
-              <p class="mt-2 text-sm font-medium text-emerald-50/80">
+              <p class="mt-2 text-sm font-medium text-blue-50/80">
                 {{ formatData(order.datetime) }}
               </p>
             </div>
@@ -198,7 +198,7 @@ function successModal() {
             <span class="flex h-9 shrink-0 items-center justify-center rounded-full px-4 text-xs font-black ring-1 ring-inset" :class="{
               'bg-amber-50 text-amber-700 ring-amber-200': currentStatus === 'waiting',
               'bg-blue-50 text-blue-700 ring-blue-200': currentStatus === 'processing',
-              'bg-emerald-50 text-emerald-700 ring-emerald-200': currentStatus === 'completed',
+              'bg-blue-50 text-blue-700 ring-blue-200': currentStatus === 'completed',
               'bg-red-50 text-red-700 ring-red-200': currentStatus === 'cancelled'
             }">
               {{ statusLabels[currentStatus] }}
@@ -213,7 +213,7 @@ function successModal() {
                 Fecha
               </span>
 
-              <p class="mt-2 text-sm font-black leading-5 text-emerald-950">
+              <p class="mt-2 text-sm font-black leading-5 text-blue-950">
                 {{ formatData(order.datetime) }}
               </p>
             </div>
@@ -223,7 +223,7 @@ function successModal() {
                 Productos
               </span>
 
-              <p class="mt-2 text-xl font-black text-emerald-700">
+              <p class="mt-2 text-xl font-black text-blue-700">
                 {{ orderItemsCount }}
               </p>
             </div>
@@ -235,13 +235,13 @@ function successModal() {
                 Estado de la orden
               </span>
 
-              <span v-if="statusLoading" class="text-xs font-black text-emerald-600">
+              <span v-if="statusLoading" class="text-xs font-black text-blue-600">
                 Cargando...
               </span>
             </div>
 
             <div class="relative">
-              <select @change="updateStatus($event.target.value, order.id)" :value="currentStatus" :disabled="statusLoading" class="h-12 w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 pr-10 text-sm font-black text-slate-600 outline-none transition disabled:bg-slate-100 disabled:text-slate-400 focus:border-emerald-400">
+              <select @change="updateStatus($event.target.value, order.id)" :value="currentStatus" :disabled="statusLoading" class="h-12 w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 pr-10 text-sm font-black text-slate-600 outline-none transition disabled:bg-slate-100 disabled:text-slate-400 focus:border-blue-400">
                 <option value="waiting">En espera</option>
                 <option value="processing">Empaquetando</option>
                 <option value="completed">Listo</option>
@@ -260,7 +260,7 @@ function successModal() {
     <section class="mx-auto w-full max-w-screen-md px-5 pt-7">
       <div class="flex items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-black tracking-tight text-emerald-950">
+          <h2 class="text-2xl font-black tracking-tight text-blue-950">
             Productos
           </h2>
 
@@ -276,8 +276,8 @@ function successModal() {
 
       <div class="mt-4 flex flex-col gap-3">
         <template v-if="order.details?.length">
-          <article v-for="detail in order.details" :key="detail.id" class="flex items-center gap-4 rounded-[28px] border border-emerald-100/80 bg-white p-4 shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
-            <div class="h-20 w-20 shrink-0 overflow-hidden rounded-3xl bg-emerald-50">
+          <article v-for="detail in order.details" :key="detail.id" class="flex items-center gap-4 rounded-[28px] border border-blue-100/80 bg-white p-4 shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
+            <div class="h-20 w-20 shrink-0 overflow-hidden rounded-3xl bg-blue-50">
               <img v-if="detail.products?.images?.[0]?.image" :src="detail.products.images[0].image" class="h-full w-full object-cover" :alt="detail.products?.name">
               <div v-else class="flex h-full w-full items-center justify-center text-2xl">
                 <CircleOff />
@@ -285,7 +285,7 @@ function successModal() {
             </div>
 
             <div class="min-w-0 flex-1">
-              <h3 class="line-clamp-2 text-sm font-black leading-5 text-emerald-950">
+              <h3 class="line-clamp-2 text-sm font-black leading-5 text-blue-950">
                 {{ detail.products?.name }}
               </h3>
 
@@ -293,19 +293,19 @@ function successModal() {
                 Cantidad: {{ detail.quantity }}
               </p>
 
-              <p class="mt-2 text-base font-black text-emerald-700">
+              <p class="mt-2 text-base font-black text-blue-700">
                 {{ formatPrice(detail.price) }}
               </p>
             </div>
           </article>
         </template>
 
-        <div v-else class="flex flex-col items-center justify-center rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-12 text-center shadow-sm">
-          <div class="flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
+        <div v-else class="flex flex-col items-center justify-center rounded-[34px] border border-dashed border-blue-200 bg-white px-6 py-12 text-center shadow-sm">
+          <div class="flex h-16 w-16 items-center justify-center rounded-3xl bg-blue-50 text-3xl">
             🧾
           </div>
 
-          <h3 class="mt-5 text-xl font-black text-emerald-950">
+          <h3 class="mt-5 text-xl font-black text-blue-950">
             No hay productos
           </h3>
 
@@ -334,18 +334,18 @@ function successModal() {
     </section>
 
     <section class="fixed bottom-0 left-0 right-0 z-40 px-5 pb-[calc(env(safe-area-inset-bottom)+12px)]">
-      <div class="mx-auto flex w-full max-w-screen-md items-center justify-between gap-4 rounded-[28px] border border-emerald-100 bg-white/95 p-4 shadow-[0_-12px_35px_rgba(15,23,42,0.10)] backdrop-blur-md">
+      <div class="mx-auto flex w-full max-w-screen-md items-center justify-between gap-4 rounded-[28px] border border-blue-100 bg-white/95 p-4 shadow-[0_-12px_35px_rgba(15,23,42,0.10)] backdrop-blur-md">
         <div class="min-w-0 flex flex-col">
           <span class="text-[11px] font-black uppercase tracking-wide text-slate-400">
             Total
           </span>
 
-          <span class="truncate text-2xl font-black tracking-tight text-emerald-950">
+          <span class="truncate text-2xl font-black tracking-tight text-blue-950">
             {{ formatPrice(order.total) }}
           </span>
         </div>
 
-        <button v-if="canCancelOrder" type="button" class="h-12 rounded-2xl bg-emerald-600 px-5 text-sm font-black text-white shadow-lg shadow-emerald-500/20 transition active:scale-[0.98]">
+        <button v-if="canCancelOrder" type="button" class="h-12 rounded-2xl bg-blue-600 px-5 text-sm font-black text-white shadow-lg shadow-blue-500/20 transition active:scale-[0.98]">
           Seguir pedido
         </button>
       </div>

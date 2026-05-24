@@ -174,11 +174,11 @@ function successModal(id) {
   <div class="min-h-screen bg-slate-50">
     <div class="mx-auto flex w-full max-w-screen-md flex-col gap-8 px-5 pb-32 pt-6">
       <section class="flex flex-col gap-2">
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
           Panel admin
         </span>
 
-        <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+        <h1 class="text-2xl font-black tracking-tight text-blue-950">
           Crear producto
         </h1>
 
@@ -190,40 +190,40 @@ function successModal(id) {
       <form @submit.prevent="onSubmit" class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-black text-emerald-900">
+            <label class="text-sm font-black text-blue-900">
               Nombre
             </label>
 
-            <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-500">
+            <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500">
           </div>
 
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-black text-emerald-900">
+            <label class="text-sm font-black text-blue-900">
               Precio
             </label>
 
-            <input :value="price" @input="handlePrice" type="text" inputmode="numeric" placeholder="Ej: 120000" maxlength="7" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-500">
+            <input :value="price" @input="handlePrice" type="text" inputmode="numeric" placeholder="Ej: 120000" maxlength="7" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500">
 
-            <span class="text-sm font-black text-emerald-700">
+            <span class="text-sm font-black text-blue-700">
               {{ formatPrice(Number(price) || 0) }}
             </span>
           </div>
 
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-black text-emerald-900">
+            <label class="text-sm font-black text-blue-900">
               Descripción
             </label>
 
-            <textarea v-model="description" placeholder="Describe el producto..." class="min-h-[140px] rounded-2xl border border-slate-200 bg-white p-4 text-sm font-semibold text-emerald-950 outline-none resize-none transition placeholder:text-slate-400 focus:border-emerald-500"></textarea>
+            <textarea v-model="description" placeholder="Describe el producto..." class="min-h-[140px] rounded-2xl border border-slate-200 bg-white p-4 text-sm font-semibold text-blue-950 outline-none resize-none transition placeholder:text-slate-400 focus:border-blue-500"></textarea>
           </div>
 
           <div class="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-black text-emerald-900">
+              <label class="text-sm font-black text-blue-900">
                 Sección
               </label>
 
-              <select v-model="selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition focus:border-emerald-500">
+              <select v-model="selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition focus:border-blue-500">
                 <option :value="null" disabled>
                   Seleccioná una sección
                 </option>
@@ -235,11 +235,11 @@ function successModal(id) {
             </div>
 
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-black text-emerald-900">
+              <label class="text-sm font-black text-blue-900">
                 Categoría
               </label>
 
-              <select v-model="selectedCategory" :disabled="!selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition disabled:bg-slate-100 disabled:text-slate-400 focus:border-emerald-500">
+              <select v-model="selectedCategory" :disabled="!selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition disabled:bg-slate-100 disabled:text-slate-400 focus:border-blue-500">
                 <option :value="null">
                   Seleccioná una categoría
                 </option>
@@ -252,12 +252,12 @@ function successModal(id) {
           </div>
 
           <div class="flex flex-col gap-3">
-            <button type="button" @click="addCategory" :disabled="!canAddCategory" class="h-11 rounded-2xl border border-emerald-100 bg-emerald-50 text-sm font-black text-emerald-700 transition active:scale-[0.98] disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400 disabled:active:scale-100">
+            <button type="button" @click="addCategory" :disabled="!canAddCategory" class="h-11 rounded-2xl border border-blue-100 bg-blue-50 text-sm font-black text-blue-700 transition active:scale-[0.98] disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400 disabled:active:scale-100">
               Agregar categoría
             </button>
 
             <div v-if="newCategories.length" class="flex flex-wrap gap-2">
-              <span v-for="category in newCategories" :key="category.id" class="inline-flex max-w-full items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-2 text-sm font-black text-emerald-800">
+              <span v-for="category in newCategories" :key="category.id" class="inline-flex max-w-full items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-black text-blue-800">
                 <span class="max-w-[180px] truncate">
                   {{ category.name }}
                 </span>
@@ -275,7 +275,7 @@ function successModal(id) {
 
           <section class="rounded-[28px] border border-slate-100 bg-slate-50 p-4">
             <div>
-              <h2 class="text-lg font-black text-emerald-950">
+              <h2 class="text-lg font-black text-blue-950">
                 Inventario
               </h2>
 
@@ -285,19 +285,19 @@ function successModal(id) {
             </div>
 
             <div class="mt-4 flex items-center justify-center gap-4">
-              <button type="button" @click="downStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-xl font-black text-emerald-700 transition active:scale-[0.96]">
+              <button type="button" @click="downStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-100 bg-white text-xl font-black text-blue-700 transition active:scale-[0.96]">
                 -
               </button>
 
-              <input v-model.number="actualStock" @blur="normalizeStock" min="1" type="number" class="h-11 w-24 rounded-2xl border border-slate-200 bg-white text-center text-lg font-black text-emerald-950 outline-none focus:border-emerald-500">
+              <input v-model.number="actualStock" @blur="normalizeStock" min="1" type="number" class="h-11 w-24 rounded-2xl border border-slate-200 bg-white text-center text-lg font-black text-blue-950 outline-none focus:border-blue-500">
 
-              <button type="button" @click="upStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-xl font-black text-emerald-700 transition active:scale-[0.96]">
+              <button type="button" @click="upStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-100 bg-white text-xl font-black text-blue-700 transition active:scale-[0.96]">
                 +
               </button>
             </div>
           </section>
 
-          <button type="submit" :disabled="!canSubmit" class="h-13 rounded-2xl bg-emerald-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">
+          <button type="submit" :disabled="!canSubmit" class="h-13 rounded-2xl bg-blue-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">
             <span v-if="fetchLoading">Cargando...</span>
             <span v-else>Guardar producto</span>
           </button>

@@ -11,13 +11,13 @@ const cart = cartStore();
   <section class="min-h-screen bg-slate-50 pb-40">
 
     <div class="px-5 pt-6">
-      <div class="relative overflow-hidden rounded-[34px] bg-emerald-950 p-5 text-white shadow-[0_18px_45px_rgba(2,44,34,0.18)]">
-        <div class="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-emerald-400/20 blur-3xl"></div>
+      <div class="relative overflow-hidden rounded-[34px] bg-blue-950 p-5 text-white shadow-[0_18px_45px_rgba(2,44,34,0.18)]">
+        <div class="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-blue-400/20 blur-3xl"></div>
         <div class="absolute -left-16 bottom-0 h-40 w-40 rounded-full bg-cyan-300/10 blur-3xl"></div>
 
         <div class="relative flex items-end justify-between gap-4">
           <div>
-            <span class="text-xs font-black uppercase tracking-[0.22em] text-emerald-300">
+            <span class="text-xs font-black uppercase tracking-[0.22em] text-blue-300">
               Resumen de compra
             </span>
 
@@ -25,7 +25,7 @@ const cart = cartStore();
               Tu carrito
             </h1>
 
-            <p class="mt-2 max-w-[260px] text-sm leading-6 text-emerald-50/80">
+            <p class="mt-2 max-w-[260px] text-sm leading-6 text-blue-50/80">
               Revisá tus productos antes de continuar con la compra.
             </p>
           </div>
@@ -35,7 +35,7 @@ const cart = cartStore();
               {{ cart.product.length }}
             </span>
 
-            <span class="block text-[11px] font-bold text-emerald-100">
+            <span class="block text-[11px] font-bold text-blue-100">
               items
             </span>
           </div>
@@ -46,7 +46,7 @@ const cart = cartStore();
     <div v-if="cart.product.length > 0" class="px-5 pt-6">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-2xl font-black tracking-tight text-emerald-950">
+          <h2 class="text-2xl font-black tracking-tight text-blue-950">
             Productos
           </h2>
 
@@ -66,12 +66,12 @@ const cart = cartStore();
     </div>
 
     <div v-else class="px-5 pt-8">
-      <div class="flex flex-col items-center justify-center rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-14 text-center shadow-sm">
-        <div class="flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
+      <div class="flex flex-col items-center justify-center rounded-[34px] border border-dashed border-blue-200 bg-white px-6 py-14 text-center shadow-sm">
+        <div class="flex h-16 w-16 items-center justify-center rounded-3xl bg-blue-50 text-3xl">
           🛒
         </div>
 
-        <h2 class="mt-5 text-xl font-black text-emerald-950">
+        <h2 class="mt-5 text-xl font-black text-blue-950">
           Tu carrito está vacío
         </h2>
 
@@ -79,13 +79,13 @@ const cart = cartStore();
           Agregá productos desde el catálogo para continuar con tu compra.
         </p>
 
-        <RouterLink to="/products" class="mt-6 flex h-12 items-center justify-center rounded-2xl bg-emerald-500 px-6 text-sm font-black text-white shadow-lg shadow-emerald-500/20 active:scale-[0.98] transition">
+        <RouterLink to="/products" class="mt-6 flex h-12 items-center justify-center rounded-2xl bg-blue-500 px-6 text-sm font-black text-white shadow-lg shadow-blue-500/20 active:scale-[0.98] transition">
           Ver productos
         </RouterLink>
       </div>
     </div>
 
-    <section v-if="cart.product.length > 0" class="fixed bottom-0 left-0 right-0 z-40 border-t border-emerald-100 bg-white/95 px-5 py-4 backdrop-blur-md shadow-[0_-12px_35px_rgba(15,23,42,0.08)]">
+    <section v-if="cart.product.length > 0" class="fixed bottom-0 left-0 right-0 z-40 border-t border-blue-100 bg-white/95 px-5 py-4 backdrop-blur-md shadow-[0_-12px_35px_rgba(15,23,42,0.08)]">
       <div class="mx-auto w-full max-w-screen-md">
         <CartInfo />
       </div>

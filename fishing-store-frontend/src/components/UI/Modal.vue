@@ -37,7 +37,7 @@ const variants = {
 
   success: {
     icon: CircleCheck,
-    button: 'bg-emerald-500',
+    button: 'bg-blue-500',
   },
 
   warning: {
@@ -59,7 +59,7 @@ const variants = {
         <div class="h-16 w-16 rounded-2xl flex items-center justify-center"
             :class="{
             'bg-red-50 text-red-500': variant === 'danger',
-            'bg-emerald-50 text-emerald-500': variant === 'success',
+            'bg-blue-50 text-blue-500': variant === 'success',
             'bg-amber-50 text-amber-500': variant === 'warning'}">
 
           <component
@@ -71,7 +71,7 @@ const variants = {
 
         <div class="flex flex-col gap-2">
 
-          <h2 class="text-xl font-bold text-emerald-950">
+          <h2 class="text-xl font-bold text-blue-950">
             {{title}}
           </h2>
 

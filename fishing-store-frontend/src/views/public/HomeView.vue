@@ -77,26 +77,26 @@ const socialLinks = [
     <Hero />
 
     <main class="mx-auto w-full max-w-6xl px-4 pt-6 min-[380px]:px-5">
-      <section id="productos-destacados" class="home-reveal relative overflow-hidden rounded-[30px] border border-emerald-100 bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)] min-[380px]:rounded-[34px] sm:p-5">
-        <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-100 blur-3xl"></div>
+      <section id="productos-destacados" class="home-reveal relative overflow-hidden rounded-[30px] border border-blue-100 bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)] min-[380px]:rounded-[34px] sm:p-5">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-blue-100 blur-3xl"></div>
         <div class="pointer-events-none absolute -left-16 bottom-0 h-36 w-36 rounded-full bg-cyan-100 blur-3xl"></div>
 
         <div class="relative flex flex-col gap-4">
           <div class="flex flex-col gap-3 min-[360px]:flex-row min-[360px]:items-center min-[360px]:justify-between">
-            <div class="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5">
-              <span class="h-2 w-2 shrink-0 rounded-full bg-emerald-500"></span>
-              <span class="text-[9px] font-black uppercase tracking-[0.10em] text-emerald-700 min-[360px]:text-[10px] sm:text-[11px]">
+            <div class="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5">
+              <span class="h-2 w-2 shrink-0 rounded-full bg-blue-500"></span>
+              <span class="text-[9px] font-black uppercase tracking-[0.10em] text-blue-700 min-[360px]:text-[10px] sm:text-[11px]">
                 Selección del creador
               </span>
             </div>
 
-            <RouterLink to="/products" class="flex h-10 w-fit shrink-0 items-center justify-center rounded-2xl border border-emerald-100 bg-white px-4 text-xs font-black text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.96]">
+            <RouterLink to="/products" class="flex h-10 w-fit shrink-0 items-center justify-center rounded-2xl border border-blue-100 bg-white px-4 text-xs font-black text-blue-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.96]">
               Ver todos
             </RouterLink>
           </div>
 
           <div>
-            <h2 class="text-2xl font-black leading-tight tracking-tight text-emerald-950">
+            <h2 class="text-2xl font-black leading-tight tracking-tight text-blue-950">
               Productos destacados
             </h2>
 
@@ -116,12 +116,12 @@ const socialLinks = [
           </div>
         </div>
 
-        <div v-else class="relative mt-5 rounded-[28px] border border-dashed border-emerald-200 bg-emerald-50/40 px-5 py-10 text-center min-[380px]:px-6">
+        <div v-else class="relative mt-5 rounded-[28px] border border-dashed border-blue-200 bg-blue-50/40 px-5 py-10 text-center min-[380px]:px-6">
           <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-3xl bg-white text-2xl shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
             <CircleOff />
           </div>
 
-          <h3 class="mt-4 text-lg font-black text-emerald-950">
+          <h3 class="mt-4 text-lg font-black text-blue-950">
             No hay productos destacados
           </h3>
 
@@ -133,7 +133,7 @@ const socialLinks = [
 
       <section class="home-reveal mt-8 overflow-hidden rounded-[30px] border border-slate-100 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)] min-[380px]:rounded-[34px]" style="animation-delay: 90ms;">
         <div class="relative p-4 min-[380px]:p-5">
-          <div class="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-emerald-100 blur-3xl"></div>
+          <div class="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-blue-100 blur-3xl"></div>
 
           <div class="relative flex items-start gap-3 min-[360px]:gap-4">
             <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-[22px] bg-red-600 shadow-[0_12px_30px_rgba(220,38,38,0.20)] min-[380px]:h-16 min-[380px]:w-16 min-[380px]:rounded-[24px]">
@@ -145,11 +145,11 @@ const socialLinks = [
             </div>
 
             <div class="min-w-0 flex-1">
-              <span class="text-[10px] font-black uppercase tracking-[0.12em] text-emerald-600 min-[360px]:text-[11px] min-[360px]:tracking-[0.18em]">
+              <span class="text-[10px] font-black uppercase tracking-[0.12em] text-blue-600 min-[360px]:text-[11px] min-[360px]:tracking-[0.18em]">
                 Red principal
               </span>
 
-              <h2 class="mt-1 text-xl font-black leading-tight tracking-tight text-emerald-950">
+              <h2 class="mt-1 text-xl font-black leading-tight tracking-tight text-blue-950">
                 Youtube
               </h2>
 
@@ -161,7 +161,7 @@ const socialLinks = [
 
           <div class="relative mt-5 grid grid-cols-1 gap-3 min-[340px]:grid-cols-3">
             <div class="rounded-3xl border border-red-100 bg-red-50 p-3 text-center">
-              <span class="block text-lg font-black text-emerald-950">
+              <span class="block text-lg font-black text-blue-950">
                 10K+
               </span>
 
@@ -171,7 +171,7 @@ const socialLinks = [
             </div>
 
             <div class="rounded-3xl border border-blue-100 bg-blue-50 p-3 text-center">
-              <span class="block text-lg font-black text-emerald-950">
+              <span class="block text-lg font-black text-blue-950">
                 165K
               </span>
 
@@ -181,7 +181,7 @@ const socialLinks = [
             </div>
 
             <div class="rounded-3xl border border-slate-100 bg-slate-50 p-3 text-center">
-              <span class="block text-lg font-black text-emerald-950">
+              <span class="block text-lg font-black text-blue-950">
                 10K+
               </span>
 
@@ -191,7 +191,7 @@ const socialLinks = [
             </div>
           </div>
 
-          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="relative mt-5 flex min-h-[54px] items-center justify-center rounded-2xl bg-emerald-600 px-5 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98]">
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="relative mt-5 flex min-h-[54px] items-center justify-center rounded-2xl bg-blue-600 px-5 text-sm font-black text-white shadow-[0_14px_32px_oklch(0.424 0.199 265.638)] transition active:scale-[0.98]">
             Ver contenido del canal
           </a>
         </div>
@@ -200,11 +200,11 @@ const socialLinks = [
       <section class="home-reveal mt-8" style="animation-delay: 160ms;">
         <div class="flex items-end justify-between gap-4">
           <div>
-            <span class="text-[10px] font-black uppercase tracking-[0.14em] text-emerald-600 min-[360px]:text-[11px] min-[360px]:tracking-[0.18em]">
+            <span class="text-[10px] font-black uppercase tracking-[0.14em] text-blue-600 min-[360px]:text-[11px] min-[360px]:tracking-[0.18em]">
               Comunidad
             </span>
 
-            <h2 class="mt-2 text-2xl font-black tracking-tight text-emerald-950">
+            <h2 class="mt-2 text-2xl font-black tracking-tight text-blue-950">
               Seguinos en redes
             </h2>
 
@@ -221,7 +221,7 @@ const socialLinks = [
               'bg-blue-50 text-blue-600': social.tone === 'facebook',
               'bg-pink-50 text-pink-600': social.tone === 'instagram',
               'bg-slate-100 text-slate-900': social.tone === 'tiktok',
-              'bg-emerald-50 text-emerald-700': social.tone === 'whatsapp'
+              'bg-blue-50 text-blue-700': social.tone === 'whatsapp'
             }">
               <svg v-if="social.tone === 'youtube'" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.56 12 3.56 12 3.56s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.2 31.57 31.57 0 0 0 0 12a31.57 31.57 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14A31.57 31.57 0 0 0 24 12a31.57 31.57 0 0 0-.5-5.8ZM9.75 15.56V8.44L16 12l-6.25 3.56Z" />
@@ -244,7 +244,7 @@ const socialLinks = [
               </svg>
             </div>
 
-            <h3 class="mt-4 text-sm font-black text-emerald-950">
+            <h3 class="mt-4 text-sm font-black text-blue-950">
               {{ social.name }}
             </h3>
 

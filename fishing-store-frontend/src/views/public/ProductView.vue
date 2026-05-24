@@ -92,9 +92,9 @@ const productCategories = computed(() => {
       <section class="min-w-0 lg:sticky lg:top-6 lg:self-start">
         <div class="relative overflow-hidden rounded-[30px] border border-slate-100 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.07)] min-[380px]:rounded-[34px]">
           <div class="absolute left-3 top-3 z-20 flex items-center gap-2 min-[380px]:left-4 min-[380px]:top-4">
-            <RouterLink to="/products" class="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/80 bg-white/95 text-lg font-black text-emerald-950 shadow-[0_10px_25px_rgba(15,23,42,0.10)] backdrop-blur-md transition active:scale-[0.96]">‹</RouterLink>
+            <RouterLink to="/products" class="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/80 bg-white/95 text-lg font-black text-blue-950 shadow-[0_10px_25px_rgba(15,23,42,0.10)] backdrop-blur-md transition active:scale-[0.96]">‹</RouterLink>
 
-            <span v-if="product.is_featured" class="flex h-10 items-center justify-center rounded-2xl border border-white/80 bg-white/95 px-3 text-[11px] font-black uppercase tracking-wide text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.10)] backdrop-blur-md">Destacado</span>
+            <span v-if="product.is_featured" class="flex h-10 items-center justify-center rounded-2xl border border-white/80 bg-white/95 px-3 text-[11px] font-black uppercase tracking-wide text-blue-700 shadow-[0_10px_25px_rgba(15,23,42,0.10)] backdrop-blur-md">Destacado</span>
           </div>
 
           <div class="absolute right-3 top-3 z-20 min-[380px]:right-4 min-[380px]:top-4">
@@ -109,7 +109,7 @@ const productCategories = computed(() => {
         </div>
 
         <div v-if="product.images?.length > 1" class="mt-4 flex gap-3 overflow-x-auto px-1 pb-1 snap-x snap-mandatory">
-          <button v-for="(img, index) in product.images" :key="index" type="button" @click="item = index" class="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 bg-white p-1 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.96] snap-start min-[380px]:h-20 min-[380px]:w-20 min-[380px]:rounded-3xl" :class="item === index ? 'border-emerald-500 opacity-100' : 'border-slate-100 opacity-70'">
+          <button v-for="(img, index) in product.images" :key="index" type="button" @click="item = index" class="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 bg-white p-1 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.96] snap-start min-[380px]:h-20 min-[380px]:w-20 min-[380px]:rounded-3xl" :class="item === index ? 'border-blue-500 opacity-100' : 'border-slate-100 opacity-70'">
             <img :src="img.image" class="h-full w-full rounded-[18px] object-contain min-[380px]:rounded-[20px]" :alt="product.name">
           </button>
         </div>
@@ -121,28 +121,28 @@ const productCategories = computed(() => {
             <div class="flex items-start justify-between gap-4">
               <div class="min-w-0">
   <div class="flex items-center justify-between gap-3">
-    <span class="text-[9px] font-black uppercase tracking-[0.16em] text-emerald-600 min-[380px]:text-[10px]">
+    <span class="text-[9px] font-black uppercase tracking-[0.16em] text-blue-600 min-[380px]:text-[10px]">
       Producto
     </span>
   </div>
 
-  <h1 class="mt-3 max-w-full whitespace-normal break-words text-[clamp(20px,5.6vw,30px)] font-black leading-[1.08] tracking-tight text-emerald-950 [overflow-wrap:anywhere]">
+  <h1 class="mt-3 max-w-full whitespace-normal break-words text-[clamp(20px,5.6vw,30px)] font-black leading-[1.08] tracking-tight text-blue-950 [overflow-wrap:anywhere]">
     {{ product.name }}
   </h1>
 </div>
 
-              <span v-if="product.stocks?.[0]?.quantity > 0" class="shrink-0 rounded-full bg-emerald-50 px-3 py-2 text-[11px] font-black text-emerald-700">Disponible</span>
+              <span v-if="product.stocks?.[0]?.quantity > 0" class="shrink-0 rounded-full bg-blue-50 px-3 py-2 text-[11px] font-black text-blue-700">Disponible</span>
               <span v-else class="shrink-0 rounded-full bg-red-50 px-3 py-2 text-[11px] font-black text-red-600">Sin stock</span>
             </div>
 
-            <div class="rounded-[28px] border border-emerald-100 bg-emerald-50/80 p-4">
-              <span class="text-xs font-bold uppercase tracking-wide text-emerald-600">Precio</span>
-              <p class="mt-1 whitespace-nowrap text-[clamp(26px,7vw,38px)] font-black leading-tight tracking-tight text-emerald-700">
+            <div class="rounded-[28px] border border-blue-100 bg-blue-50/80 p-4">
+              <span class="text-xs font-bold uppercase tracking-wide text-blue-600">Precio</span>
+              <p class="mt-1 whitespace-nowrap text-[clamp(26px,7vw,38px)] font-black leading-tight tracking-tight text-blue-700">
                 {{ formatPrice(product.price) }}
               </p>
             </div>
 
-            <a :href="productWhatsappUrl" target="_blank" rel="noopener noreferrer" class="flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-emerald-200 bg-white px-2 py-3 text-center text-[12px] font-black leading-tight text-emerald-700 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition active:scale-[0.98] hover:bg-emerald-50 min-[300px]:px-4 min-[300px]:text-sm">
+            <a :href="productWhatsappUrl" target="_blank" rel="noopener noreferrer" class="flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-blue-200 bg-white px-2 py-3 text-center text-[12px] font-black leading-tight text-blue-700 shadow-[0_12px_28px_rgba(15,23,42,0.05)] transition active:scale-[0.98] hover:bg-blue-50 min-[300px]:px-4 min-[300px]:text-sm">
               <span class="flex min-w-0 items-center justify-center gap-1.5 min-[300px]:gap-2">
                 <svg class="h-4 w-4 shrink-0 min-[300px]:h-5 min-[300px]:w-5" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                   <path d="M16.04 3C8.86 3 3.02 8.84 3.02 16.02c0 2.3.6 4.55 1.75 6.53L3 29l6.62-1.73a13 13 0 0 0 6.42 1.68h.01c7.18 0 13.02-5.84 13.02-13.02C29.07 8.84 23.23 3 16.04 3Zm0 23.75h-.01c-1.91 0-3.78-.51-5.42-1.48l-.39-.23-3.93 1.03 1.05-3.83-.25-.39a10.75 10.75 0 0 1-1.65-5.83c0-5.93 4.83-10.76 10.77-10.76 2.87 0 5.57 1.12 7.6 3.15a10.7 10.7 0 0 1 3.15 7.6c0 5.94-4.83 10.76-10.76 10.76Zm5.9-8.06c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.84 1.05-1.03 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.59-.96-.85-1.6-1.9-1.79-2.22-.19-.32-.02-.5.14-.66.15-.15.32-.38.49-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.57-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.57.08-.86.4-.3.32-1.13 1.11-1.13 2.71s1.16 3.14 1.32 3.36c.16.21 2.28 3.49 5.53 4.9.77.33 1.37.53 1.84.68.77.24 1.47.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.3-.21-.62-.37Z" />
@@ -161,7 +161,7 @@ const productCategories = computed(() => {
                   </span>
 
                   <div class="shrink-0 text-right">
-                    <span class="block text-2xl font-black leading-none text-emerald-950">
+                    <span class="block text-2xl font-black leading-none text-blue-950">
                       {{ averageValue }}
                     </span>
 
@@ -181,19 +181,19 @@ const productCategories = computed(() => {
                 </div>
               </div>
 
-              <div class="rounded-[28px] border p-4" :class="product.stocks?.[0]?.quantity > 0 ? 'border-emerald-100 bg-emerald-50/70' : 'border-red-100 bg-red-50/70'">
+              <div class="rounded-[28px] border p-4" :class="product.stocks?.[0]?.quantity > 0 ? 'border-blue-100 bg-blue-50/70' : 'border-red-100 bg-red-50/70'">
                 <div class="flex items-start justify-between gap-3">
-                  <span class="text-[10px] font-black uppercase tracking-wide" :class="product.stocks?.[0]?.quantity > 0 ? 'text-emerald-600' : 'text-red-500'">
+                  <span class="text-[10px] font-black uppercase tracking-wide" :class="product.stocks?.[0]?.quantity > 0 ? 'text-blue-600' : 'text-red-500'">
                     Stock disponible
                   </span>
 
-                  <span class="shrink-0 rounded-full px-3 py-1 text-xs font-black" :class="product.stocks?.[0]?.quantity > 0 ? 'bg-white text-emerald-700' : 'bg-white text-red-500'">
+                  <span class="shrink-0 rounded-full px-3 py-1 text-xs font-black" :class="product.stocks?.[0]?.quantity > 0 ? 'bg-white text-blue-700' : 'bg-white text-red-500'">
                     {{ product.stocks?.[0]?.quantity > 0 ? 'Disponible' : 'Sin stock' }}
                   </span>
                 </div>
 
                 <div class="mt-3 flex items-end gap-2">
-                  <span class="text-3xl font-black leading-none" :class="product.stocks?.[0]?.quantity > 0 ? 'text-emerald-950' : 'text-red-600'">
+                  <span class="text-3xl font-black leading-none" :class="product.stocks?.[0]?.quantity > 0 ? 'text-blue-950' : 'text-red-600'">
                     {{ product.stocks?.[0]?.quantity > 0 ? product.stocks?.[0]?.quantity : 0 }}
                   </span>
 
@@ -208,15 +208,15 @@ const productCategories = computed(() => {
 
         <section class="rounded-[30px] border border-slate-100 bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)] min-[380px]:rounded-[34px] min-[380px]:p-5">
           <div>
-            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Detalles del producto</span>
-            <h2 class="mt-2 text-xl font-black text-emerald-950">Información completa</h2>
+            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">Detalles del producto</span>
+            <h2 class="mt-2 text-xl font-black text-blue-950">Información completa</h2>
           </div>
 
           <div class="mt-5">
             <span class="text-xs font-bold uppercase tracking-wide text-slate-400">Categorías</span>
 
             <div v-if="productCategories.length" class="mt-3 flex flex-wrap gap-2">
-              <span v-for="category in productCategories" :key="category.id" class="inline-flex max-w-full items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700">
+              <span v-for="category in productCategories" :key="category.id" class="inline-flex max-w-full items-center rounded-full border border-blue-100 bg-blue-50 px-3 py-2 text-xs font-black text-blue-700">
                 <span class="block max-w-[170px] truncate sm:max-w-none">{{ category.name }}</span>
               </span>
             </div>
@@ -231,29 +231,29 @@ const productCategories = computed(() => {
         </section>
 
         <section class="grid grid-cols-1 gap-3 min-[440px]:grid-cols-2">
-          <div class="rounded-[28px] border border-emerald-100 bg-emerald-50/70 p-4">
-            <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)]">✓</div>
-            <h3 class="mt-3 text-sm font-black text-emerald-950">Stock real</h3>
-            <p class="mt-1 text-xs font-medium leading-5 text-emerald-700">La tienda valida disponibilidad al crear tu pedido.</p>
+          <div class="rounded-[28px] border border-blue-100 bg-blue-50/70 p-4">
+            <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)]">✓</div>
+            <h3 class="mt-3 text-sm font-black text-blue-950">Stock real</h3>
+            <p class="mt-1 text-xs font-medium leading-5 text-blue-700">La tienda valida disponibilidad al crear tu pedido.</p>
           </div>
 
           <div class="rounded-[28px] border border-cyan-100 bg-white p-4 shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
             <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)]">↗</div>
-            <h3 class="mt-3 text-sm font-black text-emerald-950">Por WhatsApp</h3>
+            <h3 class="mt-3 text-sm font-black text-blue-950">Por WhatsApp</h3>
             <p class="mt-1 text-xs font-medium leading-5 text-slate-500">Coordinás pago, retiro o entrega después de enviar el pedido.</p>
           </div>
         </section>
       </section>
     </main>
 
-    <div class="fixed inset-x-0 bottom-0 z-40 border-t border-emerald-100/70 bg-white/95 px-3 pt-2.5 pb-[calc(env(safe-area-inset-bottom)+10px)] shadow-[0_-16px_40px_rgba(15,23,42,0.10)] backdrop-blur-xl lg:hidden">
+    <div class="fixed inset-x-0 bottom-0 z-40 border-t border-blue-100/70 bg-white/95 px-3 pt-2.5 pb-[calc(env(safe-area-inset-bottom)+10px)] shadow-[0_-16px_40px_rgba(15,23,42,0.10)] backdrop-blur-xl lg:hidden">
       <div class="mx-auto flex max-w-screen-md items-center gap-2 rounded-[24px] border border-slate-100 bg-white p-2 shadow-[0_12px_35px_rgba(15,23,42,0.06)] min-[380px]:gap-3 min-[380px]:rounded-[28px]">
         <div class="min-w-0 flex-1 px-2 min-[380px]:px-3">
           <span class="block text-[9px] font-black uppercase tracking-[0.14em] text-slate-400 min-[380px]:text-[10px]">Total en carrito</span>
-          <span class="mt-0.5 block truncate text-base font-black tracking-tight text-emerald-950 min-[380px]:text-xl">{{ formatPrice(cart.total) }}</span>
+          <span class="mt-0.5 block truncate text-base font-black tracking-tight text-blue-950 min-[380px]:text-xl">{{ formatPrice(cart.total) }}</span>
         </div>
 
-        <button v-if="product.stocks?.[0]?.quantity > 0" @click="addCartItem" type="button" class="flex h-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 px-4 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.24)] transition active:scale-[0.97] min-[380px]:h-14 min-[380px]:px-5">Añadir</button>
+        <button v-if="product.stocks?.[0]?.quantity > 0" @click="addCartItem" type="button" class="flex h-12 shrink-0 items-center justify-center rounded-2xl bg-blue-600 px-4 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.24)] transition active:scale-[0.97] min-[380px]:h-14 min-[380px]:px-5">Añadir</button>
         <span v-else class="flex h-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100 px-4 text-sm font-black text-slate-400 min-[380px]:h-14 min-[380px]:px-5">Sin stock</span>
       </div>
     </div>

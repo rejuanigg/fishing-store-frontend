@@ -452,11 +452,11 @@ async function successDeleteModal() {
   <div class="min-h-screen bg-slate-50">
     <div v-if="!product" class="flex min-h-[100dvh] w-full items-center justify-center px-5">
       <div class="rounded-[34px] border border-slate-100 bg-white px-8 py-10 text-center shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
           Panel admin
         </span>
 
-        <h2 class="mt-2 text-xl font-black text-emerald-950">
+        <h2 class="mt-2 text-xl font-black text-blue-950">
           Cargando producto...
         </h2>
 
@@ -469,11 +469,11 @@ async function successDeleteModal() {
     <div v-else class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 pb-32 pt-6">
       <div class="rounded-[28px] border border-slate-100 bg-white p-2 shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
         <div class="grid grid-cols-2 gap-2">
-          <button type="button" @click="tab = 'product'" class="h-11 rounded-2xl text-sm font-black transition active:scale-[0.98]" :class="tab === 'product' ? 'bg-emerald-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'bg-slate-50 text-slate-500'">
+          <button type="button" @click="tab = 'product'" class="h-11 rounded-2xl text-sm font-black transition active:scale-[0.98]" :class="tab === 'product' ? 'bg-blue-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'bg-slate-50 text-slate-500'">
             Producto
           </button>
 
-          <button type="button" @click="tab = 'images'" class="h-11 rounded-2xl text-sm font-black transition active:scale-[0.98]" :class="tab === 'images' ? 'bg-emerald-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'bg-slate-50 text-slate-500'">
+          <button type="button" @click="tab = 'images'" class="h-11 rounded-2xl text-sm font-black transition active:scale-[0.98]" :class="tab === 'images' ? 'bg-blue-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'bg-slate-50 text-slate-500'">
             Imágenes
           </button>
         </div>
@@ -482,11 +482,11 @@ async function successDeleteModal() {
       <div v-if="tab === 'product'" class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section class="flex flex-col gap-6">
           <div class="flex flex-col gap-2">
-            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
               Panel admin
             </span>
 
-            <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+            <h1 class="text-2xl font-black tracking-tight text-blue-950">
               Editar producto
             </h1>
 
@@ -498,40 +498,40 @@ async function successDeleteModal() {
           <form @submit.prevent="openSuccessModal" class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
             <div class="flex flex-col gap-6">
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-black text-emerald-900">
+                <label class="text-sm font-black text-blue-900">
                   Nombre
                 </label>
 
-                <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-500">
+                <input v-model="name" type="text" placeholder="Ej: Reel Shimano FX" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500">
               </div>
 
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-black text-emerald-900">
+                <label class="text-sm font-black text-blue-900">
                   Precio
                 </label>
 
-                <input :value="price" @input="handlePrice" type="text" inputmode="numeric" placeholder="Ej: 120000" maxlength="7" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-500">
+                <input :value="price" @input="handlePrice" type="text" inputmode="numeric" placeholder="Ej: 120000" maxlength="7" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500">
 
-                <span class="text-sm font-black text-emerald-700">
+                <span class="text-sm font-black text-blue-700">
                   {{ formatPrice(Number(price) || 0) }}
                 </span>
               </div>
 
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-black text-emerald-900">
+                <label class="text-sm font-black text-blue-900">
                   Descripción
                 </label>
 
-                <textarea v-model="description" placeholder="Describe el producto..." class="min-h-[140px] rounded-2xl border border-slate-200 bg-white p-4 text-sm font-semibold text-emerald-950 outline-none resize-none transition placeholder:text-slate-400 focus:border-emerald-500"></textarea>
+                <textarea v-model="description" placeholder="Describe el producto..." class="min-h-[140px] rounded-2xl border border-slate-200 bg-white p-4 text-sm font-semibold text-blue-950 outline-none resize-none transition placeholder:text-slate-400 focus:border-blue-500"></textarea>
               </div>
 
               <div class="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
                 <div class="flex flex-col gap-2">
-                  <label class="text-sm font-black text-emerald-900">
+                  <label class="text-sm font-black text-blue-900">
                     Sección
                   </label>
 
-                  <select v-model="selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition focus:border-emerald-500">
+                  <select v-model="selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition focus:border-blue-500">
                     <option :value="null" disabled>
                       Seleccioná una sección
                     </option>
@@ -543,11 +543,11 @@ async function successDeleteModal() {
                 </div>
 
                 <div class="flex flex-col gap-2">
-                  <label class="text-sm font-black text-emerald-900">
+                  <label class="text-sm font-black text-blue-900">
                     Categoría
                   </label>
 
-                  <select v-model="selectedCategory" :disabled="!selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition disabled:bg-slate-100 disabled:text-slate-400 focus:border-emerald-500">
+                  <select v-model="selectedCategory" :disabled="!selectedSection" class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition disabled:bg-slate-100 disabled:text-slate-400 focus:border-blue-500">
                     <option :value="null">
                       Seleccioná una categoría
                     </option>
@@ -560,12 +560,12 @@ async function successDeleteModal() {
               </div>
 
               <div class="flex flex-col gap-3">
-                <button type="button" @click="addCategory" :disabled="!canAddCategory" class="h-11 rounded-2xl border border-emerald-100 bg-emerald-50 text-sm font-black text-emerald-700 transition active:scale-[0.98] disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400 disabled:active:scale-100">
+                <button type="button" @click="addCategory" :disabled="!canAddCategory" class="h-11 rounded-2xl border border-blue-100 bg-blue-50 text-sm font-black text-blue-700 transition active:scale-[0.98] disabled:border-slate-100 disabled:bg-slate-100 disabled:text-slate-400 disabled:active:scale-100">
                   Agregar categoría
                 </button>
 
                 <div v-if="newCategories.length" class="flex flex-wrap gap-2">
-                  <span v-for="categoryItem in newCategories" :key="categoryItem.id" class="inline-flex max-w-full items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-2 text-sm font-black text-emerald-800">
+                  <span v-for="categoryItem in newCategories" :key="categoryItem.id" class="inline-flex max-w-full items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-black text-blue-800">
                     <span class="max-w-[180px] truncate">
                       {{ categoryItem.name }}
                     </span>
@@ -583,7 +583,7 @@ async function successDeleteModal() {
 
               <section class="rounded-[28px] border border-slate-100 bg-slate-50 p-4">
                 <div>
-                  <h2 class="text-lg font-black text-emerald-950">
+                  <h2 class="text-lg font-black text-blue-950">
                     Inventario
                   </h2>
 
@@ -593,26 +593,26 @@ async function successDeleteModal() {
                 </div>
 
                 <div class="mt-4 flex items-center justify-center gap-4">
-                  <button type="button" @click="downStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-xl font-black text-emerald-700 transition active:scale-[0.96]">
+                  <button type="button" @click="downStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-100 bg-white text-xl font-black text-blue-700 transition active:scale-[0.96]">
                     -
                   </button>
 
-                  <input v-model.number="actualStock" @blur="normalizeStock" min="0" type="number" class="h-11 w-24 rounded-2xl border border-slate-200 bg-white text-center text-lg font-black text-emerald-950 outline-none focus:border-emerald-500">
+                  <input v-model.number="actualStock" @blur="normalizeStock" min="0" type="number" class="h-11 w-24 rounded-2xl border border-slate-200 bg-white text-center text-lg font-black text-blue-950 outline-none focus:border-blue-500">
 
-                  <button type="button" @click="upStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-xl font-black text-emerald-700 transition active:scale-[0.96]">
+                  <button type="button" @click="upStock" class="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-100 bg-white text-xl font-black text-blue-700 transition active:scale-[0.96]">
                     +
                   </button>
                 </div>
               </section>
 
-              <button type="submit" :disabled="!canSubmit" class="h-13 rounded-2xl bg-emerald-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">
+              <button type="submit" :disabled="!canSubmit" class="h-13 rounded-2xl bg-blue-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100">
                 <span v-if="submitLoading">Cargando...</span>
                 <span v-else>Guardar cambios</span>
               </button>
             </div>
           </form>
 
-          <RouterLink to="/admin-panel/products" class="flex h-13 items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 text-sm font-black text-emerald-700 transition active:scale-[0.98]">
+          <RouterLink to="/admin-panel/products" class="flex h-13 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 text-sm font-black text-blue-700 transition active:scale-[0.98]">
             Ver todos los productos
           </RouterLink>
 
@@ -625,7 +625,7 @@ async function successDeleteModal() {
         <aside class="lg:sticky lg:top-6 lg:self-start">
           <section class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
             <div>
-              <h2 class="text-lg font-black text-emerald-950">
+              <h2 class="text-lg font-black text-blue-950">
                 Vista previa
               </h2>
 
@@ -645,11 +645,11 @@ async function successDeleteModal() {
 
       <div v-else class="flex flex-col gap-6">
         <section class="flex flex-col gap-2">
-          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
             Panel admin
           </span>
 
-          <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+          <h1 class="text-2xl font-black tracking-tight text-blue-950">
             Imágenes del producto
           </h1>
 
@@ -663,18 +663,18 @@ async function successDeleteModal() {
             <div class="relative overflow-hidden rounded-[22px] bg-slate-50">
               <img :src="img.image" class="h-48 w-full object-contain p-2" :alt="`Imagen ${index + 1}`">
 
-              <span v-if="index === 0" class="absolute left-3 top-3 flex h-7 items-center rounded-full bg-emerald-600 px-3 text-[10px] font-black uppercase tracking-wide text-white shadow-[0_10px_22px_rgba(5,150,105,0.20)]">
+              <span v-if="index === 0" class="absolute left-3 top-3 flex h-7 items-center rounded-full bg-blue-600 px-3 text-[10px] font-black uppercase tracking-wide text-white shadow-[0_10px_22px_rgba(5,150,105,0.20)]">
                 Principal
               </span>
             </div>
 
             <div class="flex flex-col gap-3">
-              <span class="text-sm font-black text-emerald-950">
+              <span class="text-sm font-black text-blue-950">
                 Imagen {{ index + 1 }}
               </span>
 
               <div class="flex w-full items-center gap-2">
-                <label v-if="onDelete !== index" class="flex h-10 flex-1 cursor-pointer items-center justify-center rounded-2xl bg-emerald-50 text-xs font-black text-emerald-700 transition active:scale-[0.95]" :class="replacingImageId === img.id ? 'pointer-events-none opacity-60' : ''">
+                <label v-if="onDelete !== index" class="flex h-10 flex-1 cursor-pointer items-center justify-center rounded-2xl bg-blue-50 text-xs font-black text-blue-700 transition active:scale-[0.95]" :class="replacingImageId === img.id ? 'pointer-events-none opacity-60' : ''">
                   <span v-if="replacingImageId === img.id">Cargando...</span>
                   <span v-else>Reemplazar</span>
 
@@ -701,17 +701,17 @@ async function successDeleteModal() {
             </div>
           </div>
 
-          <label v-if="!uploadLoading" class="flex min-h-[260px] cursor-pointer flex-col items-center justify-center gap-4 rounded-[28px] border-2 border-dashed border-emerald-200 bg-emerald-50 p-5 text-center transition active:scale-[0.98]">
-            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl font-black text-emerald-700 shadow-sm">
+          <label v-if="!uploadLoading" class="flex min-h-[260px] cursor-pointer flex-col items-center justify-center gap-4 rounded-[28px] border-2 border-dashed border-blue-200 bg-blue-50 p-5 text-center transition active:scale-[0.98]">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl font-black text-blue-700 shadow-sm">
               +
             </div>
 
             <div class="flex flex-col items-center gap-1">
-              <span class="text-sm font-black text-emerald-900">
+              <span class="text-sm font-black text-blue-900">
                 Agregar imagen
               </span>
 
-              <span class="text-xs font-semibold text-emerald-600">
+              <span class="text-xs font-semibold text-blue-600">
                 JPG, PNG o WEBP
               </span>
             </div>

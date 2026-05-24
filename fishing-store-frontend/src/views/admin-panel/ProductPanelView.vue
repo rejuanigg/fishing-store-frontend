@@ -135,11 +135,11 @@ async function addFeature(product) {
   <div v-else class="min-h-[100dvh] bg-slate-50">
     <section class="mx-auto flex w-full max-w-6xl flex-col gap-5 px-5 pt-6">
       <div class="flex flex-col gap-2">
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
           Panel admin
         </span>
 
-        <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+        <h1 class="text-2xl font-black tracking-tight text-blue-950">
           Gestión de productos
         </h1>
 
@@ -156,7 +156,7 @@ async function addFeature(product) {
 
           <RouterLink
             to="/admin-panel/products/create"
-            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-xl font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.95]"
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-600 text-xl font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.95]"
           >
             +
           </RouterLink>
@@ -169,7 +169,7 @@ async function addFeature(product) {
             type="button"
             @click="featureFilter = null"
             class="h-11 rounded-2xl px-3 text-xs font-black transition active:scale-[0.98] min-[380px]:text-sm"
-            :class="featureFilter === null ? 'bg-emerald-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'text-slate-500 active:bg-slate-50'"
+            :class="featureFilter === null ? 'bg-blue-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'text-slate-500 active:bg-slate-50'"
           >
             Todos
           </button>
@@ -178,7 +178,7 @@ async function addFeature(product) {
             type="button"
             @click="featureFilter = false"
             class="h-11 rounded-2xl px-3 text-xs font-black transition active:scale-[0.98] min-[380px]:text-sm"
-            :class="featureFilter === false ? 'bg-emerald-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'text-slate-500 active:bg-slate-50'"
+            :class="featureFilter === false ? 'bg-blue-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'text-slate-500 active:bg-slate-50'"
           >
             Sin destacar
           </button>
@@ -187,7 +187,7 @@ async function addFeature(product) {
             type="button"
             @click="featureFilter = true"
             class="h-11 rounded-2xl px-3 text-xs font-black transition active:scale-[0.98] min-[380px]:text-sm"
-            :class="featureFilter === true ? 'bg-emerald-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'text-slate-500 active:bg-slate-50'"
+            :class="featureFilter === true ? 'bg-blue-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]' : 'text-slate-500 active:bg-slate-50'"
           >
             Destacados
           </button>
@@ -198,7 +198,7 @@ async function addFeature(product) {
     <main class="mx-auto w-full max-w-6xl px-5 pb-32 pt-6">
       <div class="mb-4 flex items-end justify-between gap-4">
         <div>
-          <h2 class="text-lg font-black text-emerald-950">
+          <h2 class="text-lg font-black text-blue-950">
             Productos registrados
           </h2>
 
@@ -207,7 +207,7 @@ async function addFeature(product) {
           </p>
         </div>
 
-        <span class="shrink-0 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-black text-emerald-700">
+        <span class="shrink-0 rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-black text-blue-700">
           Admin
         </span>
       </div>
@@ -224,13 +224,13 @@ async function addFeature(product) {
 
       <section
         v-else
-        class="rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]"
+        class="rounded-[34px] border border-dashed border-blue-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]"
       >
-        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-blue-50 text-3xl">
           <CircleOff />
         </div>
 
-        <h3 class="mt-5 text-lg font-black text-emerald-950">
+        <h3 class="mt-5 text-lg font-black text-blue-950">
           No encontramos productos
         </h3>
 
@@ -244,7 +244,7 @@ async function addFeature(product) {
           type="button"
           @click="loadMore"
           :disabled="loadingMore"
-          class="flex h-12 w-full max-w-[320px] items-center justify-center rounded-2xl border border-emerald-200 bg-white px-6 text-sm font-black text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.98] disabled:opacity-60 disabled:active:scale-100"
+          class="flex h-12 w-full max-w-[320px] items-center justify-center rounded-2xl border border-blue-200 bg-white px-6 text-sm font-black text-blue-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.98] disabled:opacity-60 disabled:active:scale-100"
         >
           <span v-if="loadingMore">Cargando...</span>
           <span v-else>Cargar más productos</span>

@@ -96,11 +96,11 @@ function viewAll() {
   <div v-else class="min-h-[100dvh] bg-slate-50 pb-28">
     <section class="px-5 pt-5">
   <div class="mx-auto w-full max-w-6xl">
-    <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+    <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
       Catálogo
     </span>
 
-    <h1 class="mt-1 text-2xl font-black tracking-tight text-emerald-950">
+    <h1 class="mt-1 text-2xl font-black tracking-tight text-blue-950">
       Productos
     </h1>
 
@@ -117,7 +117,7 @@ function viewAll() {
     </div>
 
     <div class="grid grid-cols-2 gap-2 min-[520px]:flex min-[520px]:shrink-0">
-      <button @click="toggleOpen" type="button" class="flex h-11 items-center justify-center rounded-2xl bg-emerald-600 px-4 text-sm font-black text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)] transition active:scale-[0.98] min-[520px]:min-w-[130px]">
+      <button @click="toggleOpen" type="button" class="flex h-11 items-center justify-center rounded-2xl bg-blue-600 px-4 text-sm font-black text-white shadow-[0_10px_24px_oklch(0.424 0.199 265.638)] transition active:scale-[0.98] min-[520px]:min-w-[130px]">
         Filtrar
       </button>
 
@@ -135,7 +135,7 @@ function viewAll() {
     <main class="mx-auto w-full max-w-6xl px-5 pt-6">
       <div class="mb-4 flex items-end justify-between gap-4">
         <div>
-          <h2 class="text-lg font-black text-emerald-950">
+          <h2 class="text-lg font-black text-blue-950">
             Disponibles en tienda
           </h2>
 
@@ -144,7 +144,7 @@ function viewAll() {
           </p>
         </div>
 
-        <span class="shrink-0 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-black text-emerald-700">
+        <span class="shrink-0 rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-black text-blue-700">
           Stock real
         </span>
       </div>
@@ -155,19 +155,19 @@ function viewAll() {
         </div>
 
         <div v-if="hasMorePages" class="flex justify-center px-2 pb-32 pt-8">
-          <button @click="loadMore" :disabled="loadingMore" type="button" class="flex h-12 w-full max-w-[320px] items-center justify-center rounded-2xl border border-emerald-200 bg-white px-6 text-sm font-black text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.98] disabled:opacity-60 disabled:active:scale-100">
+          <button @click="loadMore" :disabled="loadingMore" type="button" class="flex h-12 w-full max-w-[320px] items-center justify-center rounded-2xl border border-blue-200 bg-white px-6 text-sm font-black text-blue-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)] transition active:scale-[0.98] disabled:opacity-60 disabled:active:scale-100">
             <span v-if="loadingMore">Cargando...</span>
             <span v-else>Cargar más productos</span>
           </button>
         </div>
       </div>
 
-      <div v-else class="mt-6 rounded-[34px] border border-dashed border-emerald-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
-        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-50 text-3xl">
+      <div v-else class="mt-6 rounded-[34px] border border-dashed border-blue-200 bg-white px-6 py-12 text-center shadow-[0_14px_35px_rgba(15,23,42,0.05)]">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-blue-50 text-3xl">
           <CircleOff />
         </div>
 
-        <h3 class="mt-5 text-lg font-black text-emerald-950">
+        <h3 class="mt-5 text-lg font-black text-blue-950">
           No encontramos productos
         </h3>
 
@@ -175,14 +175,14 @@ function viewAll() {
           Probá cambiando la búsqueda o limpiando los filtros aplicados.
         </p>
 
-        <button @click="viewAll" type="button" class="mt-6 h-12 rounded-2xl bg-emerald-600 px-6 text-sm font-black text-white shadow-[0_12px_28px_rgba(5,150,105,0.20)] transition active:scale-[0.98]">
+        <button @click="viewAll" type="button" class="mt-6 h-12 rounded-2xl bg-blue-600 px-6 text-sm font-black text-white shadow-[0_12px_28px_oklch(0.424 0.199 265.638)] transition active:scale-[0.98]">
           Ver todos
         </button>
       </div>
     </main>
 
     <div v-if="toggle" class="fixed inset-0 z-[1000]">
-      <button @click="toggleClose" type="button" class="absolute inset-0 bg-emerald-950/45 backdrop-blur-[3px]"></button>
+      <button @click="toggleClose" type="button" class="absolute inset-0 bg-blue-950/45 backdrop-blur-[3px]"></button>
 
       <div class="absolute bottom-0 left-0 right-0 z-10 mx-auto max-h-[86dvh] max-w-screen-md overflow-hidden rounded-t-[34px] border-t border-white/80 bg-white shadow-[0_-18px_45px_rgba(15,23,42,0.18)] animate-slide-up">
         <div class="border-b border-slate-100 px-5 pb-4 pt-4">
@@ -190,11 +190,11 @@ function viewAll() {
 
           <div class="flex items-start justify-between gap-4">
             <div class="min-w-0">
-              <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+              <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
                 Filtros
               </span>
 
-              <h2 class="mt-1 text-xl font-black text-emerald-950">
+              <h2 class="mt-1 text-xl font-black text-blue-950">
                 Refinar productos
               </h2>
 

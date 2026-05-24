@@ -177,11 +177,11 @@ async function successDeleteModal() {
   <section class="min-h-screen bg-slate-50">
     <div v-if="pageLoading" class="flex min-h-[100dvh] w-full items-center justify-center px-5">
       <div class="rounded-[34px] border border-slate-100 bg-white px-8 py-10 text-center shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
           Panel admin
         </span>
 
-        <h2 class="mt-2 text-xl font-black text-emerald-950">
+        <h2 class="mt-2 text-xl font-black text-blue-950">
           Cargando categoría...
         </h2>
 
@@ -193,11 +193,11 @@ async function successDeleteModal() {
 
     <div v-else class="mx-auto flex w-full max-w-screen-md flex-col gap-8 px-5 pb-32 pt-6">
       <section class="flex flex-col gap-2">
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
           Panel admin
         </span>
 
-        <h1 class="text-2xl font-black tracking-tight text-emerald-950">
+        <h1 class="text-2xl font-black tracking-tight text-blue-950">
           Configuración de categoría
         </h1>
 
@@ -209,13 +209,13 @@ async function successDeleteModal() {
       <form @submit.prevent="openSuccessModal" class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-black text-emerald-900">
+            <label class="text-sm font-black text-blue-900">
               Sección
             </label>
 
             <select
               v-model="selectedSection"
-              class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition focus:border-emerald-500"
+              class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition focus:border-blue-500"
             >
               <option :value="null" disabled>
                 Seleccioná una sección
@@ -228,7 +228,7 @@ async function successDeleteModal() {
           </div>
 
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-black text-emerald-900">
+            <label class="text-sm font-black text-blue-900">
               Nombre
             </label>
 
@@ -236,14 +236,14 @@ async function successDeleteModal() {
               v-model="name"
               type="text"
               placeholder="Ej: Cañas de pesca"
-              class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-emerald-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"
+              class="h-13 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-slate-400 focus:border-blue-500"
             >
           </div>
 
           <button
             type="submit"
             :disabled="!canSubmit"
-            class="h-13 rounded-2xl bg-emerald-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100"
+            class="h-13 rounded-2xl bg-blue-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100"
           >
             <span v-if="updateLoading">Cargando...</span>
             <span v-else>Guardar cambios</span>

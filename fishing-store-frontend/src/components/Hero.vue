@@ -5,11 +5,11 @@ import { Store } from '@lucide/vue';
 </script>
 
 <template>
-  <section class="hero-enter relative overflow-hidden rounded-b-[34px] bg-emerald-950 text-white shadow-[0_16px_38px_rgba(2,44,34,0.20)]">
+  <section class="hero-enter relative overflow-hidden rounded-b-[34px] bg-blue-950 text-white shadow-[0_16px_38px_rgba(2,44,34,0.20)]">
     <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(16,185,129,0.28),transparent_34%),radial-gradient(circle_at_90%_20%,rgba(34,211,238,0.14),transparent_30%),linear-gradient(180deg,#022c22_0%,#064e3b_52%,#022c22_100%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,oklch(0.379 0.146 265.522),transparent_34%),radial-gradient(circle_at_90%_20%,oklch(0.379 0.146 265.522),transparent_30%),linear-gradient(180deg,#022c22_0%,#064e3b_52%,#022c22_100%)]"></div>
       <div class="hero-grid absolute inset-0 opacity-[0.10]"></div>
-      <div class="hero-glow-one absolute -right-24 top-16 h-56 w-56 rounded-full bg-emerald-300/20 blur-3xl"></div>
+      <div class="hero-glow-one absolute -right-24 top-16 h-56 w-56 rounded-full bg-blue-300/20 blur-3xl"></div>
       <div class="hero-glow-two absolute -left-24 bottom-[-40px] h-56 w-56 rounded-full bg-cyan-200/10 blur-3xl"></div>
     </div>
 
@@ -22,12 +22,12 @@ import { Store } from '@lucide/vue';
 
           <div class="flex flex-col">
             <span class="text-sm font-black tracking-wide text-white">Tienda</span>
-            <span class="text-xs font-semibold text-emerald-100/80">Tienda Argentina</span>
+            <span class="text-xs font-semibold text-blue-100/80">Tu tienda online</span>
           </div>
         </div>
 
         <div class="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-md">
-          <span class="text-[11px] font-black text-emerald-50">+165K</span>
+          <span class="text-[11px] font-black text-blue-50">+165K</span>
         </div>
       </div>
 
@@ -36,13 +36,13 @@ import { Store } from '@lucide/vue';
           Texto principal para tienda.
         </h1>
 
-        <p class="mt-3 max-w-[330px] text-[14px] font-medium leading-6 text-emerald-50/85">
+        <p class="mt-3 max-w-[330px] text-[14px] font-medium leading-6 text-blue-50/85">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus distinctio fugiat natus laborum amet corporis earum deserunt quae? Molestias pariatur voluptatibus beatae quos, quia velit rem consequatur. Odio, quidem iure?
         </p>
       </div>
 
       <div class="hero-actions mt-6 flex gap-3">
-        <RouterLink to="/products" class="flex h-13 flex-1 items-center justify-center rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-[0_12px_28px_rgba(16,185,129,0.24)] transition active:scale-[0.98]">
+        <RouterLink to="/products" class="flex h-13 flex-1 items-center justify-center rounded-2xl bg-blue-500 text-sm font-black text-white shadow-[0_12px_28px_rgba(16,185,129,0.24)] transition active:scale-[0.98]">
           Ver productos
         </RouterLink>
       </div>

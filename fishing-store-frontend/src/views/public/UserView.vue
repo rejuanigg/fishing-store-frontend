@@ -43,19 +43,19 @@ const closeModal = () => {
 <template>
   <section v-if="!authStore.isLoggedIn" class="min-h-[100dvh] bg-slate-50 px-5 pb-28 pt-8">
     <div class="overflow-hidden rounded-[34px] border border-slate-100 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]">
-      <div class="relative bg-gradient-to-br from-emerald-50 via-white to-cyan-50 px-6 pb-7 pt-8 text-center">
-        <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-100 blur-3xl"></div>
+      <div class="relative bg-gradient-to-br from-blue-50 via-white to-cyan-50 px-6 pb-7 pt-8 text-center">
+        <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-blue-100 blur-3xl"></div>
         <div class="absolute -left-16 bottom-0 h-36 w-36 rounded-full bg-cyan-100 blur-3xl"></div>
 
-        <div class="relative mx-auto flex h-20 w-20 items-center justify-center rounded-[28px] bg-white text-emerald-600 shadow-[0_14px_35px_rgba(15,23,42,0.08)]">
+        <div class="relative mx-auto flex h-20 w-20 items-center justify-center rounded-[28px] bg-white text-blue-600 shadow-[0_14px_35px_rgba(15,23,42,0.08)]">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-9">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
           </svg>
         </div>
 
         <div class="relative mt-5">
-          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Cuenta</span>
-          <h1 class="mt-2 text-2xl font-black tracking-tight text-emerald-950">Iniciá sesión</h1>
+          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">Cuenta</span>
+          <h1 class="mt-2 text-2xl font-black tracking-tight text-blue-950">Iniciá sesión</h1>
           <p class="mx-auto mt-2 max-w-[300px] text-sm font-medium leading-6 text-slate-500">
             Accedé para ver tus pedidos, actualizar tus datos y seguir el estado de tus compras.
           </p>
@@ -64,22 +64,22 @@ const closeModal = () => {
 
       <div class="p-5">
         <div class="flex flex-col gap-3">
-          <RouterLink to="/login" class="flex h-14 items-center justify-center rounded-2xl bg-emerald-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98]">
+          <RouterLink to="/login" class="flex h-14 items-center justify-center rounded-2xl bg-blue-600 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98]">
             Iniciar sesión
           </RouterLink>
 
-          <RouterLink to="/register" class="flex h-14 items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-sm font-black text-emerald-700 transition active:scale-[0.98]">
+          <RouterLink to="/register" class="flex h-14 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-sm font-black text-blue-700 transition active:scale-[0.98]">
             Crear cuenta
           </RouterLink>
         </div>
       </div>
     </div>
 
-    <section class="mt-6 overflow-hidden rounded-[34px] border border-emerald-100 bg-emerald-950 p-6 text-white shadow-[0_18px_45px_rgba(2,44,34,0.18)]">
+    <section class="mt-6 overflow-hidden rounded-[34px] border border-blue-100 bg-blue-950 p-6 text-white shadow-[0_18px_45px_rgba(2,44,34,0.18)]">
       <div>
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-300">Beneficios</span>
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-300">Beneficios</span>
         <h2 class="mt-2 text-xl font-black leading-tight">Comprá más rápido y seguí tus pedidos.</h2>
-        <p class="mt-2 text-sm font-medium leading-6 text-emerald-50/75">
+        <p class="mt-2 text-sm font-medium leading-6 text-blue-50/75">
           Tu cuenta te permite consultar el estado de tus órdenes y coordinar mejor tus compras.
         </p>
       </div>
@@ -87,25 +87,25 @@ const closeModal = () => {
       <div class="mt-5 flex flex-col gap-3">
         <div class="flex items-center gap-3 rounded-2xl bg-white/10 p-3">
           <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-sm font-black">1</div>
-          <span class="text-sm font-semibold text-emerald-50">Guardá tus datos de cuenta.</span>
+          <span class="text-sm font-semibold text-blue-50">Guardá tus datos de cuenta.</span>
         </div>
 
         <div class="flex items-center gap-3 rounded-2xl bg-white/10 p-3">
           <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-sm font-black">2</div>
-          <span class="text-sm font-semibold text-emerald-50">Consultá órdenes activas e historial.</span>
+          <span class="text-sm font-semibold text-blue-50">Consultá órdenes activas e historial.</span>
         </div>
 
         <div class="flex items-center gap-3 rounded-2xl bg-white/10 p-3">
           <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-sm font-black">3</div>
-          <span class="text-sm font-semibold text-emerald-50">Coordiná tus pedidos por WhatsApp.</span>
+          <span class="text-sm font-semibold text-blue-50">Coordiná tus pedidos por WhatsApp.</span>
         </div>
       </div>
     </section>
   </section>
 
   <section v-else class="min-h-[100dvh] bg-slate-50 pb-28">
-    <section class="relative overflow-hidden rounded-b-[40px] bg-emerald-950 px-5 pb-8 pt-10 text-white shadow-[0_18px_45px_rgba(2,44,34,0.18)]">
-      <div class="absolute -right-20 top-8 h-52 w-52 rounded-full bg-emerald-400/20 blur-3xl"></div>
+    <section class="relative overflow-hidden rounded-b-[40px] bg-blue-950 px-5 pb-8 pt-10 text-white shadow-[0_18px_45px_rgba(2,44,34,0.18)]">
+      <div class="absolute -right-20 top-8 h-52 w-52 rounded-full bg-blue-400/20 blur-3xl"></div>
       <div class="absolute -left-20 bottom-0 h-44 w-44 rounded-full bg-cyan-300/10 blur-3xl"></div>
 
       <div class="relative flex items-center gap-4">
@@ -114,9 +114,9 @@ const closeModal = () => {
         </div>
 
         <div class="min-w-0 flex-1">
-          <span class="text-sm font-semibold text-emerald-100/80">Bienvenido</span>
+          <span class="text-sm font-semibold text-blue-100/80">Bienvenido</span>
           <h1 class="mt-1 truncate text-2xl font-black tracking-tight text-white">{{ authStore.name }}</h1>
-          <p class="mt-1 truncate text-xs font-medium text-emerald-50/70">{{ authStore.email }}</p>
+          <p class="mt-1 truncate text-xs font-medium text-blue-50/70">{{ authStore.email }}</p>
         </div>
       </div>
     </section>
@@ -125,27 +125,27 @@ const closeModal = () => {
       <section class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
         <div class="flex items-start justify-between gap-4">
           <div>
-            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Perfil</span>
-            <h2 class="mt-2 text-xl font-black text-emerald-950">Información personal</h2>
+            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">Perfil</span>
+            <h2 class="mt-2 text-xl font-black text-blue-950">Información personal</h2>
             <p class="mt-1 text-sm font-medium leading-6 text-slate-500">Datos principales de tu cuenta.</p>
           </div>
         </div>
 
         <div class="mt-5 rounded-[28px] border border-slate-100 bg-slate-50/80 p-4">
           <span class="text-[11px] font-black uppercase tracking-wide text-slate-400">Email</span>
-          <p class="mt-1 break-all text-sm font-bold text-emerald-950">{{ authStore.email }}</p>
+          <p class="mt-1 break-all text-sm font-bold text-blue-950">{{ authStore.email }}</p>
         </div>
       </section>
 
       <section class="mt-5 rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
         <div>
-          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">Cuenta</span>
-          <h2 class="mt-2 text-xl font-black text-emerald-950">Seguridad</h2>
+          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">Cuenta</span>
+          <h2 class="mt-2 text-xl font-black text-blue-950">Seguridad</h2>
           <p class="mt-1 text-sm font-medium leading-6 text-slate-500">Administrá tus datos y sesión.</p>
         </div>
 
         <div class="mt-5 flex flex-col gap-3">
-          <RouterLink to="/user/edit" class="flex h-13 min-h-[52px] items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 px-5 text-sm font-black text-emerald-700 transition active:scale-[0.98]">
+          <RouterLink to="/user/edit" class="flex h-13 min-h-[52px] items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 px-5 text-sm font-black text-blue-700 transition active:scale-[0.98]">
             Modificar datos personales
           </RouterLink>
 
@@ -155,13 +155,13 @@ const closeModal = () => {
         </div>
       </section>
 
-      <section class="mt-5 rounded-[34px] border border-emerald-100 bg-emerald-50/70 p-5">
+      <section class="mt-5 rounded-[34px] border border-blue-100 bg-blue-50/70 p-5">
         <div class="flex items-center gap-3">
-          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)]">✓</div>
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-[0_10px_25px_rgba(15,23,42,0.05)]">✓</div>
 
           <div>
-            <h3 class="text-sm font-black text-emerald-950">Tus pedidos quedan guardados</h3>
-            <p class="mt-1 text-xs font-medium leading-5 text-emerald-700">
+            <h3 class="text-sm font-black text-blue-950">Tus pedidos quedan guardados</h3>
+            <p class="mt-1 text-xs font-medium leading-5 text-blue-700">
               Desde Órdenes podés consultar pedidos activos e historial.
             </p>
           </div>

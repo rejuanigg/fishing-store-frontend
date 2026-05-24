@@ -32,7 +32,7 @@ const variants = {
 
   success: {
     icon: CircleCheck,
-    bg: 'bg-emerald-700',
+    bg: 'bg-blue-700',
   },
 
   warning: {

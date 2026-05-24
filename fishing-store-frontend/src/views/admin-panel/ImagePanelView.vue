@@ -141,11 +141,11 @@ async function createFormData() {
   <div class="min-h-[100dvh] bg-slate-50 pb-32">
     <div v-if="pageLoading" class="flex min-h-[100dvh] w-full items-center justify-center px-5">
       <div class="rounded-[34px] border border-slate-100 bg-white px-8 py-10 text-center shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+        <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
           Panel admin
         </span>
 
-        <h2 class="mt-2 text-xl font-black text-emerald-950">
+        <h2 class="mt-2 text-xl font-black text-blue-950">
           Cargando producto...
         </h2>
 
@@ -159,11 +159,11 @@ async function createFormData() {
       <section class="mx-auto w-full max-w-6xl px-5 pt-6">
         <div class="rounded-[34px] border border-slate-100 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
           <div>
-            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
               Producto
             </span>
 
-            <h1 class="mt-2 text-2xl font-black tracking-tight text-emerald-950">
+            <h1 class="mt-2 text-2xl font-black tracking-tight text-blue-950">
               Imágenes del producto
             </h1>
 
@@ -173,15 +173,15 @@ async function createFormData() {
           </div>
 
           <form @submit.prevent="createFormData" class="mt-5 flex flex-col gap-4">
-            <label class="group relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[30px] border-2 border-dashed border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-cyan-50 px-6 text-center transition active:scale-[0.99]" :class="fetchLoading ? 'pointer-events-none opacity-70' : ''">
-              <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-emerald-100 blur-3xl"></div>
+            <label class="group relative flex min-h-[220px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[30px] border-2 border-dashed border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 px-6 text-center transition active:scale-[0.99]" :class="fetchLoading ? 'pointer-events-none opacity-70' : ''">
+              <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-blue-100 blur-3xl"></div>
               <div class="absolute -left-16 bottom-0 h-36 w-36 rounded-full bg-cyan-100 blur-3xl"></div>
 
-              <div class="relative flex h-16 w-16 items-center justify-center rounded-[24px] bg-white text-3xl font-black text-emerald-600 shadow-[0_14px_35px_rgba(15,23,42,0.08)] transition group-active:scale-95">
+              <div class="relative flex h-16 w-16 items-center justify-center rounded-[24px] bg-white text-3xl font-black text-blue-600 shadow-[0_14px_35px_rgba(15,23,42,0.08)] transition group-active:scale-95">
                 +
               </div>
 
-              <span class="relative mt-4 text-sm font-black text-emerald-950">
+              <span class="relative mt-4 text-sm font-black text-blue-950">
                 Subir imágenes
               </span>
 
@@ -192,7 +192,7 @@ async function createFormData() {
               <input @change="handleUpload" type="file" multiple accept="image/png,image/jpeg,image/webp" class="hidden" :disabled="fetchLoading">
             </label>
 
-            <button type="submit" class="flex h-14 items-center justify-center rounded-2xl bg-emerald-600 px-5 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100" :disabled="fetchLoading || !hasImagesToSave">
+            <button type="submit" class="flex h-14 items-center justify-center rounded-2xl bg-blue-600 px-5 text-sm font-black text-white shadow-[0_14px_32px_rgba(5,150,105,0.22)] transition active:scale-[0.98] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:active:scale-100" :disabled="fetchLoading || !hasImagesToSave">
               <span v-if="fetchLoading">Cargando...</span>
               <span v-else>Guardar imágenes</span>
             </button>
@@ -203,11 +203,11 @@ async function createFormData() {
       <section v-if="previews.length" class="mx-auto w-full max-w-6xl px-5 pt-6">
         <div class="mb-4 flex items-end justify-between gap-4">
           <div>
-            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+            <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
               Galería
             </span>
 
-            <h2 class="mt-2 text-xl font-black text-emerald-950">
+            <h2 class="mt-2 text-xl font-black text-blue-950">
               Vista previa
             </h2>
 
@@ -216,7 +216,7 @@ async function createFormData() {
             </p>
           </div>
 
-          <span class="shrink-0 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-black text-emerald-700">
+          <span class="shrink-0 rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-black text-blue-700">
             {{ previews.length }} imágenes
           </span>
         </div>
@@ -227,7 +227,7 @@ async function createFormData() {
               <img :src="img.image" class="h-52 w-full object-contain p-2" :alt="`Imagen ${index + 1}`">
 
               <div class="absolute left-3 top-3 flex items-center gap-2">
-                <span v-if="index === 0" class="rounded-full bg-emerald-600 px-3 py-1.5 text-[10px] font-black uppercase tracking-wide text-white shadow-[0_10px_22px_rgba(5,150,105,0.22)]">
+                <span v-if="index === 0" class="rounded-full bg-blue-600 px-3 py-1.5 text-[10px] font-black uppercase tracking-wide text-white shadow-[0_10px_22px_rgba(5,150,105,0.22)]">
                   Principal
                 </span>
 
@@ -244,7 +244,7 @@ async function createFormData() {
             <div class="mt-4">
               <div class="flex items-start justify-between gap-3">
                 <div>
-                  <h3 class="text-sm font-black text-emerald-950">
+                  <h3 class="text-sm font-black text-blue-950">
                     Imagen {{ index + 1 }}
                   </h3>
 
@@ -292,11 +292,11 @@ async function createFormData() {
 
       <main class="mx-auto w-full max-w-6xl px-5 pt-8">
         <div class="mb-4">
-          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-600">
+          <span class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-600">
             Cliente
           </span>
 
-          <h2 class="mt-2 text-xl font-black text-emerald-950">
+          <h2 class="mt-2 text-xl font-black text-blue-950">
             Vista previa del producto
           </h2>
 

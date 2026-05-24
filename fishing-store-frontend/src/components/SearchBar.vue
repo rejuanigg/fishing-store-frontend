@@ -13,7 +13,7 @@ defineEmits(['update:modelValue'])
       </svg>
     </div>
 
-    <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" class="h-13 min-h-[52px] w-full rounded-2xl border border-slate-200 bg-white px-12 text-sm font-semibold text-emerald-950 shadow-[0_10px_25px_rgba(15,23,42,0.04)] outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100" type="text" placeholder="Buscar">
+    <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" class="h-13 min-h-[52px] w-full rounded-2xl border border-slate-200 bg-white px-12 text-sm font-semibold text-blue-950 shadow-[0_10px_25px_rgba(15,23,42,0.04)] outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100" type="text" placeholder="Buscar">
 
     <button v-if="modelValue" type="button" @click="$emit('update:modelValue', '')" class="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-xl bg-slate-100 text-sm font-black text-slate-400 transition active:scale-[0.96]">
       ×

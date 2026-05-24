@@ -42,7 +42,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-[100dvh] bg-gradient-to-br from-emerald-50 via-slate-50 to-cyan-50">
+  <div class="min-h-[100dvh] bg-gradient-to-br from-blue-50 via-slate-50 to-cyan-50">
     <header v-if="showHeader" class="sticky top-0 z-50 h-16 w-full border-b border-slate-100 bg-white/90 px-5 shadow-[0_8px_24px_rgba(15,23,42,0.03)] backdrop-blur-xl">
       <div class="mx-auto flex h-full w-full max-w-screen-md items-center justify-between">
         <AdminNav v-if="layout === 'shop'" nav-type="shop" />
